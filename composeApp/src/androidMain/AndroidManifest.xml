@@ -6,11 +6,22 @@
 
         android:name=".AndroidApp"
 
+
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
+
+        <meta-data android:name="io.sentry.dsn" android:value="https://3884c902ee27cc7b03c78d90d5e3032c@o4510926340358144.ingest.us.sentry.io/4510964546863104" />
+
+        <meta-data android:name="io.sentry.traces.user-interaction.enable" android:value="true" />
+
+        <meta-data android:name="io.sentry.attach-screenshot" android:value="true" />
+        <meta-data android:name="io.sentry.attach-view-hierarchy" android:value="true" />
+
+        <meta-data android:name="io.sentry.traces.sample-rate" android:value="1.0" />
+        <meta-data android:name="io.sentry.traces.profiling.sample-rate" android:value="1.0" />
         <activity
             android:exported="true"
             android:name=".MainActivity">
