@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    //alias(libs.plugins.googleGmsGoogleServices)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 kotlin {
@@ -29,6 +31,10 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+           implementation(libs.firebase.config)
+            implementation(libs.firebase.database)
+            implementation(libs.kotlinx.coroutines.play.services)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -74,6 +80,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.database)
     debugImplementation(libs.compose.uiTooling)
 }
 
