@@ -32,7 +32,10 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(project.dependencies.platform(libs.firebase.bom))
-           implementation(libs.firebase.config)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.firebase.config)
             implementation(libs.firebase.database)
             implementation(libs.kotlinx.coroutines.play.services)
         }
@@ -45,6 +48,24 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.work.runtime.ktx)
+
+            //koin
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+
+            //implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.navigation.compose)
+
+            //ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

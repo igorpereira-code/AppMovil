@@ -12,10 +12,16 @@ androidx-testExt = "1.3.0"
 composeMultiplatform = "1.10.0"
 junit = "4.13.2"
 kotlin = "2.3.0"
+koin = "4.1.1"
+coil= "3.2.0"
 material3 = "1.10.0-alpha05"
+kotlinxSerializationJson = "1.8.0"
+navigationCompose = "2.9.2"
+ktor = "3.4.1"
 googleGmsGoogleServices = "4.4.4"
 firebaseDatabase = "22.0.1"
 firebaseBom = "34.11.0"
+workRuntimeKtx = "2.11.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -35,10 +41,28 @@ compose-material3 = { module = "org.jetbrains.compose.material3:material3", vers
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "composeMultiplatform" }
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "composeMultiplatform" }
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" , version.ref = "koin"}
+koin-compose = { module = "io.insert-koin:koin-compose" , version.ref = "koin"}
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" , version.ref = "koin"}
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref="coil" }
+coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database" }
 firebase-config = { group = "com.google.firebase", name = "firebase-config" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version = "1.10.1" }# Optional SQLite Wrapper available in version 2.8.0 and higher
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 
 
 [plugins]
@@ -47,4 +71,5 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
