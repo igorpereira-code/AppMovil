@@ -6,6 +6,10 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.room)
+
     //alias(libs.plugins.googleGmsGoogleServices)
     alias(libs.plugins.google.gms.google.services)
 }
@@ -32,9 +36,11 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.androidx.room.sqlite.wrapper)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.firebase.config)
             implementation(libs.firebase.database)
             implementation(libs.kotlinx.coroutines.play.services)
@@ -66,6 +72,9 @@ kotlin {
 
             implementation(libs.coil.compose)
             implementation(libs.coil.network)
+            //room
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -102,6 +111,13 @@ android {
 
 dependencies {
     implementation(libs.firebase.database)
+    implementation(libs.firebase.messaging)
     debugImplementation(libs.compose.uiTooling)
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
