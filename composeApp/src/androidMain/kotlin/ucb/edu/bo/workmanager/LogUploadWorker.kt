@@ -1,16 +1,18 @@
-package ucb.edu.bo.core.data
+package ucb.edu.bo.workmanager
 
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import org.koin.core.component.KoinComponent
 
 class LogUploadWorker(
     appContext: Context,
     workerParameters: WorkerParameters
-) : CoroutineWorker(appContext, workerParameters) {
+) : CoroutineWorker(appContext, workerParameters), KoinComponent {
+
     override suspend fun doWork(): Result {
-        //ejecutar instrucción para subir datos
-        print("ejecutar instrucción para subir datos")
+        println("✅ WorkManager ejecutando tarea en segundo plano")
+        // Aquí puedes llamar un UseCase si quieres
         return Result.success()
     }
 }

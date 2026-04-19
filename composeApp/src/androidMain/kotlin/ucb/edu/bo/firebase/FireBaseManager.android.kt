@@ -1,10 +1,7 @@
-package ucb.edu.bo.firebase.data.datasource
-
-
+package ucb.edu.bo.firebase
 
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
-
 
 actual class FirebaseManager actual constructor(){
     private val database = FirebaseDatabase.getInstance().reference

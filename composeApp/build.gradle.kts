@@ -9,8 +9,6 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
-
-    //alias(libs.plugins.googleGmsGoogleServices)
     alias(libs.plugins.google.gms.google.services)
 }
 
@@ -20,7 +18,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -30,19 +28,19 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(project.dependencies.platform(libs.firebase.bom))
-            implementation(libs.androidx.room.sqlite.wrapper)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.firebase.config)
             implementation(libs.firebase.database)
+            implementation(libs.firebase.messaging)
             implementation(libs.kotlinx.coroutines.play.services)
         }
         commonMain.dependencies {
@@ -54,25 +52,16 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.androidx.work.runtime.ktx)
-
-            //koin
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-
-            //implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.navigation.compose)
-
-            //ktor
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
-
             implementation(libs.coil.compose)
             implementation(libs.coil.network)
-            //room
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
         }

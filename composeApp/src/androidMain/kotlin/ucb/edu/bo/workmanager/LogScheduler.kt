@@ -1,4 +1,5 @@
-package ucb.edu.bo.core.data
+package ucb.edu.bo.workmanager
+
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -7,15 +8,13 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 
-
 class LogScheduler(
     private val context: Context
 ) {
     private val LOG_WORKNAME = "logUploadWork"
     private val INTERVAL_MINUTES = 15L
 
-
-    fun schedulePeriodicaUpload() {
+    fun schedulePeriodicUpload() {
         val logRequest = PeriodicWorkRequest.Builder(
             LogUploadWorker::class.java,
             INTERVAL_MINUTES,
@@ -27,11 +26,11 @@ class LogScheduler(
                     .build()
             ).build()
 
-
-        WorkManager.getInstance(context.applicationContext).enqueueUniquePeriodicWork(
-            LOG_WORKNAME,
-            ExistingPeriodicWorkPolicy.KEEP,
-            logRequest
-        )
+        WorkManager.getInstance(context.applicationContext)
+            .enqueueUniquePeriodicWork(
+                LOG_WORKNAME,
+                ExistingPeriodicWorkPolicy.KEEP,
+                logRequest
+            )
     }
 }
