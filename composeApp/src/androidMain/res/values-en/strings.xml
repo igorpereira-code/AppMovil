@@ -2,11 +2,11 @@
 <!--
  Loco xml export: Android strings
  Project: todo-list
- Locale: es-BO, Español (Bolivia)
+ Locale: en, English
  Exported by: María Jesús Lozada
- Exported at: Sat, 18 Apr 2026 22:12:02 -0400
+ Exported at: Sat, 18 Apr 2026 22:12:04 -0400
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="pendientes">lista de pendientes</string>
-    <string name="sign_in">Iniciar Sesión</string>
+    <string name="pendientes">to do list</string>
+    <string name="sign_in">Sign in</string>
 </resources>
