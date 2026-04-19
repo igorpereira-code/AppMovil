@@ -7,12 +7,15 @@ import org.koin.compose.KoinApplication
 import org.koin.dsl.KoinAppDeclaration
 import ucb.edu.bo.di.getModules
 import ucb.edu.bo.dollar.presentation.screen.DollarScreen
+import ucb.edu.bo.remoteconfig.MaintenanceGate
 
 @Composable
 @Preview
 fun App(){
         MaterialTheme {
             DollarScreen()
+            MaintenanceGate {
+                //AppNavHost()
+            }
         }
-
 }
