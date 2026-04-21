@@ -19,6 +19,7 @@ import appmovil.composeapp.generated.resources.app_title
 import appmovil.composeapp.generated.resources.button_cancel
 import appmovil.composeapp.generated.resources.button_save
 import appmovil.composeapp.generated.resources.welcome_message
+import com.example.designsystem.components.button.PrimaryButton
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -44,9 +45,7 @@ fun LocalizationScreen() {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Button(onClick = {}) {
-            Text(stringResource(Res.string.button_save))
-        }
+        PrimaryButton(text = stringResource(Res.string.button_save), onClick = {})
 
         Spacer(modifier = Modifier.height(8.dp))
 
