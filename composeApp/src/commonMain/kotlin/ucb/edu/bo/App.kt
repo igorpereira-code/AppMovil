@@ -16,9 +16,9 @@ import ucb.edu.bo.remoteconfig.presentation.screen.RemoteConfigScreen
 @Preview
 fun App(){
         MaterialTheme {
-            FirebaseTestScreen()
+            //FirebaseTestScreen()
             //DollarScreen()
-            //PushNotificationScreen()
+            PushNotificationScreen()
             //RemoteConfigScreen()
             //LocalizationScreen()
         }
