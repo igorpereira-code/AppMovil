@@ -4,9 +4,10 @@
  Project: todo-list
  Locale: en, English
  Exported by: María Jesús Lozada
- Exported at: Sat, 18 Apr 2026 22:12:04 -0400
+ Exported at: Tue, 21 Apr 2026 16:13:14 -0400
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="pendientes">to do list</string>
     <string name="sign_in">Sign in</string>
+    <string name="app_name">App Móvil</string>
 </resources>

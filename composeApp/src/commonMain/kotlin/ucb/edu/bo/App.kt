@@ -18,8 +18,8 @@ fun App(){
         MaterialTheme {
             //FirebaseTestScreen()
             //DollarScreen()
-            PushNotificationScreen()
+            //PushNotificationScreen()
             //RemoteConfigScreen()
-            //LocalizationScreen()
+            LocalizationScreen()
         }
 }

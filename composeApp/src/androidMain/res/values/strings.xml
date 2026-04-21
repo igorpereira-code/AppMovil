@@ -4,9 +4,10 @@
  Project: todo-list
  Locale: es-BO, Español (Bolivia)
  Exported by: María Jesús Lozada
- Exported at: Sat, 18 Apr 2026 22:12:02 -0400
+ Exported at: Tue, 21 Apr 2026 16:13:13 -0400
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="pendientes">lista de pendientes</string>
     <string name="sign_in">Iniciar Sesión</string>
+    <string name="app_name">App Móvil</string>
 </resources>
