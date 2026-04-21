@@ -1,19 +1,18 @@
 package ucb.edu.bo
 
 import android.Manifest
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
+import android.content.pm.PackageManager
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -25,64 +24,65 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        setContent { App() }
 
-        setContent {
-            App()
+        // Solo pide notificaciones si aún no las tiene (Android 13+)
+        if (!hasNotificationPermission()) {
+            checkNotificationPermission()
         }
-        checkAndRequestCalendarPermission()
     }
-    // ─── Dexter: verificar y solicitar permiso ───────────────────────────────
-    private fun checkAndRequestCalendarPermission() {
-        Dexter.withContext(this)
-            .withPermission(Manifest.permission.WRITE_CALENDAR)
-            .withListener(object : PermissionListener {
 
-                // ✅ Permiso concedido
-                override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Se puede escribir en el Calendario",
-                        Toast.LENGTH_LONG
-                    ).show()
+    // ─── Verificar si ya tiene el permiso ────────────────────────────────────
+    private fun hasNotificationPermission(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 
-                    vibratePhone() // Vibra al obtener el permiso
-                }
+    // ─── Solicitar permiso de notificaciones ─────────────────────────────────
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Dexter.withContext(this)
+                .withPermission(Manifest.permission.POST_NOTIFICATIONS)
+                .withListener(object : PermissionListener {
 
-                // ⚠️ Mostrar explicación al usuario y volver a pedir
-                override fun onPermissionRationaleShouldBeShown(
-                    permission: PermissionRequest?,
-                    token: PermissionToken?
-                ) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "La app necesita acceso al Calendario",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    token?.continuePermissionRequest()
-                }
+                    // ✅ Permiso concedido → vibrar como confirmación
+                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                        vibratePhone()
+                    }
 
-                // ❌ Permiso denegado
-                override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                    if (response?.isPermanentlyDenied == true) {
-                        // Usuario marcó "No preguntar de nuevo" → abrir Configuración
-                        goToAppSettings()
-                    } else {
+                    // ⚠️ Explicar por qué se necesita y volver a pedir
+                    override fun onPermissionRationaleShouldBeShown(
+                        permission: PermissionRequest?,
+                        token: PermissionToken?
+                    ) {
                         Toast.makeText(
                             this@MainActivity,
-                            "No se puede escribir en el Calendario",
+                            "La app necesita permiso para enviarte notificaciones",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        token?.continuePermissionRequest()
+                    }
+
+                    // ❌ Permiso denegado
+                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "No se pueden enviar notificaciones",
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                }
-            })
-            .check()
+                })
+                .check()
+        }
     }
 
     // ─── Vibración ───────────────────────────────────────────────────────────
     @Suppress("DEPRECATION")
     private fun vibratePhone() {
         val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
-
         if (vibrator.hasVibrator()) {
             if (Build.VERSION.SDK_INT >= 26) {
                 vibrator.vibrate(
@@ -91,17 +91,7 @@ class MainActivity : ComponentActivity() {
             } else {
                 vibrator.vibrate(200)
             }
-        } else {
-            Toast.makeText(this, "Este dispositivo no soporta la Vibración", Toast.LENGTH_LONG).show()
         }
-    }
-
-    // ─── Ir a Configuración de la app ────────────────────────────────────────
-    private fun goToAppSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        val uri = Uri.fromParts("package", packageName, null)
-        intent.setData(uri)
-        startActivityForResult(intent, 1)
     }
 }
 
