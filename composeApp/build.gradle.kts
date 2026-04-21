@@ -38,10 +38,13 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.work.runtime.ktx)
+
+            implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.config)
             implementation(libs.firebase.database)
             implementation(libs.firebase.messaging)
             implementation(libs.kotlinx.coroutines.play.services)
+            implementation("com.karumi:dexter:6.2.3")
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
