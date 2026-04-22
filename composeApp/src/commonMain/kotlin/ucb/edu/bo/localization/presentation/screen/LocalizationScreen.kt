@@ -15,10 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.app_title
+import appmovil.composeapp.generated.resources.app_name
 import appmovil.composeapp.generated.resources.button_cancel
 import appmovil.composeapp.generated.resources.button_save
 import appmovil.composeapp.generated.resources.welcome_message
+
 import com.example.designsystem.components.button.PrimaryButton
 import org.jetbrains.compose.resources.stringResource
 
@@ -32,7 +33,7 @@ fun LocalizationScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(Res.string.app_title),
+            text = stringResource(Res.string.app_name),
             style = MaterialTheme.typography.headlineMedium
         )
 
