@@ -27,7 +27,7 @@ class RemoteConfigViewModel(
             _state.value = _state.value.copy(isLoading = true)
             try {
                 fetchRemoteConfigUseCase()
-                val message = getRemoteStringUseCase("welcome_message")
+                val message = getRemoteStringUseCase("welcome")
                 _state.value = _state.value.copy(
                     isLoading = false,
                     welcomeMessage = message
