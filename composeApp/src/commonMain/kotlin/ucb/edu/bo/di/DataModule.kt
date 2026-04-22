@@ -3,10 +3,14 @@ package ucb.edu.bo.di
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import ucb.edu.bo.config.data.repository.ConfigRepositoryImpl
+import ucb.edu.bo.config.domain.repository.ConfigRepository
 import ucb.edu.bo.dollar.data.datasource.DollarLocalDataSource
 import ucb.edu.bo.dollar.data.repository.DollarRepositoryImpl
 import ucb.edu.bo.dollar.data.service.DbService
 import ucb.edu.bo.dollar.domain.repository.DollarRepository
+import ucb.edu.bo.events.data.repository.EventRepositoryImpl
+import ucb.edu.bo.events.domain.repository.EventRepository
 import ucb.edu.bo.firebase.RemoteConfigManager
 import ucb.edu.bo.realtimedatabasecmp.data.datasource.FirebaseDataSource
 import ucb.edu.bo.realtimedatabasecmp.data.repository.FirebaseTestRepositoryImpl
@@ -23,4 +27,6 @@ val dataModule = module {
     factory<FirebaseTestRepository> { FirebaseTestRepositoryImpl(get()) }
     single { RemoteConfigManager() }
     single<RemoteConfigRepository> { RemoteConfigRepositoryImpl(get()) }
+    single<ConfigRepository>{ ConfigRepositoryImpl(get(), get()) }
+    single<EventRepository> { EventRepositoryImpl(get()) }
 }
