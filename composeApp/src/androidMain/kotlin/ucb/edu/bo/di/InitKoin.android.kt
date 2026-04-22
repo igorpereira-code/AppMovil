@@ -17,8 +17,13 @@ actual val platformModule = module {
         )
             .setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
+            .fallbackToDestructiveMigration(true)
             .build()
     }
 
     single { get<AppDatabase>().getDao() }
+
+    single { get<AppDatabase>().getRemoteConfigDao() }
+
+    single { get<AppDatabase>().getFormularioDao() }
 }
