@@ -1,13 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
- Loco xml export: Android strings
- Project: todo-list
- Locale: es-BO, Español (Bolivia)
- Exported by: María Jesús Lozada
- Exported at: Tue, 21 Apr 2026 16:13:13 -0400
--->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="pendientes">lista de pendientes</string>
-    <string name="sign_in">Iniciar Sesión</string>
-    <string name="app_name">App Móvil</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">AppMóvil</string>
 </resources>
