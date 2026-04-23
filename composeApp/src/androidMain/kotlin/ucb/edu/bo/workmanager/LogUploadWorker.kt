@@ -20,7 +20,6 @@ class LogUploadWorker(
         val eventType = inputData.getString("EVENT_TYPE")
 
         if (eventType != null) {
-            // Se guarda en Room y se sube a Firebase (todo en segundo plano)
             logAndSyncUseCase(eventType)
         }
         return Result.success()
