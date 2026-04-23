@@ -10,7 +10,6 @@ import ucb.edu.bo.config.data.entity.ConfigEntity
 interface ConfigDao {
     @Query("SELECT * FROM remote_configs WHERE config_key = :key LIMIT 1")
     suspend fun getConfig(key: String): ConfigEntity?
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertConfig(config: ConfigEntity)
 }
