@@ -15,7 +15,7 @@ class LogUploadWorker(
     private val logAndSyncUseCase: LogAndSyncAppEventUseCase by inject()
 
     override suspend fun doWork(): Result {
-        println("✅ WorkManager ejecutando tarea en segundo plano")
+        println("WorkManager ejecutando tarea en segundo plano")
 
         val eventType = inputData.getString("EVENT_TYPE")
 

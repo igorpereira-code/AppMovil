@@ -6,4 +6,5 @@ import ucb.edu.bo.config.domain.model.ConfigModel
 fun ConfigEntity.toModel() = ConfigModel(
     key = key,
     value = value
+
 )

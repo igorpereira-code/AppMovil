@@ -12,4 +12,5 @@ data class ConfigEntity(
 
     @ColumnInfo(name = "config_value")
     val value: String
+
 )

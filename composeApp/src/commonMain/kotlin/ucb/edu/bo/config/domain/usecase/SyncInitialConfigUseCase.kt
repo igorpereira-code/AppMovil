@@ -8,5 +8,6 @@ class SyncInitialConfigUseCase(
 ) {
     suspend operator fun invoke(key: String): ConfigModel? {
         return repository.syncAndGetConfig(key)
+
     }
 }

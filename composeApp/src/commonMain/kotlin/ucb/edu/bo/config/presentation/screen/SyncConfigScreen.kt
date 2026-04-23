@@ -40,7 +40,6 @@ fun SyncConfigScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-
             state.errorMessage?.let {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(it, color = MaterialTheme.colorScheme.error)

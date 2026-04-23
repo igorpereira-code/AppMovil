@@ -14,23 +14,19 @@ class ConfigRepositoryImpl(
 
     override suspend fun syncAndGetConfig(key: String): ConfigModel? {
         try {
-            // 1. Intenta descargar de Remote Config
             val success = remoteConfigManager.fetchAndActivate()
 
-            // 2. Obtenemos el valor más reciente de Firebase
             val remoteValue = remoteConfigManager.getString(key)
 
-            // 3. Si existe, lo guardamos en Room para el caché
             if (remoteValue.isNotEmpty()) {
                 localDao.insertConfig(ConfigEntity(key = key, value = remoteValue))
             }
         } catch (e: Exception) {
-            // Falla por falta de internet o error de Firebase.
-            // No hacemos throw, dejamos que pase al paso 4 para leer el caché.
+
             println("Error sincronizando Firebase: ${e.message}")
         }
 
-        // 4. Siempre devolvemos la última versión guardada en Room
+
         return localDao.getConfig(key)?.toModel()
     }
 }

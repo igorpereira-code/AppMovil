@@ -17,8 +17,7 @@ class SyncConfigViewModel(
     val state: StateFlow<SyncConfigState> = _state.asStateFlow()
 
     init {
-        // Ejecutamos la sincronización al arrancar
-        syncConfig("welcome_message") // <-- Reemplaza con la clave que tengas en tu Firebase
+        syncConfig("welcome_message")
     }
 
     private fun syncConfig(key: String) {
@@ -35,7 +34,7 @@ class SyncConfigViewModel(
                 } else {
                     _state.value = _state.value.copy(
                         isLoading = false,
-                        errorMessage = "No hay datos en caché y no se pudo conectar"
+                        errorMessage = "No hay datos en caché"
                     )
                 }
             } catch (e: Exception) {
