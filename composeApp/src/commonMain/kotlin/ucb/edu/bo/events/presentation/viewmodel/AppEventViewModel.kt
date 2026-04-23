@@ -8,4 +8,5 @@ class AppEventViewModel(
 ) : ViewModel() {
     fun onAppOpened() = backgroundEventTrigger.triggerEventWorker("Open")
     fun onAppClosed() = backgroundEventTrigger.triggerEventWorker("Close")
+
 }

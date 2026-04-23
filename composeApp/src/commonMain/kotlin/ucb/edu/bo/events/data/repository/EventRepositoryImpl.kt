@@ -24,16 +24,13 @@ class EventRepositoryImpl(
         val unsynced = eventDao.getUnsyncedEvents()
         for (event in unsynced) {
             try {
-                // Sube a Realtime Database en la ruta "eventos_app/{timestamp}"
                 val path = "isabel/${event.timestamp}"
                 val value = "Evento: ${event.eventType}"
 
                 firebaseManager.saveData(path, value)
 
-                // Si tuvo éxito, lo marca como sincronizado en Room
                 eventDao.markAsSynced(event.id)
             } catch (e: Exception) {
-                // Si falla (ej. sin internet), se queda como is_synced = false para el futuro
                 println("Fallo sincronización de evento: ${e.message}")
             }
         }

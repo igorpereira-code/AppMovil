@@ -9,7 +9,6 @@ data class EventEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Int = 0,
-
     @ColumnInfo(name = "event_type")
     val eventType: String,
 
@@ -17,5 +16,5 @@ data class EventEntity(
     val timestamp: Long,
 
     @ColumnInfo(name = "is_synced")
-    val isSynced: Boolean = false // Para saber si ya se subió a Firebase
+    val isSynced: Boolean = false
 )
