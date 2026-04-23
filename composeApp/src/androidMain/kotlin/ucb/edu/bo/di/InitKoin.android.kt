@@ -23,6 +23,8 @@ actual val platformModule = module {
             .build()
     }
 
+
+
     single { get<AppDatabase>().getDao() }
     single {get<AppDatabase>().getConfigDao()}
 

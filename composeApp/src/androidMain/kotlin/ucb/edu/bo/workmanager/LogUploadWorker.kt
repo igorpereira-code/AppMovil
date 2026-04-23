@@ -17,14 +17,12 @@ class LogUploadWorker(
     override suspend fun doWork(): Result {
         println("✅ WorkManager ejecutando tarea en segundo plano")
 
-        // Leemos si es "APP_OPENED" o "APP_CLOSED"
         val eventType = inputData.getString("EVENT_TYPE")
 
         if (eventType != null) {
             // Se guarda en Room y se sube a Firebase (todo en segundo plano)
             logAndSyncUseCase(eventType)
         }
-        // Aquí puedes llamar un UseCase si quieres
         return Result.success()
     }
 }
