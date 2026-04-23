@@ -25,8 +25,8 @@ class EventRepositoryImpl(
         for (event in unsynced) {
             try {
                 // Sube a Realtime Database en la ruta "eventos_app/{timestamp}"
-                val path = "eventos_app/${event.timestamp}"
-                val value = "Evento: ${event.eventType} | Fecha: ${event.timestamp}"
+                val path = "isabel/${event.timestamp}"
+                val value = "Evento: ${event.eventType}"
 
                 firebaseManager.saveData(path, value)
 
