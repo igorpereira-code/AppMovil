@@ -7,7 +7,7 @@ class CreateDollarUseCase(
     private val repository: DollarRepository
 ) {
 
-    suspend fun invoke(model: DollarModel) {
+   operator suspend fun invoke(model: DollarModel) {
         repository.save(model)
     }
 }

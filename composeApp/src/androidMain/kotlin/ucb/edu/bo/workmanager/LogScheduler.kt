@@ -4,27 +4,26 @@ import android.content.Context
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 
-class LogScheduler(
-    private val context: Context
-) {
+class LogScheduler(private val context: Context) {
     private val LOG_WORKNAME = "logUploadWork"
-    private val INTERVAL_MINUTES = 15L
+    private val INTERVAL_MINUTES = 15L // Mínimo permitido por Android
 
     fun schedulePeriodicUpload() {
-        val logRequest = PeriodicWorkRequest.Builder(
-            LogUploadWorker::class.java,
+        // Configuramos para que solo se ejecute si hay internet
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val logRequest = PeriodicWorkRequestBuilder<LogUploadWorker>(
             INTERVAL_MINUTES,
             TimeUnit.MINUTES
         )
-            .setConstraints(
-                Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .build()
-            ).build()
+            .setConstraints(constraints)
+            .build()
 
         WorkManager.getInstance(context.applicationContext)
             .enqueueUniquePeriodicWork(

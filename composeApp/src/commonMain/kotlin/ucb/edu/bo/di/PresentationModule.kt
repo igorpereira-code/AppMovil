@@ -12,5 +12,5 @@ val presentationModule = module {
     singleOf(::DollarViewModel)
     viewModel { FirebaseTestViewModel(get()) }
     viewModel { PushNotificationViewModel() }
-    viewModel { RemoteConfigViewModel(get(), get()) }
+    viewModel<RemoteConfigViewModel> { RemoteConfigViewModel(get()) }
 }

@@ -7,6 +7,10 @@ import ucb.edu.bo.dollar.data.datasource.DollarLocalDataSource
 import ucb.edu.bo.dollar.data.repository.DollarRepositoryImpl
 import ucb.edu.bo.dollar.data.service.DbService
 import ucb.edu.bo.dollar.domain.repository.DollarRepository
+import ucb.edu.bo.events.data.datasource.EventLocalDataSource
+import ucb.edu.bo.events.data.repository.EventRepositoryImpl
+import ucb.edu.bo.events.data.service.EventDbService
+import ucb.edu.bo.events.domain.repository.EventRepository
 import ucb.edu.bo.firebase.RemoteConfigManager
 import ucb.edu.bo.realtimedatabasecmp.data.datasource.FirebaseDataSource
 import ucb.edu.bo.realtimedatabasecmp.data.repository.FirebaseTestRepositoryImpl
@@ -23,4 +27,6 @@ val dataModule = module {
     factory<FirebaseTestRepository> { FirebaseTestRepositoryImpl(get()) }
     single { RemoteConfigManager() }
     single<RemoteConfigRepository> { RemoteConfigRepositoryImpl(get()) }
+    singleOf(::EventRepositoryImpl).bind<EventRepository>()
+    singleOf(::EventDbService).bind<EventLocalDataSource>()
 }

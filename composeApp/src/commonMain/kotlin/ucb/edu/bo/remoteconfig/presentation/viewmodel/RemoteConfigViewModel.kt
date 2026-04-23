@@ -6,36 +6,38 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ucb.edu.bo.remoteconfig.domain.usecase.FetchRemoteConfigUseCase
-import ucb.edu.bo.remoteconfig.domain.usecase.GetRemoteStringUseCase
+import ucb.edu.bo.dollar.domain.usecase.GetDollarListUseCase
 import ucb.edu.bo.remoteconfig.presentation.state.RemoteConfigState
 
 class RemoteConfigViewModel(
-    private val fetchRemoteConfigUseCase: FetchRemoteConfigUseCase,
-    private val getRemoteStringUseCase: GetRemoteStringUseCase
+    private val getDollarListUseCase: GetDollarListUseCase // Solo necesitamos leer de Room
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(RemoteConfigState())
     val state: StateFlow<RemoteConfigState> = _state.asStateFlow()
 
     init {
-        fetchConfig()
+        loadFromCache()
     }
 
-    private fun fetchConfig() {
+    fun loadFromCache() {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
             try {
-                fetchRemoteConfigUseCase()
-                val message = getRemoteStringUseCase("welcome_message")
+                // 1. Consultamos Room a través del UseCase de Dollar
+                val cache = getDollarListUseCase.invoke()
+
+                // 2. Buscamos el registro que guardó el InitialSyncWorker
+                val lastValue = cache.lastOrNull { it.dollarParallel == "FROM_REMOTE" }
+
                 _state.value = _state.value.copy(
                     isLoading = false,
-                    welcomeMessage = message
+                    welcomeMessage = lastValue?.dollarOfficial ?: "Esperando sincronización inicial..."
                 )
             } catch (e: Exception) {
                 _state.value = _state.value.copy(
                     isLoading = false,
-                    errorMessage = "Error: ${e.message}"
+                    errorMessage = "Error al leer caché: ${e.message}"
                 )
             }
         }

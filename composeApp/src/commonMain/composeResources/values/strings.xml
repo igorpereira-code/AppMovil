@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  Loco xml export: Android strings
- Project: todo-list
+ Project: TodoList
  Locale: es-BO, Español (Bolivia)
- Exported by: María Jesús Lozada
- Exported at: Wed, 22 Apr 2026 15:08:15 -0400
+ Exported by: Kath
+ Exported at: Wed, 22 Apr 2026 16:55:08 -0400
 -->
 <resources>
-    <string name="pendientes">lista de pendientes</string>
-    <string name="sign_in">Iniciar Sesión</string>
-    <string name="app_name">App Móvil</string>
-    <string name="welcome_message">Bienvenido</string>
-    <string name="button_save">Guardar</string>
+    <string name="sign_in">Iniciar Sesion</string>
     <string name="button_cancel">Cancelar</string>
+    <string name="button_save">Guardar</string>
+    <string name="welcome_message">Bienvenido</string>
+    <string name="app_name">App Movil</string>
+    <string name="Pending">lista de pendientes</string>
 </resources>
