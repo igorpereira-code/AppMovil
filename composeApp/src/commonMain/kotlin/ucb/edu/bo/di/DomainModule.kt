@@ -19,4 +19,5 @@ val domainModule = module {
     factory { GetRemoteStringUseCase(get()) }
     factory{ SyncInitialConfigUseCase(get()) }
     factory { LogAndSyncAppEventUseCase(get()) }
+
 }

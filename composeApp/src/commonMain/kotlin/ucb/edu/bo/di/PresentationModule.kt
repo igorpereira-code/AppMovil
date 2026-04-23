@@ -17,4 +17,5 @@ val presentationModule = module {
     viewModel { RemoteConfigViewModel(get(), get()) }
     viewModel { SyncConfigViewModel(get()) }
     viewModel { AppEventViewModel(get()) }
+
 }

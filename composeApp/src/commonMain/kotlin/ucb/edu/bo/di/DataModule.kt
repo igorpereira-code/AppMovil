@@ -19,6 +19,7 @@ import ucb.edu.bo.remoteconfig.data.repository.RemoteConfigRepositoryImpl
 import ucb.edu.bo.remoteconfig.domain.repository.RemoteConfigRepository
 
 val dataModule = module {
+
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
     singleOf(::DbService).bind<DollarLocalDataSource>()
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
