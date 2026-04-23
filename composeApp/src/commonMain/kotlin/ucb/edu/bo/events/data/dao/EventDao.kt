@@ -13,4 +13,5 @@ interface EventDao {
     suspend fun getUnsyncedEvents(): List<EventEntity>
     @Query("UPDATE app_events SET is_synced = 1 WHERE id = :id")
     suspend fun markAsSynced(id: Int)
+
 }
