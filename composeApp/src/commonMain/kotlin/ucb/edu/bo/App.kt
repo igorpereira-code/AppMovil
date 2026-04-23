@@ -24,7 +24,6 @@ fun App(){
     val appEventViewModel = koinViewModel<AppEventViewModel>()
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    // 2. Escuchamos cuando la app se abre o se pausa
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_START) {
