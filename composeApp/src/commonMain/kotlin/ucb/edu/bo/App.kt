@@ -21,7 +21,7 @@ fun App(){
             //DollarScreen()
             //PushNotificationScreen()
             //LocalizationScreen()
-            RemoteConfigScreen()
-            //FormularioScreen()
+            //RemoteConfigScreen()
+            FormularioScreen()
         }
 }

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ucb.edu.bo.formulario.data.preferences.IFormularioPreferences
 import ucb.edu.bo.formulario.domain.model.FormularioModel
 import ucb.edu.bo.formulario.domain.usecase.GetLatestFormularioUseCase
 import ucb.edu.bo.formulario.domain.usecase.SaveFormularioLocalUseCase
@@ -15,7 +16,8 @@ import ucb.edu.bo.formulario.presentation.state.FormularioState
 class FormularioViewModel(
     private val saveFormularioLocalUseCase: SaveFormularioLocalUseCase,
     private val getLatestFormularioUseCase: GetLatestFormularioUseCase,
-    private val syncFormularioUseCase: SyncFormularioUseCase
+    private val syncFormularioUseCase: SyncFormularioUseCase,
+    private val preferences: IFormularioPreferences
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FormularioState())
@@ -40,10 +42,12 @@ class FormularioViewModel(
 
     fun onNombreChange(nombre: String) {
         _state.value = _state.value.copy(nombre = nombre, successMessage = null, errorMessage = null)
+        preferences.saveNombre(nombre)
     }
 
     fun onMensajeChange(mensaje: String) {
         _state.value = _state.value.copy(mensaje = mensaje, successMessage = null, errorMessage = null)
+        preferences.saveMensaje(mensaje)
     }
 
     fun saveLocal() {
@@ -84,7 +88,7 @@ class FormularioViewModel(
             } else {
                 _state.value.copy(
                     isLoading = false,
-                    errorMessage = "❌ Error sincronizando: ${result.exceptionOrNull()?.message}"
+                    errorMessage = "❌ Error: ${result.exceptionOrNull()?.message}"
                 )
             }
         }

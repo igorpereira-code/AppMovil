@@ -14,5 +14,5 @@ val presentationModule = module {
     viewModel { FirebaseTestViewModel(get()) }
     viewModel { PushNotificationViewModel() }
     viewModel { RemoteConfigViewModel(get(), get()) }
-    viewModel { FormularioViewModel(get(), get(), get()) }
+    viewModel { FormularioViewModel(get(), get(), get(), get()) }
 }
