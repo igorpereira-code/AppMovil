@@ -45,6 +45,7 @@ kotlin {
             implementation(libs.firebase.messaging)
             implementation(libs.kotlinx.coroutines.play.services)
             implementation("com.karumi:dexter:6.2.3")
+            implementation(libs.firebase.auth)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)

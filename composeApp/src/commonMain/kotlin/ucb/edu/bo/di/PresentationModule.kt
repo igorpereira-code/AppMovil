@@ -2,9 +2,11 @@ package ucb.edu.bo.di
 
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import ucb.edu.bo.dollar.presentation.viewmodel.DollarViewModel
 import ucb.edu.bo.formulario.presentation.viewmodel.FormularioViewModel
+import ucb.edu.bo.intro.presentation.viewmodel.IntroViewModel
 import ucb.edu.bo.pushnotification.presentation.viewmodel.PushNotificationViewModel
 import ucb.edu.bo.realtimedatabasecmp.presentation.viewmodel.FirebaseTestViewModel
 import ucb.edu.bo.remoteconfig.presentation.viewmodel.RemoteConfigViewModel
@@ -15,4 +17,5 @@ val presentationModule = module {
     viewModel { PushNotificationViewModel() }
     viewModel { RemoteConfigViewModel(get(), get()) }
     viewModel { FormularioViewModel(get(), get(), get(), get()) }
+    viewModelOf(::IntroViewModel)
 }
