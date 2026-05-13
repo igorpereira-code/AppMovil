@@ -5,7 +5,7 @@ API_KEY="y4x5mbP8qwj9iBID3x0TmZW15a7Eg4iy"
 BASE_URL="https://localise.biz/api/export/locale"
 
 # Ruta adaptada a tu estructura KMP (módulo composeApp)
-OUTPUT="composeApp/src/androidMain/res"
+OUTPUT="composeApp/src/commonMain/composeResources"
 # ──────────────────────────────────────────────────────────────────────────────
 
 echo "🔄 Sincronizando traducciones desde Localise.biz..."
@@ -21,6 +21,8 @@ curl -s "$BASE_URL/es.xml?format=android" \
   -o "$OUTPUT/values/strings.xml"
 
 if [ $? -eq 0 ]; then
+  # Limpiar namespace XLIFF que Loco agrega y KMP no reconoce
+  sed -i 's/ xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"//g' "$OUTPUT/values/strings.xml"
   echo "  ✅ values/strings.xml actualizado"
 else
   echo "  ❌ Error al descargar español"
@@ -33,6 +35,8 @@ curl -s "$BASE_URL/en.xml?format=android" \
   -o "$OUTPUT/values-en/strings.xml"
 
 if [ $? -eq 0 ]; then
+  # Limpiar namespace XLIFF que Loco agrega y KMP no reconoce
+  sed -i 's/ xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"//g' "$OUTPUT/values-en/strings.xml"
   echo "  ✅ values-en/strings.xml actualizado"
 else
   echo "  ❌ Error al descargar inglés"
