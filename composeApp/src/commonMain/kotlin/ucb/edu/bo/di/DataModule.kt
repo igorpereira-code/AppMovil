@@ -3,11 +3,14 @@ package ucb.edu.bo.di
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import ucb.edu.bo.app.home.data.repository.HomeRepositoryImpl
+import ucb.edu.bo.app.home.domain.repository.HomeRepository
 import ucb.edu.bo.dollar.data.datasource.DollarLocalDataSource
 import ucb.edu.bo.dollar.data.repository.DollarRepositoryImpl
 import ucb.edu.bo.dollar.data.service.DbService
 import ucb.edu.bo.dollar.domain.repository.DollarRepository
 import ucb.edu.bo.firebase.RemoteConfigManager
+import ucb.edu.bo.kmp_room.core.data.db.AppDatabase
 import ucb.edu.bo.realtimedatabasecmp.data.datasource.FirebaseDataSource
 import ucb.edu.bo.realtimedatabasecmp.data.repository.FirebaseTestRepositoryImpl
 import ucb.edu.bo.realtimedatabasecmp.domain.repository.FirebaseTestRepository
@@ -17,8 +20,12 @@ import ucb.edu.bo.remoteconfig.domain.repository.RemoteConfigRepository
 val dataModule = module {
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
     singleOf(::DbService).bind<DollarLocalDataSource>()
-    singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
-    singleOf(::DbService).bind<DollarLocalDataSource>()
+    
+    // Home/Task Module
+
+    single { get<AppDatabase>().getTaskDao() }
+    single<HomeRepository> { HomeRepositoryImpl(get()) }
+
     factory { FirebaseDataSource() }
     factory<FirebaseTestRepository> { FirebaseTestRepositoryImpl(get()) }
     single { RemoteConfigManager() }
