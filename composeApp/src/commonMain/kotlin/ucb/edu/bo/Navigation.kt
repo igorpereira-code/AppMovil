@@ -4,11 +4,20 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ucb.edu.bo.intro.presentation.screen.IntroScreen
-import ucb.edu.bo.intro.presentation.screen.WelcomeScreen
-//import ucb.edu.bo.login.presentation.screen.LoginScreen
-//import ucb.edu.bo.register.presentation.screen.RegisterScreen
-//import ucb.edu.bo.focus.presentation.screen.FocusScreen
+import ucb.edu.bo.todoApp.intro.presentation.screen.IntroScreen
+import ucb.edu.bo.todoApp.intro.presentation.screen.WelcomeScreen
+import ucb.edu.bo.todoApp.login.presentation.screen.LoginScreen
+import ucb.edu.bo.todoApp.login.presentation.screen.RegisterScreen
+//////////////////////
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 sealed class Screen(val route: String) {
     object Intro : Screen("intro")
@@ -28,7 +37,11 @@ fun AppNavigation(startDestination: String) {
     ) {
         composable(Screen.Intro.route) {
             IntroScreen(
-                onFinish = { navController.navigate(Screen.Welcome.route) }
+                onFinish = {
+                    navController.navigate(Screen.Welcome.route) {
+                        popUpTo(Screen.Intro.route) { inclusive = true }
+                    }
+                }
             )
         }
         composable(Screen.Welcome.route) {
@@ -37,23 +50,49 @@ fun AppNavigation(startDestination: String) {
                 onRegister = { navController.navigate(Screen.Register.route) }
             )
         }
-        /*composable(Screen.Login.route) {
+        composable(Screen.Login.route) {
             LoginScreen(
-                onLoginSuccess = { navController.navigate(Screen.Home.route) },
-                onGoToRegister = { navController.navigate(Screen.Register.route) }
+                onLoginSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Welcome.route) { inclusive = true }
+                    }
+                },
+                onGoToRegister = {
+                    navController.navigate(Screen.Register.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
             )
         }
         composable(Screen.Register.route) {
             RegisterScreen(
-                onRegisterSuccess = { navController.navigate(Screen.Home.route) },
-                onGoToLogin = { navController.navigate(Screen.Login.route) }
+                onRegisterSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Welcome.route) { inclusive = true }
+                    }
+                },
+                onGoToLogin = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Register.route) { inclusive = true }
+                    }
+                }
             )
         }
-        composable(Screen.Focus.route) {
-            FocusScreen()
-        }*/
         composable(Screen.Home.route) {
-            // Aquí irá el home que hagan tus compañeros
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0xFF121212)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "¡Bienvenido! 🎉",
+                        color = Color.White,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
         }
     }
 }

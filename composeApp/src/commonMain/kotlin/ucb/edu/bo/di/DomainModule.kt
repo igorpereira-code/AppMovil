@@ -12,6 +12,8 @@ import ucb.edu.bo.remoteconfig.domain.usecase.FetchRemoteConfigUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.GetCachedConfigUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.GetRemoteStringUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.SyncRemoteConfigUseCase
+import ucb.edu.bo.todoApp.login.domain.usecase.LoginUseCase
+import ucb.edu.bo.todoApp.login.domain.usecase.RegisterUseCase
 
 val domainModule = module {
     singleOf(::GetDollarListUseCase)
@@ -24,4 +26,6 @@ val domainModule = module {
     factory { SaveFormularioLocalUseCase(get()) }
     factory { GetLatestFormularioUseCase(get()) }
     factory { SyncFormularioUseCase(get()) }
+    factory { LoginUseCase(get()) }
+    factory { RegisterUseCase(get()) }
 }

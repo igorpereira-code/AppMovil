@@ -1,10 +1,10 @@
-package ucb.edu.bo.intro.presentation.viewmodel
+package ucb.edu.bo.todoApp.intro.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import ucb.edu.bo.intro.presentation.state.IntroState
+import ucb.edu.bo.todoApp.intro.presentation.state.IntroState
 
 class IntroViewModel : ViewModel() {
 

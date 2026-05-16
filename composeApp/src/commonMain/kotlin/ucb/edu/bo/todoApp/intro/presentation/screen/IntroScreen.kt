@@ -1,4 +1,4 @@
-package ucb.edu.bo.intro.presentation.screen
+package ucb.edu.bo.todoApp.intro.presentation.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.koin.compose.viewmodel.koinViewModel
-import ucb.edu.bo.intro.presentation.viewmodel.IntroViewModel
+import ucb.edu.bo.todoApp.intro.presentation.viewmodel.IntroViewModel
 
 @Composable
 fun IntroScreen(

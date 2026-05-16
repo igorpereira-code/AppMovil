@@ -1,4 +1,4 @@
-package ucb.edu.bo.intro.domain.model
+package ucb.edu.bo.todoApp.intro.domain.model
 
 data class IntroPage(
     val title: String,

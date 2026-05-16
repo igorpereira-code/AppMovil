@@ -1,6 +1,6 @@
-package ucb.edu.bo.intro.presentation.state
+package ucb.edu.bo.todoApp.intro.presentation.state
 
-import ucb.edu.bo.intro.domain.model.IntroPage
+import ucb.edu.bo.todoApp.intro.domain.model.IntroPage
 
 data class IntroState(
     val pages: List<IntroPage> = listOf(

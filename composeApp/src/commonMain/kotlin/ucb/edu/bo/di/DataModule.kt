@@ -18,6 +18,9 @@ import ucb.edu.bo.realtimedatabasecmp.domain.repository.FirebaseTestRepository
 import ucb.edu.bo.remoteconfig.data.dao.RemoteConfigDao
 import ucb.edu.bo.remoteconfig.data.repository.RemoteConfigRepositoryImpl
 import ucb.edu.bo.remoteconfig.domain.repository.RemoteConfigRepository
+import ucb.edu.bo.todoApp.login.data.datasource.AuthDataSource
+import ucb.edu.bo.todoApp.login.data.repository.AuthRepositoryImpl
+import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
 
 val dataModule = module {
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
@@ -28,4 +31,6 @@ val dataModule = module {
     single<RemoteConfigRepository> { RemoteConfigRepositoryImpl(get(), get()) }
     single { FormularioFirebaseDataSource() }
     single<FormularioRepository> { FormularioRepositoryImpl(get(), get()) }
+    single { AuthDataSource() }
+    single<AuthRepository> { AuthRepositoryImpl(get()) }
 }
