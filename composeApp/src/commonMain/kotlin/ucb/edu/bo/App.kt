@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 fun App() {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val startDestination = if (currentUser != null) {
-        Screen.Home.route
+        Screen.Focus.route
     } else {
         Screen.Intro.route
     }

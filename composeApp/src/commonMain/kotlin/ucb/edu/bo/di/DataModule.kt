@@ -11,13 +11,14 @@ import ucb.edu.bo.firebase.RemoteConfigManager
 import ucb.edu.bo.formulario.data.datasource.FormularioFirebaseDataSource
 import ucb.edu.bo.formulario.data.repository.FormularioRepositoryImpl
 import ucb.edu.bo.formulario.domain.repository.FormularioRepository
-//import ucb.edu.bo.firebase.data.datasource.RemoteConfigManager
 import ucb.edu.bo.realtimedatabasecmp.data.datasource.FirebaseDataSource
 import ucb.edu.bo.realtimedatabasecmp.data.repository.FirebaseTestRepositoryImpl
 import ucb.edu.bo.realtimedatabasecmp.domain.repository.FirebaseTestRepository
-import ucb.edu.bo.remoteconfig.data.dao.RemoteConfigDao
 import ucb.edu.bo.remoteconfig.data.repository.RemoteConfigRepositoryImpl
 import ucb.edu.bo.remoteconfig.domain.repository.RemoteConfigRepository
+import ucb.edu.bo.todoApp.focus_mode.data.datasource.FocusDataSource
+import ucb.edu.bo.todoApp.focus_mode.data.repository.FocusRepositoryImpl
+import ucb.edu.bo.todoApp.focus_mode.domain.repository.FocusRepository
 import ucb.edu.bo.todoApp.login.data.datasource.AuthDataSource
 import ucb.edu.bo.todoApp.login.data.repository.AuthRepositoryImpl
 import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
@@ -33,4 +34,6 @@ val dataModule = module {
     single<FormularioRepository> { FormularioRepositoryImpl(get(), get()) }
     single { AuthDataSource() }
     single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single { FocusDataSource() }
+    single<FocusRepository> { FocusRepositoryImpl(get()) }
 }

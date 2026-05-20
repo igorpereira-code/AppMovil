@@ -11,6 +11,7 @@ import org.koin.core.logger.Level
 import ucb.edu.bo.di.getModules
 import ucb.edu.bo.formulario.data.worker.FormularioAutoSaveWorker
 import ucb.edu.bo.remoteconfig.data.worker.RemoteConfigSyncWorker
+import ucb.edu.bo.todoApp.focus_mode.notification.FocusNotificationHelper
 import ucb.edu.bo.workmanager.LogScheduler
 import java.util.concurrent.TimeUnit
 
@@ -24,6 +25,9 @@ class AndroidApp : Application() {
             modules(getModules())
         }
 
+        // Canal de notificaciones Focus Mode
+        FocusNotificationHelper.createNotificationChannel(this)
+
         // WorkManager periódico existente
         LogScheduler(this).schedulePeriodicUpload()
 
@@ -33,7 +37,7 @@ class AndroidApp : Application() {
         ).build()
         WorkManager.getInstance(this).enqueue(remoteConfigSync)
 
-        // ✅ Worker autoguardado formulario cada 15 minutos
+        // Worker autoguardado formulario cada 15 minutos
         val formularioAutoSave = PeriodicWorkRequest.Builder(
             FormularioAutoSaveWorker::class.java,
             15L,
