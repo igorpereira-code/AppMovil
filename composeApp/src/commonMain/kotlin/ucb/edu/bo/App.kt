@@ -17,31 +17,18 @@ import ucb.edu.bo.localization.presentation.screen.LocalizationScreen
 import ucb.edu.bo.pushnotification.presentation.screen.PushNotificationScreen
 import ucb.edu.bo.realtimedatabasecmp.presentation.screen.FirebaseTestScreen
 import ucb.edu.bo.remoteconfig.presentation.screen.RemoteConfigScreen
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-@Preview
-fun App(){
-    val appEventViewModel = koinViewModel<AppEventViewModel>()
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    // 2. Escuchamos cuando la app se abre o se pausa
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_START) {
-                appEventViewModel.onAppOpened()
-            } else if (event == Lifecycle.Event.ON_STOP) {
-                appEventViewModel.onAppClosed()
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+fun App() {
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val startDestination = if (currentUser != null) {
+        Screen.Focus.route
+    } else {
+        Screen.Intro.route
     }
-        MaterialTheme {
-            //FirebaseTestScreen()
-            //DollarScreen()
-            //PushNotificationScreen()
-            //RemoteConfigScreen()
-            //LocalizationScreen()
-            SyncConfigScreen()
-        }
+
+    MaterialTheme {
+        AppNavigation(startDestination = startDestination)
+    }
 }

@@ -32,7 +32,16 @@ kotlinStdlib = "2.3.0"
 runner = "1.5.2"
 core = "1.5.0"
 
+
+coroutines = "1.8.1"
+turbine = "1.1.0"
+composeTest = "1.10.3"
+mockative="3.0.1"
+kotlinx-datetime = "0.6.1"
+
+
 [libraries]
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -84,6 +93,14 @@ kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", versio
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
 
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "composeTest" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "composeTest" }
+mockative = { module = "io.mockative:mokative", version.ref = "mockative"}
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+
+
 [plugins]
 #BASE DE DATOS ROOM
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -98,3 +115,4 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 android-lint = { id = "com.android.lint", version.ref = "agp" }
+mockative = { id = "io.mockative", version.ref = "mockative" }

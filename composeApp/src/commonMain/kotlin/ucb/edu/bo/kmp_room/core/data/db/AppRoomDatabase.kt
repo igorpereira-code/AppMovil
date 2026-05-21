@@ -11,7 +11,7 @@ import ucb.edu.bo.dollar.data.entity.DollarEntity
 import ucb.edu.bo.events.data.dao.EventDao
 import ucb.edu.bo.events.data.entity.EventEntity
 
-@Database(entities = [DollarEntity::class, ConfigEntity::class, EventEntity::class], version =3)
+@Database(entities = [DollarEntity::class], version = 1)
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getDao(): DollarDao

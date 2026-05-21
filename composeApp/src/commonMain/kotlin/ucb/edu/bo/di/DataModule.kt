@@ -17,6 +17,12 @@ import ucb.edu.bo.realtimedatabasecmp.data.repository.FirebaseTestRepositoryImpl
 import ucb.edu.bo.realtimedatabasecmp.domain.repository.FirebaseTestRepository
 import ucb.edu.bo.remoteconfig.data.repository.RemoteConfigRepositoryImpl
 import ucb.edu.bo.remoteconfig.domain.repository.RemoteConfigRepository
+import ucb.edu.bo.todoApp.focus_mode.data.datasource.FocusDataSource
+import ucb.edu.bo.todoApp.focus_mode.data.repository.FocusRepositoryImpl
+import ucb.edu.bo.todoApp.focus_mode.domain.repository.FocusRepository
+import ucb.edu.bo.todoApp.login.data.datasource.AuthDataSource
+import ucb.edu.bo.todoApp.login.data.repository.AuthRepositoryImpl
+import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
 
 val dataModule = module {
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
@@ -26,7 +32,10 @@ val dataModule = module {
     factory { FirebaseDataSource() }
     factory<FirebaseTestRepository> { FirebaseTestRepositoryImpl(get()) }
     single { RemoteConfigManager() }
-    single<RemoteConfigRepository> { RemoteConfigRepositoryImpl(get()) }
+    single<RemoteConfigRepository> { RemoteConfigRepositoryImpl(get(), get()) }
     single<ConfigRepository>{ ConfigRepositoryImpl(get(), get()) }
     single<EventRepository> { EventRepositoryImpl(get()) }
+    single { AuthDataSource() }
+    single<AuthRepository> { AuthRepositoryImpl(get()) }
+
 }

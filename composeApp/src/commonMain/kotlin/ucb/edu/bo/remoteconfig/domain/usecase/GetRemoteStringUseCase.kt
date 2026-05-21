@@ -5,7 +5,7 @@ import ucb.edu.bo.remoteconfig.domain.repository.RemoteConfigRepository
 class GetRemoteStringUseCase(
     private val repository: RemoteConfigRepository
 ) {
-    operator fun invoke(key: String): String {
-        return repository.getString(key)
+    suspend operator fun invoke(key: String): String {
+        return repository.getRemoteValue(key)
     }
 }

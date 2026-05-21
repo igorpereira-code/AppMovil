@@ -45,6 +45,7 @@ kotlin {
             implementation(libs.firebase.messaging)
             implementation(libs.kotlinx.coroutines.play.services)
             implementation("com.karumi:dexter:6.2.3")
+            implementation(libs.firebase.auth)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -67,11 +68,19 @@ kotlin {
             implementation(libs.coil.network)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.kotlinx.datetime)
             implementation(project(":designsystem"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.turbine)
         }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.ui.test.junit4)
+        }
+
     }
 }
 

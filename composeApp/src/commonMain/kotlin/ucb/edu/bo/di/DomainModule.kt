@@ -8,7 +8,13 @@ import ucb.edu.bo.dollar.domain.usecase.GetDollarListUseCase
 import ucb.edu.bo.events.domain.usecase.LogAndSyncAppEventUseCase
 import ucb.edu.bo.realtimedatabasecmp.domain.usecase.SaveTestDataUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.FetchRemoteConfigUseCase
+import ucb.edu.bo.remoteconfig.domain.usecase.GetCachedConfigUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.GetRemoteStringUseCase
+import ucb.edu.bo.remoteconfig.domain.usecase.SyncRemoteConfigUseCase
+import ucb.edu.bo.todoApp.focus_mode.domain.usecase.GetWeekSessionsUseCase
+import ucb.edu.bo.todoApp.focus_mode.domain.usecase.SaveFocusSessionUseCase
+import ucb.edu.bo.todoApp.login.domain.usecase.LoginUseCase
+import ucb.edu.bo.todoApp.login.domain.usecase.RegisterUseCase
 
 val domainModule = module {
     singleOf(::GetDollarListUseCase)
@@ -19,4 +25,10 @@ val domainModule = module {
     factory { GetRemoteStringUseCase(get()) }
     factory{ SyncInitialConfigUseCase(get()) }
     factory { LogAndSyncAppEventUseCase(get()) }
+    factory { SyncRemoteConfigUseCase(get()) }
+    factory { GetCachedConfigUseCase(get()) }
+    factory { LoginUseCase(get()) }
+    factory { RegisterUseCase(get()) }
+    factory { SaveFocusSessionUseCase(get()) }
+    factory { GetWeekSessionsUseCase(get()) }
 }
