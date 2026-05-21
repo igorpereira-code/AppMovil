@@ -22,6 +22,11 @@ import ucb.edu.bo.todoApp.focus_mode.domain.repository.FocusRepository
 import ucb.edu.bo.todoApp.login.data.datasource.AuthDataSource
 import ucb.edu.bo.todoApp.login.data.repository.AuthRepositoryImpl
 import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
+import ucb.edu.bo.todoApp.task.data.datasource.TaskLocalDataSource
+import ucb.edu.bo.todoApp.task.data.datasource.TaskLocalDataSourceImpl
+import ucb.edu.bo.todoApp.task.data.repository.TaskRepositoryImpl
+import ucb.edu.bo.todoApp.task.domain.repository.TaskRepository
+import ucb.edu.bo.kmp_room.core.data.db.AppDatabase
 
 val dataModule = module {
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
@@ -36,4 +41,9 @@ val dataModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
     single { FocusDataSource() }
     single<FocusRepository> { FocusRepositoryImpl(get()) }
+
+    // Task Module
+    single { get<AppDatabase>().taskDao() }
+    single<TaskLocalDataSource> { TaskLocalDataSourceImpl(get()) }
+    single<TaskRepository> { TaskRepositoryImpl(get()) }
 }

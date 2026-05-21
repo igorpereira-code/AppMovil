@@ -10,20 +10,24 @@ import ucb.edu.bo.formulario.data.dao.FormularioDao
 import ucb.edu.bo.formulario.data.entity.FormularioEntity
 import ucb.edu.bo.remoteconfig.data.dao.RemoteConfigDao
 import ucb.edu.bo.remoteconfig.data.entity.RemoteConfigEntity
+import ucb.edu.bo.todoApp.task.data.dao.TaskDao
+import ucb.edu.bo.todoApp.task.data.entity.TaskEntity
 
 @Database(
     entities = [
         DollarEntity::class,
         RemoteConfigEntity::class,
-        FormularioEntity::class
+        FormularioEntity::class,
+        TaskEntity::class
     ],
-    version = 3
+    version = 4
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getDao(): DollarDao
     abstract fun getRemoteConfigDao(): RemoteConfigDao
     abstract fun getFormularioDao(): FormularioDao
+    abstract fun taskDao(): TaskDao
 }
 
 @Suppress("KotlinNoActualForExpect")

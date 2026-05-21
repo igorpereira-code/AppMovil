@@ -12,12 +12,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.add_image
+import appmovil.composeapp.generated.resources.calendar
+import appmovil.composeapp.generated.resources.checklist_rafiki_1
+import appmovil.composeapp.generated.resources.flag
+import appmovil.composeapp.generated.resources.home_2
+import appmovil.composeapp.generated.resources.send
+import appmovil.composeapp.generated.resources.sort_image
+import appmovil.composeapp.generated.resources.tag
+import appmovil.composeapp.generated.resources.timer
+import appmovil.composeapp.generated.resources.user
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 
@@ -51,7 +64,7 @@ fun TaskScreen(
         ) {
             // Icono menú hamburguesa
             Icon(
-                painter = painterResource(id = android.R.drawable.ic_menu_sort_by_size),
+                painter = painterResource(Res.drawable.sort_image),
                 contentDescription = "Menú",
                 tint = Color.White,
                 modifier = Modifier.size(24.dp)
@@ -77,7 +90,7 @@ fun TaskScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painter = painterResource(id = android.R.drawable.ic_menu_myplaces),
+                    painter = painterResource(Res.drawable.user),
                     contentDescription = "Perfil",
                     tint = Color.White,
                     modifier = Modifier.size(20.dp)
@@ -156,7 +169,7 @@ private fun EmptyTasksContent(modifier: Modifier = Modifier) {
     ) {
         // Ilustración central (coloca tu imagen en res/drawable/img_empty_tasks.png)
         Icon(
-            painter = painterResource(id = android.R.drawable.ic_menu_agenda),
+            painter = painterResource(Res.drawable.checklist_rafiki_1),
             contentDescription = null,
             tint = Color(0xFF888888),
             modifier = Modifier.size(120.dp)
@@ -261,7 +274,7 @@ private fun TaskItem(
             // Botón eliminar
             IconButton(onClick = onDelete, modifier = Modifier.size(28.dp)) {
                 Icon(
-                    painter = painterResource(id = android.R.drawable.ic_menu_close_clear_cancel),
+                    painter = painterResource(Res.drawable.add_image),
                     contentDescription = "Eliminar",
                     tint = Color(0xFF666666),
                     modifier = Modifier.size(16.dp)
@@ -293,13 +306,13 @@ private fun BottomNavBar(
         ) {
             // Index (Home)
             NavItem(
-                iconRes = android.R.drawable.ic_menu_today,
+                iconRes = Res.drawable.home_2,
                 label = "Index",
                 isSelected = true
             )
             // Calendar
             NavItem(
-                iconRes = android.R.drawable.ic_menu_my_calendar,
+                iconRes = Res.drawable.calendar,
                 label = "Calendario",
                 isSelected = false
             )
@@ -312,7 +325,7 @@ private fun BottomNavBar(
                 modifier = Modifier.size(56.dp)
             ) {
                 Icon(
-                    painter = painterResource(id = android.R.drawable.ic_input_add),
+                    painter = painterResource(Res.drawable.add_image),
                     contentDescription = "Agregar tarea",
                     tint = Color.White,
                     modifier = Modifier.size(24.dp)
@@ -321,13 +334,13 @@ private fun BottomNavBar(
 
             // Focus
             NavItem(
-                iconRes = android.R.drawable.ic_menu_recent_history,
+                iconRes = Res.drawable.timer,
                 label = "Focus",
                 isSelected = false
             )
             // Profile
             NavItem(
-                iconRes = android.R.drawable.ic_menu_myplaces,
+                iconRes = Res.drawable.user,
                 label = "Perfil",
                 isSelected = false
             )
@@ -336,13 +349,13 @@ private fun BottomNavBar(
 }
 
 @Composable
-private fun NavItem(iconRes: Int, label: String, isSelected: Boolean) {
+private fun NavItem(iconRes: DrawableResource, label: String, isSelected: Boolean) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Icon(
-            painter = painterResource(id = iconRes),
+            painter = painterResource(Res.drawable.home_2),
             contentDescription = label,
             tint = if (isSelected) PrimaryPurple else Color(0xFF888888),
             modifier = Modifier.size(22.dp)
@@ -443,21 +456,21 @@ private fun AddTaskSheetContent(
             // Iconos de acción (timer, tag, flag) — decorativos por ahora
             // Reemplaza estos con tus drawables personalizados en res/drawable
             Icon(
-                painter = painterResource(id = android.R.drawable.ic_menu_recent_history),
+                painter = painterResource(Res.drawable.timer),
                 contentDescription = "Timer",
                 tint = Color(0xFF888888),
                 modifier = Modifier.size(22.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Icon(
-                painter = painterResource(id = android.R.drawable.ic_menu_agenda),
+                painter = painterResource(Res.drawable.tag),
                 contentDescription = "Etiqueta",
                 tint = Color(0xFF888888),
                 modifier = Modifier.size(22.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Icon(
-                painter = painterResource(id = android.R.drawable.ic_menu_info_details),
+                painter = painterResource(Res.drawable.flag),
                 contentDescription = "Prioridad",
                 tint = Color(0xFF888888),
                 modifier = Modifier.size(22.dp)
@@ -482,7 +495,7 @@ private fun AddTaskSheetContent(
                         .background(if (title.isNotBlank()) PrimaryPurple else Color(0xFF444444))
                 ) {
                     Icon(
-                        painter = painterResource(id = android.R.drawable.ic_menu_send),
+                        painter = painterResource(Res.drawable.send),
                         contentDescription = "Guardar tarea",
                         tint = Color.White,
                         modifier = Modifier.size(18.dp)
