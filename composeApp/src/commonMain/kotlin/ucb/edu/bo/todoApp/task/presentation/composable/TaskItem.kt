@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+//import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -64,12 +64,12 @@ fun TaskItem(
                 }
             }
             IconButton(onClick = onDelete, modifier = Modifier.size(28.dp)) {
-                Icon(
-                    painter = painterResource(id = android.R.drawable.ic_menu_close_clear_cancel),
-                    contentDescription = "Eliminar",
-                    tint = Color(0xFF666666),
-                    modifier = Modifier.size(16.dp)
-                )
+                //Icon(
+                    //painter = painterResource(id = android.R.drawable.ic_menu_close_clear_cancel),
+                    //contentDescription = "Eliminar",
+                    //tint = Color(0xFF666666),
+                    //modifier = Modifier.size(16.dp)
+                //)
             }
         }
     }

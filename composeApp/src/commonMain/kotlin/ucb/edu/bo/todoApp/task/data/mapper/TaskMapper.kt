@@ -7,14 +7,14 @@ fun TaskEntity.toModel() = TaskModel(
     id = id,
     title = title,
     description = description,
-    isCompleted = isCompleted,
-    createdAt = createdAt
+    isCompleted = isCompleted
+    //createdAt = createdAt
 )
 
 fun TaskModel.toEntity() = TaskEntity(
     id = id,
     title = title,
     description = description,
-    isCompleted = isCompleted,
-    createdAt = createdAt
+    isCompleted = isCompleted
+    //createdAt = createdAt
 )

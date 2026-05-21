@@ -9,10 +9,11 @@ import kotlinx.coroutines.launch
 import ucb.edu.bo.todoApp.task.domain.model.TaskModel
 import ucb.edu.bo.todoApp.task.domain.usecase.CreateTaskUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.DeleteTaskUseCase
+import ucb.edu.bo.todoApp.task.domain.usecase.GetAllTasksUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.ToggleTaskUseCase
 import ucb.edu.bo.todoApp.task.presentation.state.TaskUIState
 
-class TaskViewModel (
+class TaskViewModel(
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,

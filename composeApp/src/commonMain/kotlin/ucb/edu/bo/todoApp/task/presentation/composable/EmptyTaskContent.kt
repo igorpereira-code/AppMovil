@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+//import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -21,12 +21,12 @@ fun EmptyTasksContent(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Icon(
-            painter = painterResource(id = android.R.drawable.ic_menu_agenda),
-            contentDescription = null,
-            tint = GrayText,
-            modifier = Modifier.size(120.dp)
-        )
+       // Icon(
+           // painter = painterResource(id = android.R.drawable.ic_menu_agenda),
+           // contentDescription = null,
+          //  tint = GrayText,
+          //  modifier = Modifier.size(120.dp)
+      //  )
         Spacer(modifier = Modifier.height(32.dp))
         Text(
             text = "¿Qué quieres hacer hoy?",

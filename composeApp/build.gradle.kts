@@ -68,6 +68,7 @@ kotlin {
             implementation(libs.coil.network)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.kotlinx.datetime)
             implementation(project(":designsystem"))
         }
         commonTest.dependencies {

@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+//import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,7 +49,7 @@ fun AddTaskSheetContent(
             } else {
                 IconButton(onClick = onSend, enabled = title.isNotBlank(),
                     modifier = Modifier.size(36.dp).clip(CircleShape).background(if (title.isNotBlank()) PrimaryPurple else Color(0xFF444444))) {
-                    Icon(painterResource(android.R.drawable.ic_menu_send), "Guardar", tint = Color.White, modifier = Modifier.size(18.dp))
+                    //Icon(painterResource(android.R.drawable.ic_menu_send), "Guardar", tint = Color.White, modifier = Modifier.size(18.dp))
                 }
             }
         }

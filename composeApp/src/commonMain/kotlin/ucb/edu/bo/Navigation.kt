@@ -19,6 +19,7 @@ import ucb.edu.bo.todoApp.intro.presentation.screen.IntroScreen
 import ucb.edu.bo.todoApp.intro.presentation.screen.WelcomeScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.LoginScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.RegisterScreen
+import ucb.edu.bo.todoApp.task.presentation.screen.TaskScreen
 
 sealed class Screen(val route: String) {
     object Intro : Screen("intro")
@@ -27,6 +28,7 @@ sealed class Screen(val route: String) {
     object Register : Screen("register")
     object Focus : Screen("focus")
     object Home : Screen("home")
+    object Task : Screen("task")
 }
 
 @Composable
@@ -54,7 +56,7 @@ fun AppNavigation(startDestination: String) {
         composable(Screen.Login.route) {
             LoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(Screen.Focus.route) {
+                    navController.navigate(Screen.Task.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 },
@@ -68,7 +70,7 @@ fun AppNavigation(startDestination: String) {
         composable(Screen.Register.route) {
             RegisterScreen(
                 onRegisterSuccess = {
-                    navController.navigate(Screen.Focus.route) {
+                    navController.navigate(Screen.Task.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 },
@@ -89,6 +91,11 @@ fun AppNavigation(startDestination: String) {
                 }
             )
         }
+
+        composable(Screen.Task.route) {
+            TaskScreen()
+        }
+
         composable(Screen.Home.route) {
             Box(
                 modifier = Modifier

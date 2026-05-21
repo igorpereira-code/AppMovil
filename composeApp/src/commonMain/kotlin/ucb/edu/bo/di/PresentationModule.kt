@@ -12,6 +12,7 @@ import ucb.edu.bo.todoApp.focus_mode.presentation.viewmodel.FocusViewModel
 import ucb.edu.bo.todoApp.intro.presentation.viewmodel.IntroViewModel
 import ucb.edu.bo.todoApp.login.presentation.viewmodel.LoginViewModel
 import ucb.edu.bo.todoApp.login.presentation.viewmodel.RegisterViewModel
+import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 
 val presentationModule = module {
     viewModelOf(::DollarViewModel)
@@ -23,4 +24,5 @@ val presentationModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)
     viewModel { FocusViewModel(get(), get()) }
+    viewModelOf(::TaskViewModel)
 }
