@@ -10,11 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-//import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.add_image
+import appmovil.composeapp.generated.resources.cancel
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -31,24 +33,36 @@ fun TaskItem(
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onToggle, modifier = Modifier.size(28.dp)) {
-                RadioButton(
-                    selected = isCompleted,
-                    onClick = onToggle,
-                    colors = RadioButtonDefaults.colors(
-                        selectedColor = PrimaryPurple,
-                        unselectedColor = Color(0xFF666666)
+                Box(
+                    modifier = Modifier
+                        .size(22.dp)
+                        .clip(CircleShape)
+                        .background(if (isCompleted) PrimaryPurple else Color.Transparent),
+                    contentAlignment = Alignment.Center
+                ) {
+                    RadioButton(
+                        selected = isCompleted,
+                        onClick = onToggle,
+                        colors = RadioButtonDefaults.colors(
+                            selectedColor = PrimaryPurple,
+                            unselectedColor = Color(0xFF666666)
+                        )
                     )
-                )
+                }
             }
+
             Spacer(modifier = Modifier.width(12.dp))
+
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    color = if (isCompleted) GrayText else Color.White,
+                    color = if (isCompleted) Color(0xFF888888) else Color.White,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Medium,
                     textDecoration = if (isCompleted) TextDecoration.LineThrough else TextDecoration.None
@@ -57,19 +71,20 @@ fun TaskItem(
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = description,
-                        color = GrayText,
+                        color = Color(0xFF888888),
                         fontSize = 12.sp,
                         textDecoration = if (isCompleted) TextDecoration.LineThrough else TextDecoration.None
                     )
                 }
             }
+
             IconButton(onClick = onDelete, modifier = Modifier.size(28.dp)) {
-                //Icon(
-                    //painter = painterResource(id = android.R.drawable.ic_menu_close_clear_cancel),
-                    //contentDescription = "Eliminar",
-                    //tint = Color(0xFF666666),
-                    //modifier = Modifier.size(16.dp)
-                //)
+                Icon(
+                    painter = painterResource(Res.drawable.cancel),
+                    contentDescription = "Eliminar",
+                    tint = Color(0xFF666666),
+                    modifier = Modifier.size(16.dp)
+                )
             }
         }
     }
