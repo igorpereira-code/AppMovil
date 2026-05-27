@@ -1,148 +1,182 @@
 package ucb.edu.bo.todoApp.intro.presentation.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
+//import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.todoApp.intro.presentation.viewmodel.IntroViewModel
 
 @Composable
 fun IntroScreen(
-    onFinish: () -> Unit,
+    onNavigateToHome: () -> Unit,
     viewModel: IntroViewModel = koinViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
-    val currentPage = state.pages[state.currentPage]
-    val isLastPage = state.currentPage == state.pages.size - 1
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF121212))
-    ) {
-        // Botón Skip arriba a la derecha
-        if (!isLastPage) {
-            TextButton(
-                onClick = { viewModel.skipToLast() },
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = "Omitir",
-                    color = Color(0xFF8687E7),
-                    fontSize = 16.sp
-                )
+    // Escuchar eventos de navegación
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is IntroViewModel.Event.NavigateToHome -> onNavigateToHome()
             }
         }
+    }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            // Imagen placeholder
-            Box(
-                modifier = Modifier
-                    .size(250.dp)
-                    .background(Color(0xFF1D1D1D), shape = MaterialTheme.shapes.large),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = currentPage.imageRes,
-                    color = Color.Gray,
-                    fontSize = 14.sp
-                )
+    val pagerState = rememberPagerState(pageCount = { state.pages.size })
+
+    // Sincronizar pager con el índice del ViewModel
+    LaunchedEffect(state.currentIndex) {
+        if (pagerState.currentPage != state.currentIndex) {
+            pagerState.animateScrollToPage(state.currentIndex)
+        }
+    }
+    LaunchedEffect(pagerState.currentPage) {
+        // Swipe manual → actualizar ViewModel (opcional, si quieres swipe libre)
+        // viewModel.setPage(pagerState.currentPage)
+    }
+
+    when {
+        state.isLoading -> {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
             }
-
-            Spacer(modifier = Modifier.height(48.dp))
-
-            // Título
-            Text(
-                text = currentPage.title,
-                color = Color.White,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Descripción
-            Text(
-                text = currentPage.description,
-                color = Color.Gray,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(48.dp))
-
-            // Indicadores de página
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                state.pages.forEachIndexed { index, _ ->
-                    Box(
-                        modifier = Modifier
-                            .size(if (index == state.currentPage) 24.dp else 8.dp, 8.dp)
-                            .clip(CircleShape)
-                            .background(
-                                if (index == state.currentPage) Color(0xFF8687E7)
-                                else Color(0xFF444444)
-                            )
-                    )
-                }
+        }
+        state.error != null && state.pages.isEmpty() -> {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("Error al cargar. Verifica tu conexión.")
             }
-
-            Spacer(modifier = Modifier.height(48.dp))
-
-            // Botones
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                if (state.currentPage > 0) {
-                    TextButton(onClick = {
-                        // No hay función back en el viewmodel, podemos ignorar o agregar
-                    }) {
-                        Text(
-                            text = "Atrás",
-                            color = Color(0xFF8687E7),
-                            fontSize = 16.sp
-                        )
-                    }
-                } else {
-                    Spacer(modifier = Modifier.width(80.dp))
-                }
-
-                Button(
-                    onClick = {
-                        if (isLastPage) onFinish()
-                        else viewModel.nextPage()
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF8687E7)
-                    )
+        }
+        else -> {
+            Scaffold { padding ->
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = if (isLastPage) "Comenzar" else "Siguiente",
-                        color = Color.White,
-                        fontSize = 16.sp
-                    )
+                    // Botón Omitir arriba a la derecha
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                        if (!state.isLastPage) {
+                            TextButton(onClick = { viewModel.onSkip() }) {
+                                Text("Omitir")
+                            }
+                        }
+                    }
+
+                    // Pager
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier.weight(1f),
+                        userScrollEnabled = false // controlado por botones
+                    ) { page ->
+                        val introPage = state.pages.getOrNull(page)
+                        if (introPage != null) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 24.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                // Imagen (placeholder si URL vacía)
+                                Box(
+                                    modifier = Modifier
+                                        .size(220.dp)
+                                        .padding(bottom = 32.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (introPage.imageUrl.isNotBlank()) {
+                                        // Si tienes Coil: AsyncImage(model = introPage.imageUrl, ...)
+                                        Text("🖼", style = MaterialTheme.typography.displayLarge)
+                                    } else {
+                                        Text("🖼", style = MaterialTheme.typography.displayLarge)
+                                    }
+                                }
+
+                                Text(
+                                    text = introPage.title,
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    textAlign = TextAlign.Center
+                                )
+                                Spacer(Modifier.height(16.dp))
+                                Text(
+                                    text = introPage.description,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+                    }
+
+                    // Indicadores de página
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    ) {
+                        state.pages.indices.forEach { i ->
+                            val selected = i == state.currentIndex
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .size(if (selected) 10.dp else 8.dp)
+                            ) {
+                                Surface(
+                                    modifier = Modifier.fillMaxSize(),
+                                    shape = MaterialTheme.shapes.small,
+                                    color = if (selected)
+                                        MaterialTheme.colorScheme.primary
+                                    else
+                                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                                ) {}
+                            }
+                        }
+                    }
+
+                    // Botones de navegación
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Botón Anterior (oculto en primera página)
+                        if (!state.isFirstPage) {
+                            OutlinedButton(onClick = {
+                                scope.launch {
+                                    viewModel.onPrevious()
+                                }
+                            }) {
+                                Text("Anterior")
+                            }
+                        } else {
+                            Spacer(Modifier.width(100.dp))
+                        }
+
+                        // Botón Siguiente o Iniciar
+                        if (state.isLastPage) {
+                            Button(onClick = { viewModel.onStart() }) {
+                                Text("Iniciar")
+                            }
+                        } else {
+                            Button(onClick = {
+                                scope.launch { viewModel.onNext() }
+                            }) {
+                                Text("Siguiente")
+                            }
+                        }
+                    }
                 }
             }
         }

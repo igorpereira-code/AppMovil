@@ -69,6 +69,7 @@ kotlin {
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
             implementation(project(":designsystem"))
+            implementation("androidx.datastore:datastore-preferences:1.1.1")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

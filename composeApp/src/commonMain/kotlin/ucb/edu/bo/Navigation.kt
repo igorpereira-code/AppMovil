@@ -3,18 +3,23 @@ package ucb.edu.bo
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.flow.first
 import ucb.edu.bo.todoApp.focus_mode.presentation.screen.FocusScreen
+import ucb.edu.bo.todoApp.intro.data.repository.dataStore
 import ucb.edu.bo.todoApp.intro.presentation.screen.IntroScreen
 import ucb.edu.bo.todoApp.intro.presentation.screen.WelcomeScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.LoginScreen
@@ -30,15 +35,39 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun AppNavigation(startDestination: String) {
+fun AppNavigation() {
+    val context = LocalContext.current
+    var startDestination by remember { mutableStateOf<String?>(null) }
+
+    // Determinar destino inicial
+    LaunchedEffect(Unit) {
+        val isOnboardingDone = context.dataStore.data.first()[
+            booleanPreferencesKey("onboarding_completed")
+        ] ?: false
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        startDestination = when {
+            isOnboardingDone && currentUser != null -> Screen.Focus.route
+            isOnboardingDone -> Screen.Welcome.route
+            else -> Screen.Intro.route
+        }
+    }
+
+    if (startDestination == null) {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination!!
     ) {
         composable(Screen.Intro.route) {
             IntroScreen(
-                onFinish = {
+                onNavigateToHome = {
                     navController.navigate(Screen.Welcome.route) {
                         popUpTo(Screen.Intro.route) { inclusive = true }
                     }

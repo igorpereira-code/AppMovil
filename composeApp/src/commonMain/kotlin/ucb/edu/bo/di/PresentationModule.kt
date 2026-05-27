@@ -1,5 +1,6 @@
 package ucb.edu.bo.di
 
+import java.util.Locale
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -19,8 +20,15 @@ val presentationModule = module {
     viewModel { PushNotificationViewModel() }
     viewModel { RemoteConfigViewModel(get(), get()) }
     viewModel { FormularioViewModel(get(), get(), get(), get()) }
-    viewModelOf(::IntroViewModel)
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)
     viewModel { FocusViewModel(get(), get()) }
+    viewModel {
+        val lang = java.util.Locale.getDefault().language
+        IntroViewModel(
+            getIntroPages = get(),
+            markOnboardingCompleted = get(),
+            lang = lang
+        )
+    }
 }
