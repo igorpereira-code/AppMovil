@@ -10,5 +10,5 @@ data class TaskEntity(
     val title: String,
     val description: String = "",
     val isCompleted: Boolean = false,
-    //val createdAt: Long = kotlinx.datetime.Clock.System.now().toEpochMilliseconds()
+    val createdAt: Long = kotlinx.datetime.Clock.System.now().toEpochMilliseconds()
 )

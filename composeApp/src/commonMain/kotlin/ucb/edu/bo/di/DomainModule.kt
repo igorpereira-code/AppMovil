@@ -15,6 +15,10 @@ import ucb.edu.bo.todoApp.focus_mode.domain.usecase.GetWeekSessionsUseCase
 import ucb.edu.bo.todoApp.focus_mode.domain.usecase.SaveFocusSessionUseCase
 import ucb.edu.bo.todoApp.login.domain.usecase.LoginUseCase
 import ucb.edu.bo.todoApp.login.domain.usecase.RegisterUseCase
+import ucb.edu.bo.todoApp.task.domain.usecase.CreateTaskUseCase
+import ucb.edu.bo.todoApp.task.domain.usecase.DeleteTaskUseCase
+import ucb.edu.bo.todoApp.task.domain.usecase.GetAllTasksUseCase
+import ucb.edu.bo.todoApp.task.domain.usecase.ToggleTaskUseCase
 
 val domainModule = module {
     singleOf(::GetDollarListUseCase)
@@ -31,4 +35,10 @@ val domainModule = module {
     factory { RegisterUseCase(get()) }
     factory { SaveFocusSessionUseCase(get()) }
     factory { GetWeekSessionsUseCase(get()) }
+
+    // Task Use Cases
+    factory { GetAllTasksUseCase(get()) }
+    factory { CreateTaskUseCase(get()) }
+    factory { DeleteTaskUseCase(get()) }
+    factory { ToggleTaskUseCase(get()) }
 }

@@ -12,6 +12,9 @@ import ucb.edu.bo.dollar.domain.repository.DollarRepository
 import ucb.edu.bo.events.data.repository.EventRepositoryImpl
 import ucb.edu.bo.events.domain.repository.EventRepository
 import ucb.edu.bo.firebase.RemoteConfigManager
+import ucb.edu.bo.formulario.data.datasource.FormularioFirebaseDataSource
+import ucb.edu.bo.formulario.data.repository.FormularioRepositoryImpl
+import ucb.edu.bo.formulario.domain.repository.FormularioRepository
 import ucb.edu.bo.realtimedatabasecmp.data.datasource.FirebaseDataSource
 import ucb.edu.bo.realtimedatabasecmp.data.repository.FirebaseTestRepositoryImpl
 import ucb.edu.bo.realtimedatabasecmp.domain.repository.FirebaseTestRepository
@@ -23,10 +26,13 @@ import ucb.edu.bo.todoApp.focus_mode.domain.repository.FocusRepository
 import ucb.edu.bo.todoApp.login.data.datasource.AuthDataSource
 import ucb.edu.bo.todoApp.login.data.repository.AuthRepositoryImpl
 import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
+import ucb.edu.bo.todoApp.task.data.datasource.TaskLocalDataSource
+import ucb.edu.bo.todoApp.task.data.datasource.TaskLocalDataSourceImpl
+import ucb.edu.bo.todoApp.task.data.repository.TaskRepositoryImpl
+import ucb.edu.bo.todoApp.task.domain.repository.TaskRepository
+import ucb.edu.bo.kmp_room.core.data.db.AppDatabase
 
 val dataModule = module {
-    singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
-    singleOf(::DbService).bind<DollarLocalDataSource>()
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
     singleOf(::DbService).bind<DollarLocalDataSource>()
     factory { FirebaseDataSource() }
@@ -37,5 +43,11 @@ val dataModule = module {
     single<EventRepository> { EventRepositoryImpl(get()) }
     single { AuthDataSource() }
     single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single { FocusDataSource() }
+    single<FocusRepository> { FocusRepositoryImpl(get()) }
 
+    // Task Module
+    single { get<AppDatabase>().taskDao() }
+    single<TaskLocalDataSource> { TaskLocalDataSourceImpl(get()) }
+    single<TaskRepository> { TaskRepositoryImpl(get()) }
 }

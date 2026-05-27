@@ -10,17 +10,25 @@ import ucb.edu.bo.dollar.data.dao.DollarDao
 import ucb.edu.bo.dollar.data.entity.DollarEntity
 import ucb.edu.bo.events.data.dao.EventDao
 import ucb.edu.bo.events.data.entity.EventEntity
+import ucb.edu.bo.todoApp.task.data.dao.TaskDao
+import ucb.edu.bo.todoApp.task.data.entity.TaskEntity
 
-@Database(entities = [DollarEntity::class], version = 1)
+@Database(
+    entities = [
+        DollarEntity::class,
+        TaskEntity::class
+    ],
+    version = 4
+)
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getDao(): DollarDao
     abstract fun getConfigDao(): ConfigDao
 
     abstract fun getEventDao(): EventDao
+    abstract fun taskDao(): TaskDao
 }
 
-// The Room compiler generates the `actual` implementations.
 @Suppress("KotlinNoActualForExpect")
 expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {
     override fun initialize(): AppDatabase
