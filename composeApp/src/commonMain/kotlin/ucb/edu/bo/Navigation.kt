@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
+import ucb.edu.bo.todoApp.calendar.presentation.screen.CalendarScreen
 import ucb.edu.bo.todoApp.focus_mode.presentation.screen.FocusScreen
 import ucb.edu.bo.todoApp.intro.presentation.screen.IntroScreen
 import ucb.edu.bo.todoApp.intro.presentation.screen.WelcomeScreen
@@ -29,6 +30,7 @@ sealed class Screen(val route: String) {
     object Focus : Screen("focus")
     object Home : Screen("home")
     object Task : Screen("task")
+    object Calendar : Screen("calendar")
 }
 
 @Composable
@@ -88,12 +90,18 @@ fun AppNavigation(startDestination: String) {
                     navController.navigate(Screen.Welcome.route) {
                         popUpTo(0) { inclusive = true }
                     }
-                }
+                },
+                // NUEVO: Agregamos el navController para que FocusScreen pueda navegar
+                navController = navController
             )
         }
 
         composable(Screen.Task.route) {
-            TaskScreen()
+            TaskScreen(navController = navController)
+        }
+
+        composable(Screen.Calendar.route) {
+            CalendarScreen(navController = navController)
         }
 
         composable(Screen.Home.route) {

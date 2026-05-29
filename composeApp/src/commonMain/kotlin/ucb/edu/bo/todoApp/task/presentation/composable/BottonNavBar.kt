@@ -1,14 +1,17 @@
 package ucb.edu.bo.todoApp.task.presentation.composable
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,6 +26,10 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun BottomNavBar(
+    currentRoute: String, // NUEVO: Para saber qué ícono pintar de morado
+    onHomeClick: () -> Unit, // NUEVO: Callback para el index
+    onCalendarClick: () -> Unit, // NUEVO: Callback para el calendario
+    onFocusClick: () -> Unit, // NUEVO: Callback para el focus
     onAddClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -43,13 +50,15 @@ fun BottomNavBar(
             NavItem(
                 iconRes = Res.drawable.home_2,
                 label = "Index",
-                isSelected = true
+                isSelected = currentRoute == "Index", // Dinámico
+                onClick = onHomeClick
             )
             // Calendar
             NavItem(
                 iconRes = Res.drawable.calendar,
                 label = "Calendario",
-                isSelected = false
+                isSelected = currentRoute == "Calendario", // Dinámico
+                onClick = onCalendarClick
             )
 
             // FAB central (botón +)
@@ -67,27 +76,37 @@ fun BottomNavBar(
                 )
             }
 
-            // Focus
             NavItem(
                 iconRes = Res.drawable.timer,
                 label = "Focus",
-                isSelected = false
+                isSelected = currentRoute == "Focus",
+                onClick = onFocusClick
             )
-            // Profile
+            // Profile (Callbacks pendientes para tu equipo)
             NavItem(
                 iconRes = Res.drawable.user,
                 label = "Perfil",
-                isSelected = false
+                isSelected = currentRoute == "Perfil",
+                onClick = { /* TODO */ }
             )
         }
     }
 }
 
 @Composable
-private fun NavItem(iconRes: DrawableResource, label: String, isSelected: Boolean) {
+private fun NavItem(
+    iconRes: DrawableResource,
+    label: String,
+    isSelected: Boolean,
+    onClick: () -> Unit // NUEVO: Parámetro para recibir el clic
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp)) // Hace que el efecto de onda al tocar sea redondeado
+            .clickable { onClick() }
+            .padding(4.dp) // Aumenta sutilmente el área táctil
     ) {
         Icon(
             painter = painterResource(iconRes),

@@ -15,18 +15,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.sort_image
 import appmovil.composeapp.generated.resources.user
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
+import ucb.edu.bo.Screen
 import ucb.edu.bo.todoApp.task.presentation.composable.*
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskScreen(
-    viewModel: TaskViewModel = koinViewModel()
+    viewModel: TaskViewModel = koinViewModel(),
+    navController: androidx.navigation.NavHostController, // NUEVO
 ) {
     val state by viewModel.state.collectAsState()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -94,17 +97,25 @@ fun TaskScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 72.dp, bottom = 80.dp),
+                    .padding(top = 72.dp, bottom = 80.dp), // Ajustado el padding superior para no tapar el TopBar
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(state.tasks, key = { it.id }) { task ->
+                // Iteramos sobre las tareas del estado (quitamos el parámetro key por seguridad)
+                items(state.tasks) { task ->
+
+                    // Calculamos el texto de la hora de forma dinámica
+                    val timeString = viewModel.formatTaskTimeText(task.date, task.time)
+
+                    // Dibujamos el TaskItem
                     TaskItem(
                         title = task.title,
-                        description = task.description,
+                        timeText = timeString,
+                        priority = task.priority,
+                        categoryName = null,
                         isCompleted = task.isCompleted,
                         onToggle = { viewModel.toggleTask(task.id, !task.isCompleted) },
-                        onDelete = { viewModel.deleteTask(task.id) }
+                        onClick = { /* Lógica para abrir la pantalla de detalles */ }
                     )
                 }
             }
@@ -112,7 +123,21 @@ fun TaskScreen(
 
         // ── Bottom Nav Bar ───────────────────────────────────────────────────────
         BottomNavBar(
-            onAddClick = { viewModel.showAddTaskSheet() },
+            currentRoute = "Index",
+            onHomeClick = { /* Ya estás aquí */ },
+            onCalendarClick = {
+                navController.navigate(Screen.Calendar.route) {
+                    popUpTo(Screen.Task.route)
+                    launchSingleTop = true
+                }
+            },
+            onFocusClick = {
+                navController.navigate(Screen.Focus.route) {
+                    popUpTo(Screen.Task.route)
+                    launchSingleTop = true
+                }
+            },
+            onAddClick = { viewModel.showAddTaskSheet() }, // Abre el modal local
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
@@ -133,8 +158,6 @@ fun TaskScreen(
                 onTitleChange = { viewModel.onTitleChange(it) },
                 onDescriptionChange = { viewModel.onDescriptionChange(it) },
                 onSend = { viewModel.saveTask() },
-
-                // CAMBIO: Ahora el clic inicial dispara el DatePicker (Calendario)
                 onTimeClick = { viewModel.showDatePicker() },
                 onTagClick = { /* Pendiente: Tarea de tu compañero */ },
                 onPriorityClick = { viewModel.showPriorityPicker() }

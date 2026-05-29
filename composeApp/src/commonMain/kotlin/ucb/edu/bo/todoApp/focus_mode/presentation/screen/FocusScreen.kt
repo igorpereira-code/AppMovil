@@ -17,88 +17,172 @@ import ucb.edu.bo.todoApp.focus_mode.presentation.state.FocusState
 import ucb.edu.bo.todoApp.focus_mode.presentation.viewmodel.FocusViewModel
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.navigation.NavHostController
+import ucb.edu.bo.Screen
+import ucb.edu.bo.todoApp.task.presentation.composable.*
+// NUEVO: Importamos el ViewModel de tareas
+import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 
+@OptIn(ExperimentalMaterial3Api::class) // NUEVO: Necesario para el ModalBottomSheet
 @Composable
 fun FocusScreen(
     onLogout: () -> Unit,
-    viewModel: FocusViewModel = koinViewModel()
+    viewModel: FocusViewModel = koinViewModel(),
+    taskViewModel: TaskViewModel = koinViewModel(), // NUEVO: Inyectamos el TaskViewModel
+    navController: NavHostController
 ) {
     val state by viewModel.state.collectAsState()
+    val taskState by taskViewModel.state.collectAsState() // NUEVO: Escuchamos el estado de las tareas
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true) // NUEVO
 
-    Column(
+    // NUEVO: Envolvemos todo en un Box para anclar la barra de navegación abajo
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Header con título y botón cerrar sesión
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .padding(bottom = 72.dp), // Espacio para que la barra no tape las estadísticas
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Modo Enfoque",
-                color = Color.White,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
-            TextButton(onClick = onLogout) {
+            // Header con título y botón cerrar sesión
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = "Cerrar sesión",
-                    color = Color(0xFFE74C3C),
-                    fontSize = 14.sp
+                    text = "Modo Enfoque",
+                    color = Color.White,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                TextButton(onClick = onLogout) {
+                    Text(
+                        text = "Cerrar sesión",
+                        color = Color(0xFFE74C3C),
+                        fontSize = 14.sp
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Selector de minutos
+            if (!state.isRunning && state.elapsedSeconds == 0) {
+                TimeSelectorSection(
+                    selectedMinutes = state.selectedMinutes,
+                    onSelectMinutes = { viewModel.setSelectedMinutes(it) }
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            // Temporizador circular
+            TimerSection(state = state)
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Botones de control
+            ControlButtons(
+                state = state,
+                onStart = { viewModel.startFocus() },
+                onStop = { viewModel.stopFocus() },
+                onReset = { viewModel.resetFocus() }
+            )
+
+            if (state.isSaving) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "Guardando sesión...",
+                    color = Color.Gray,
+                    fontSize = 13.sp
                 )
             }
-        }
 
-        Spacer(modifier = Modifier.height(24.dp))
+            state.saveError?.let {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = it, color = Color.Red, fontSize = 13.sp)
+            }
 
-        // Selector de minutos
-        if (!state.isRunning && state.elapsedSeconds == 0) {
-            TimeSelectorSection(
-                selectedMinutes = state.selectedMinutes,
-                onSelectMinutes = { viewModel.setSelectedMinutes(it) }
-            )
+            Spacer(modifier = Modifier.height(32.dp))
+
+            HorizontalDivider(color = Color(0xFF2C2C2C))
+
             Spacer(modifier = Modifier.height(24.dp))
+
+            // Estadísticas semanales
+            StatsSection(state = state)
         }
 
-        // Temporizador circular
-        TimerSection(state = state)
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Botones de control
-        ControlButtons(
-            state = state,
-            onStart = { viewModel.startFocus() },
-            onStop = { viewModel.stopFocus() },
-            onReset = { viewModel.resetFocus() }
+        // ── Bottom Nav Bar ───────────────────────────────────────────────────────
+        BottomNavBar(
+            currentRoute = Screen.Focus.route,
+            onHomeClick = {
+                navController.navigate(Screen.Task.route) {
+                    popUpTo(Screen.Task.route) { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
+            onCalendarClick = {
+                navController.navigate(Screen.Calendar.route) {
+                    popUpTo(Screen.Task.route) // Volvemos al root antes de abrir calendario
+                    launchSingleTop = true
+                }
+            },
+            onFocusClick = {},
+            onAddClick = { taskViewModel.showAddTaskSheet() }, // NUEVO: Llama al modal
+            modifier = Modifier.align(Alignment.BottomCenter) // Ahora sí funciona porque está en un Box
         )
+    }
 
-        if (state.isSaving) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = "Guardando sesión...",
-                color = Color.Gray,
-                fontSize = 13.sp
+    // ── Modales de Agregar Tarea (Copiados de TaskScreen) ────────────────────────
+    if (taskState.isAddTaskSheetVisible) {
+        ModalBottomSheet(
+            onDismissRequest = { taskViewModel.hideAddTaskSheet() },
+            sheetState = sheetState,
+            containerColor = BottomSheetDark,
+            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
+        ) {
+            AddTaskSheetContent(
+                title = taskState.newTaskTitle,
+                description = taskState.newTaskDescription,
+                isSaving = taskState.isSaving,
+                errorMessage = taskState.saveError,
+                onTitleChange = { taskViewModel.onTitleChange(it) },
+                onDescriptionChange = { taskViewModel.onDescriptionChange(it) },
+                onSend = { taskViewModel.saveTask() },
+                onTimeClick = { taskViewModel.showDatePicker() },
+                onTagClick = { /* Pendiente: Tarea de tu compañero */ },
+                onPriorityClick = { taskViewModel.showPriorityPicker() }
             )
         }
+    }
 
-        state.saveError?.let {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = it, color = Color.Red, fontSize = 13.sp)
-        }
+    if (taskState.isTimePickerVisible) {
+        TimePickerModal(
+            initialTime = taskState.selectedTime,
+            onTimeSelected = { taskViewModel.onTimeSelected(it) },
+            onDismiss = { taskViewModel.hideTimePicker() }
+        )
+    }
 
-        Spacer(modifier = Modifier.height(32.dp))
+    if (taskState.isPriorityPickerVisible) {
+        PriorityPickerModal(
+            currentPriority = taskState.selectedPriority,
+            onPrioritySelected = { taskViewModel.onPrioritySelected(it) },
+            onDismiss = { taskViewModel.hidePriorityPicker() }
+        )
+    }
 
-        HorizontalDivider(color = Color(0xFF2C2C2C))
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Estadísticas semanales
-        StatsSection(state = state)
+    if (taskState.isDatePickerVisible) {
+        DatePickerModal(
+            initialDate = taskState.selectedDate,
+            onDateSelected = { taskViewModel.onDateSelected(it) },
+            onDismiss = { taskViewModel.hideDatePicker() }
+        )
     }
 }
 
@@ -163,8 +247,8 @@ fun TimeSelectorSection(
             },
             label = { Text("Minutos personalizados", color = Color.Gray, fontSize = 12.sp) },
             singleLine = true,
-            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
             ),
             modifier = Modifier.weight(1f),
             colors = OutlinedTextFieldDefaults.colors(
@@ -174,7 +258,7 @@ fun TimeSelectorSection(
                 unfocusedTextColor = Color.White,
                 cursorColor = Color(0xFF8687E7)
             ),
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp)
         )
         Button(
             onClick = {
@@ -189,7 +273,7 @@ fun TimeSelectorSection(
                 }
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8687E7)),
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp)
         ) {
             Text(text = "OK", color = Color.White)
         }
