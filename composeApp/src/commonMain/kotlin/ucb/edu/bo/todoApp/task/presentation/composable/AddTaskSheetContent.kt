@@ -28,7 +28,11 @@ fun AddTaskSheetContent(
     errorMessage: String?,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
-    onSend: () -> Unit
+    onSend: () -> Unit,
+    // NUEVOS PARÁMETROS: Callbacks para los íconos
+    onTimeClick: () -> Unit,
+    onTagClick: () -> Unit,
+    onPriorityClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -98,26 +102,46 @@ fun AddTaskSheetContent(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(Res.drawable.timer),
-                contentDescription = "Timer",
-                tint = Color(0xFF888888),
-                modifier = Modifier.size(22.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                painter = painterResource(Res.drawable.tag),
-                contentDescription = "Etiqueta",
-                tint = Color(0xFF888888),
-                modifier = Modifier.size(22.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                painter = painterResource(Res.drawable.flag),
-                contentDescription = "Prioridad",
-                tint = Color(0xFF888888),
-                modifier = Modifier.size(22.dp)
-            )
+            // MODIFICACIÓN: Íconos envueltos en IconButton
+            IconButton(
+                onClick = onTimeClick,
+                modifier = Modifier.size(36.dp)
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.timer),
+                    contentDescription = "Timer",
+                    tint = Color(0xFF888888),
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            IconButton(
+                onClick = onTagClick,
+                modifier = Modifier.size(36.dp)
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.tag),
+                    contentDescription = "Etiqueta",
+                    tint = Color(0xFF888888),
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            IconButton(
+                onClick = onPriorityClick,
+                modifier = Modifier.size(36.dp)
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.flag),
+                    contentDescription = "Prioridad",
+                    tint = Color(0xFF888888),
+                    modifier = Modifier.size(22.dp)
+                )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 

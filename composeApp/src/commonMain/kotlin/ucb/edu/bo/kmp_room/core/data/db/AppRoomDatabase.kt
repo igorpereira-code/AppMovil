@@ -16,9 +16,11 @@ import ucb.edu.bo.todoApp.task.data.entity.TaskEntity
 @Database(
     entities = [
         DollarEntity::class,
-        TaskEntity::class
+        TaskEntity::class,
+        ConfigEntity::class,
+        EventEntity::class
     ],
-    version = 4
+    version = 5
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {

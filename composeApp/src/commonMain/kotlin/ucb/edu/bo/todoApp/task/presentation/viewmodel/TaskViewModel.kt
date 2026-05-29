@@ -86,6 +86,44 @@ class TaskViewModel(
                 }
         }
     }
+    // ── Modales de Fecha, Hora y Prioridad ──────────────────────────────────────
+
+    // Controles para Fecha
+    fun showDatePicker() {
+        _state.value = _state.value.copy(isDatePickerVisible = true)
+    }
+    fun hideDatePicker() {
+        _state.value = _state.value.copy(isDatePickerVisible = false)
+    }
+    fun onDateSelected(date: kotlinx.datetime.LocalDate) {
+        _state.value = _state.value.copy(
+            selectedDate = date,
+            isDatePickerVisible = false, // Cerramos el modal de fecha
+            isTimePickerVisible = true   // ¡NUEVO! Abrimos automáticamente el modal de hora
+        )
+    }
+
+    // Controles para Hora
+    fun showTimePicker() {
+        _state.value = _state.value.copy(isTimePickerVisible = true)
+    }
+    fun hideTimePicker() {
+        _state.value = _state.value.copy(isTimePickerVisible = false)
+    }
+    fun onTimeSelected(time: kotlinx.datetime.LocalTime) {
+        _state.value = _state.value.copy(selectedTime = time, isTimePickerVisible = false)
+    }
+
+    // Controles para Prioridad
+    fun showPriorityPicker() {
+        _state.value = _state.value.copy(isPriorityPickerVisible = true)
+    }
+    fun hidePriorityPicker() {
+        _state.value = _state.value.copy(isPriorityPickerVisible = false)
+    }
+    fun onPrioritySelected(priority: Int) {
+        _state.value = _state.value.copy(selectedPriority = priority, isPriorityPickerVisible = false)
+    }
 
     // ── Task actions ────────────────────────────────────────────────────────────
 

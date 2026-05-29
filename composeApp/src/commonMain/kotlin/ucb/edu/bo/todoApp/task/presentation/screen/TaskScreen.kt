@@ -132,8 +132,38 @@ fun TaskScreen(
                 errorMessage = state.saveError,
                 onTitleChange = { viewModel.onTitleChange(it) },
                 onDescriptionChange = { viewModel.onDescriptionChange(it) },
-                onSend = { viewModel.saveTask() }
+                onSend = { viewModel.saveTask() },
+
+                // CAMBIO: Ahora el clic inicial dispara el DatePicker (Calendario)
+                onTimeClick = { viewModel.showDatePicker() },
+                onTagClick = { /* Pendiente: Tarea de tu compañero */ },
+                onPriorityClick = { viewModel.showPriorityPicker() }
             )
         }
+    }
+
+    // ── Modales Superpuestos ──────────────────────────────────────────────────────
+    if (state.isTimePickerVisible) {
+        TimePickerModal(
+            initialTime = state.selectedTime,
+            onTimeSelected = { viewModel.onTimeSelected(it) },
+            onDismiss = { viewModel.hideTimePicker() }
+        )
+    }
+
+    if (state.isPriorityPickerVisible) {
+        PriorityPickerModal(
+            currentPriority = state.selectedPriority,
+            onPrioritySelected = { viewModel.onPrioritySelected(it) },
+            onDismiss = { viewModel.hidePriorityPicker() }
+        )
+    }
+
+    if (state.isDatePickerVisible) {
+        DatePickerModal(
+            initialDate = state.selectedDate,
+            onDateSelected = { viewModel.onDateSelected(it) },
+            onDismiss = { viewModel.hideDatePicker() }
+        )
     }
 }
