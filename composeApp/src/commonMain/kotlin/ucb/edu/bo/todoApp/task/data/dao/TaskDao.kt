@@ -11,6 +11,13 @@ interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY createdAt DESC")
     suspend fun getAll(): List<TaskEntity>
 
+    // Obtener tareas que no se han subido a la nube
+    @Query("SELECT * FROM tasks WHERE isSynced = 0")
+    suspend fun getUnsyncedTasks(): List<TaskEntity>
+
+    // Actualizar el estado de sincronización tras el éxito en Firebase
+    @Query("UPDATE tasks SET isSynced = :isSynced WHERE id = :taskId")
+    suspend fun updateSyncStatus(taskId: Int, isSynced: Boolean)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: TaskEntity)
 
