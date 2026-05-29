@@ -32,6 +32,9 @@ fun CalendarScreen(
     val taskState by taskViewModel.state.collectAsState()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
+    LaunchedEffect(taskState.tasks) {
+        viewModel.loadTasksForSelectedDate()
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -148,28 +151,5 @@ fun CalendarScreen(
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
-    if (taskState.isAddTaskSheetVisible) {
-        ModalBottomSheet(
-            onDismissRequest = { taskViewModel.hideAddTaskSheet() },
-            sheetState = sheetState,
-            containerColor = BottomSheetDark,
-            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-        ) {
-            AddTaskSheetContent(
-                title = taskState.newTaskTitle,
-                description = taskState.newTaskDescription,
-                isSaving = taskState.isSaving,
-                errorMessage = taskState.saveError,
-                onTitleChange = { taskViewModel.onTitleChange(it) },
-                onDescriptionChange = { taskViewModel.onDescriptionChange(it) },
-                onSend = {
-                    taskViewModel.saveTask()
-                    viewModel.onDateSelected(state.selectedDate!!) // Opcional: Refresca el calendario al guardar
-                },
-                onTimeClick = { taskViewModel.showDatePicker() },
-                onTagClick = { /* Pendiente */ },
-                onPriorityClick = { taskViewModel.showPriorityPicker() }
-            )
-        }
-    }
+    AddTaskModalsGlobal(taskViewModel = taskViewModel)
 }

@@ -138,52 +138,7 @@ fun FocusScreen(
         )
     }
 
-    // ── Modales de Agregar Tarea (Copiados de TaskScreen) ────────────────────────
-    if (taskState.isAddTaskSheetVisible) {
-        ModalBottomSheet(
-            onDismissRequest = { taskViewModel.hideAddTaskSheet() },
-            sheetState = sheetState,
-            containerColor = BottomSheetDark,
-            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-        ) {
-            AddTaskSheetContent(
-                title = taskState.newTaskTitle,
-                description = taskState.newTaskDescription,
-                isSaving = taskState.isSaving,
-                errorMessage = taskState.saveError,
-                onTitleChange = { taskViewModel.onTitleChange(it) },
-                onDescriptionChange = { taskViewModel.onDescriptionChange(it) },
-                onSend = { taskViewModel.saveTask() },
-                onTimeClick = { taskViewModel.showDatePicker() },
-                onTagClick = { /* Pendiente: Tarea de tu compañero */ },
-                onPriorityClick = { taskViewModel.showPriorityPicker() }
-            )
-        }
-    }
-
-    if (taskState.isTimePickerVisible) {
-        TimePickerModal(
-            initialTime = taskState.selectedTime,
-            onTimeSelected = { taskViewModel.onTimeSelected(it) },
-            onDismiss = { taskViewModel.hideTimePicker() }
-        )
-    }
-
-    if (taskState.isPriorityPickerVisible) {
-        PriorityPickerModal(
-            currentPriority = taskState.selectedPriority,
-            onPrioritySelected = { taskViewModel.onPrioritySelected(it) },
-            onDismiss = { taskViewModel.hidePriorityPicker() }
-        )
-    }
-
-    if (taskState.isDatePickerVisible) {
-        DatePickerModal(
-            initialDate = taskState.selectedDate,
-            onDateSelected = { taskViewModel.onDateSelected(it) },
-            onDismiss = { taskViewModel.hideDatePicker() }
-        )
-    }
+    AddTaskModalsGlobal(taskViewModel = taskViewModel)
 }
 
 @Composable

@@ -129,7 +129,7 @@ class CalendarViewModel(
 
     // ── Integración con Casos de Uso ──────────────────────────────────────────
 
-    private fun loadTasksForSelectedDate() {
+    fun loadTasksForSelectedDate() {
         _state.value = _state.value.copy(isLoading = true)
         viewModelScope.launch {
             val allTasks = getAllTasksUseCase()

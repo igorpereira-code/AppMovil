@@ -142,51 +142,5 @@ fun TaskScreen(
         )
     }
 
-    // ── Add Task Bottom Sheet ────────────────────────────────────────────────────
-    if (state.isAddTaskSheetVisible) {
-        ModalBottomSheet(
-            onDismissRequest = { viewModel.hideAddTaskSheet() },
-            sheetState = sheetState,
-            containerColor = BottomSheetDark,
-            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-        ) {
-            AddTaskSheetContent(
-                title = state.newTaskTitle,
-                description = state.newTaskDescription,
-                isSaving = state.isSaving,
-                errorMessage = state.saveError,
-                onTitleChange = { viewModel.onTitleChange(it) },
-                onDescriptionChange = { viewModel.onDescriptionChange(it) },
-                onSend = { viewModel.saveTask() },
-                onTimeClick = { viewModel.showDatePicker() },
-                onTagClick = { /* Pendiente: Tarea de tu compañero */ },
-                onPriorityClick = { viewModel.showPriorityPicker() }
-            )
-        }
-    }
-
-    // ── Modales Superpuestos ──────────────────────────────────────────────────────
-    if (state.isTimePickerVisible) {
-        TimePickerModal(
-            initialTime = state.selectedTime,
-            onTimeSelected = { viewModel.onTimeSelected(it) },
-            onDismiss = { viewModel.hideTimePicker() }
-        )
-    }
-
-    if (state.isPriorityPickerVisible) {
-        PriorityPickerModal(
-            currentPriority = state.selectedPriority,
-            onPrioritySelected = { viewModel.onPrioritySelected(it) },
-            onDismiss = { viewModel.hidePriorityPicker() }
-        )
-    }
-
-    if (state.isDatePickerVisible) {
-        DatePickerModal(
-            initialDate = state.selectedDate,
-            onDateSelected = { viewModel.onDateSelected(it) },
-            onDismiss = { viewModel.hideDatePicker() }
-        )
-    }
+    AddTaskModalsGlobal(taskViewModel = viewModel)
 }
