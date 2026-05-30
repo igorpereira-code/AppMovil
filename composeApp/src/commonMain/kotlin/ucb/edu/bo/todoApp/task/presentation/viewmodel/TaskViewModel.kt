@@ -19,12 +19,14 @@ import ucb.edu.bo.todoApp.task.domain.usecase.DeleteTaskUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.GetAllTasksUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.ToggleTaskUseCase
 import ucb.edu.bo.todoApp.task.presentation.state.TaskUIState
+import ucb.edu.bo.todoApp.category.domain.usecase.GetAllCategoriesUseCase
 
 class TaskViewModel(
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val createTaskUseCase: CreateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
-    private val toggleTaskUseCase: ToggleTaskUseCase
+    private val toggleTaskUseCase: ToggleTaskUseCase,
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TaskUIState())
@@ -38,15 +40,15 @@ class TaskViewModel(
         _state.value = _state.value.copy(isLoading = true)
         viewModelScope.launch {
             val tasks = getAllTasksUseCase()
+            val categories = getAllCategoriesUseCase() // Carga las categorías
             _state.value = _state.value.copy(
                 tasks = tasks,
+                categories = categories, // Las guarda en el estado
                 isLoading = false,
                 errorMessage = null
             )
         }
     }
-
-    // ── Add Task Sheet ──────────────────────────────────────────────────────────
 
     fun showAddTaskSheet() {
         _state.value = _state.value.copy(
@@ -72,11 +74,10 @@ class TaskViewModel(
     fun saveTask() {
         val title = _state.value.newTaskTitle
         val description = _state.value.newTaskDescription
-
-        // Capturamos los datos seleccionados de los modales
         val date = _state.value.selectedDate
         val time = _state.value.selectedTime
-        val priority = _state.value.selectedPriority ?: 1 // 1 por defecto
+        val priority = _state.value.selectedPriority ?: 1
+        val categoryId = _state.value.selectedCategoryId
 
         _state.value = _state.value.copy(isSaving = true)
         viewModelScope.launch {
@@ -85,7 +86,8 @@ class TaskViewModel(
                 description = description,
                 date = date,
                 time = time,
-                priority = priority
+                priority = priority,
+                categoryId = categoryId
             )
 
             createTaskUseCase(newTask)
@@ -95,10 +97,10 @@ class TaskViewModel(
                         isAddTaskSheetVisible = false,
                         newTaskTitle = "",
                         newTaskDescription = "",
-                        // Limpiamos los campos para la próxima tarea
                         selectedDate = null,
                         selectedTime = null,
-                        selectedPriority = null
+                        selectedPriority = null,
+                        selectedCategoryId = null
                     )
                     loadTasks()
                 }
@@ -110,23 +112,23 @@ class TaskViewModel(
                 }
         }
     }
-    // ── Modales de Fecha, Hora y Prioridad ──────────────────────────────────────
 
     fun showDatePicker() {
         _state.value = _state.value.copy(isDatePickerVisible = true)
     }
+
     fun hideDatePicker() {
         _state.value = _state.value.copy(isDatePickerVisible = false)
     }
+
     fun onDateSelected(date: LocalDate) {
         _state.value = _state.value.copy(
             selectedDate = date,
-            isDatePickerVisible = false, // Cerramos el modal de fecha
-            isTimePickerVisible = true   // Abrimos automáticamente el modal de hora
+            isDatePickerVisible = false,
+            isTimePickerVisible = true
         )
     }
 
-    // Formateador de tiempo KMP
     fun formatTaskTimeText(taskDate: LocalDate?, taskTime: LocalTime?): String {
         if (taskDate == null || taskTime == null) return "Sin programar"
 
@@ -153,9 +155,11 @@ class TaskViewModel(
     fun showTimePicker() {
         _state.value = _state.value.copy(isTimePickerVisible = true)
     }
+
     fun hideTimePicker() {
         _state.value = _state.value.copy(isTimePickerVisible = false)
     }
+
     fun onTimeSelected(time: LocalTime) {
         _state.value = _state.value.copy(selectedTime = time, isTimePickerVisible = false)
     }
@@ -163,14 +167,29 @@ class TaskViewModel(
     fun showPriorityPicker() {
         _state.value = _state.value.copy(isPriorityPickerVisible = true)
     }
+
     fun hidePriorityPicker() {
         _state.value = _state.value.copy(isPriorityPickerVisible = false)
     }
+
     fun onPrioritySelected(priority: Int) {
         _state.value = _state.value.copy(selectedPriority = priority, isPriorityPickerVisible = false)
     }
 
-    // ── Task actions ────────────────────────────────────────────────────────────
+    fun showCategoryPicker() {
+        _state.value = _state.value.copy(isCategoryPickerVisible = true)
+    }
+
+    fun hideCategoryPicker() {
+        _state.value = _state.value.copy(isCategoryPickerVisible = false)
+    }
+
+    fun onCategorySelected(categoryId: Int) {
+        _state.value = _state.value.copy(
+            selectedCategoryId = categoryId,
+            isCategoryPickerVisible = false
+        )
+    }
 
     fun toggleTask(taskId: Int, isCompleted: Boolean) {
         viewModelScope.launch {

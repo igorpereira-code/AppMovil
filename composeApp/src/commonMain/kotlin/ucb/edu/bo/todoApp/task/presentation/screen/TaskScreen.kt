@@ -97,22 +97,24 @@ fun TaskScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 72.dp, bottom = 80.dp), // Ajustado el padding superior para no tapar el TopBar
+                    .padding(top = 72.dp, bottom = 80.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // Iteramos sobre las tareas del estado (quitamos el parámetro key por seguridad)
                 items(state.tasks) { task ->
-
-                    // Calculamos el texto de la hora de forma dinámica
                     val timeString = viewModel.formatTaskTimeText(task.date, task.time)
+                    val category = state.categories.find { it.id == task.categoryId }
 
-                    // Dibujamos el TaskItem
                     TaskItem(
                         title = task.title,
                         timeText = timeString,
                         priority = task.priority,
-                        categoryName = null,
+                        categoryName = category?.name,
+
+                        // ¡NUEVA LÍNEA! Le pasamos el nombre real del archivo .png
+                        categoryIcon = category?.iconResName,
+
+                        categoryColor = category?.colorHex?.let { Color(it) } ?: MaterialTheme.colorScheme.primary,
                         isCompleted = task.isCompleted,
                         onToggle = { viewModel.toggleTask(task.id, !task.isCompleted) },
                         onClick = { /* Lógica para abrir la pantalla de detalles */ }

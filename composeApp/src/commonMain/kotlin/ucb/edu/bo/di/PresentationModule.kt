@@ -11,6 +11,7 @@ import ucb.edu.bo.pushnotification.presentation.viewmodel.PushNotificationViewMo
 import ucb.edu.bo.realtimedatabasecmp.presentation.viewmodel.FirebaseTestViewModel
 import ucb.edu.bo.remoteconfig.presentation.viewmodel.RemoteConfigViewModel
 import ucb.edu.bo.todoApp.calendar.presentation.viewmodel.CalendarViewModel
+import ucb.edu.bo.todoApp.category.presentation.viewmodel.CategoryViewModel
 import ucb.edu.bo.todoApp.focus_mode.presentation.viewmodel.FocusViewModel
 import ucb.edu.bo.todoApp.intro.presentation.viewmodel.IntroViewModel
 import ucb.edu.bo.todoApp.login.presentation.viewmodel.LoginViewModel
@@ -31,5 +32,6 @@ val presentationModule = module {
     viewModel { FocusViewModel(get(), get()) }
     viewModelOf(::TaskViewModel)
     viewModelOf(::CalendarViewModel)
+    viewModelOf(::CategoryViewModel)
     viewModel { SettingsViewModel(settingsPreferences = get(),importGoogleCalendarUseCase = get())}
 }

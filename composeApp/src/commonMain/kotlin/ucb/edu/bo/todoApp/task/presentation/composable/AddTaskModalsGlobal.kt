@@ -8,6 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import ucb.edu.bo.todoApp.category.presentation.screen.CategoryScreen
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -16,7 +19,6 @@ fun AddTaskModalsGlobal(taskViewModel: TaskViewModel) {
     val taskState by taskViewModel.state.collectAsState()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    // ── Add Task Bottom Sheet ────────────────────────────────────────────────────
     if (taskState.isAddTaskSheetVisible) {
         ModalBottomSheet(
             onDismissRequest = { taskViewModel.hideAddTaskSheet() },
@@ -33,13 +35,12 @@ fun AddTaskModalsGlobal(taskViewModel: TaskViewModel) {
                 onDescriptionChange = { taskViewModel.onDescriptionChange(it) },
                 onSend = { taskViewModel.saveTask() },
                 onTimeClick = { taskViewModel.showDatePicker() },
-                onTagClick = { /* Pendiente: Tarea de tu compañero */ },
+                onTagClick = { taskViewModel.showCategoryPicker() },
                 onPriorityClick = { taskViewModel.showPriorityPicker() }
             )
         }
     }
 
-    // ── Modales Superpuestos ──────────────────────────────────────────────────────
     if (taskState.isTimePickerVisible) {
         TimePickerModal(
             initialTime = taskState.selectedTime,
@@ -62,5 +63,21 @@ fun AddTaskModalsGlobal(taskViewModel: TaskViewModel) {
             onDateSelected = { taskViewModel.onDateSelected(it) },
             onDismiss = { taskViewModel.hideDatePicker() }
         )
+    }
+
+    if (taskState.isCategoryPickerVisible) {
+        Dialog(
+            onDismissRequest = { taskViewModel.hideCategoryPicker() },
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            CategoryScreen(
+                onCategorySelected = { categoryId ->
+                    taskViewModel.onCategorySelected(categoryId)
+                },
+                onClose = {
+                    taskViewModel.hideCategoryPicker()
+                }
+            )
+        }
     }
 }

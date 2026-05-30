@@ -3,9 +3,11 @@ package ucb.edu.bo.todoApp.task.presentation.state
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import ucb.edu.bo.todoApp.task.domain.model.TaskModel
+import ucb.edu.bo.todoApp.category.domain.model.CategoryModel
 
 data class TaskUIState(
     val tasks: List<TaskModel> = emptyList(),
+    val categories: List<CategoryModel> = emptyList(),
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
 
@@ -24,5 +26,7 @@ data class TaskUIState(
     // NUEVO: Datos seleccionados por el usuario
     val selectedDate: LocalDate? = null,
     val selectedTime: LocalTime? = null,
-    val selectedPriority: Int? = null
+    val selectedPriority: Int? = null,
+    val isCategoryPickerVisible: Boolean = false,
+    val selectedCategoryId: Int? = null
 )

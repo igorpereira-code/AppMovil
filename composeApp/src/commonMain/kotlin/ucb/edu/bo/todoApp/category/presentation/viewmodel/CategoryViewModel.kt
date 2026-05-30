@@ -1,4 +1,3 @@
-// ucb.edu.bo.todoApp.category.presentation.viewmodel.CategoryViewModel.kt
 package ucb.edu.bo.todoApp.category.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
@@ -38,7 +37,9 @@ class CategoryViewModel(
     fun toggleCreateMode(isCreating: Boolean) {
         _state.value = _state.value.copy(
             isCreatingNew = isCreating,
-            saveError = null
+            saveError = null,
+            // Nos aseguramos de que al abrir la pantalla, inicie vacío
+            selectedIcon = ""
         )
     }
 
@@ -48,6 +49,10 @@ class CategoryViewModel(
 
     fun selectColor(colorHex: Long) {
         _state.value = _state.value.copy(selectedColor = colorHex)
+    }
+
+    fun selectIcon(iconName: String) {
+        _state.value = _state.value.copy(selectedIcon = iconName)
     }
 
     fun saveCategory() {
@@ -61,7 +66,8 @@ class CategoryViewModel(
                     _state.value = _state.value.copy(
                         isCreatingNew = false,
                         newCategoryName = "",
-                        selectedColor = 0xFFCCFF90
+                        selectedColor = 0xFFCCFF90,
+                        selectedIcon = "" // <-- Reseteamos a vacío para que vuelva a salir el texto
                     )
                     loadCategories()
                 }

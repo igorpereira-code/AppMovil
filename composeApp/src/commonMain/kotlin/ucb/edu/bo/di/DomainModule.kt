@@ -12,6 +12,8 @@ import ucb.edu.bo.remoteconfig.domain.usecase.FetchRemoteConfigUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.GetCachedConfigUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.GetRemoteStringUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.SyncRemoteConfigUseCase
+import ucb.edu.bo.todoApp.category.domain.usecase.CreateCategoryUseCase
+import ucb.edu.bo.todoApp.category.domain.usecase.GetAllCategoriesUseCase
 import ucb.edu.bo.todoApp.focus_mode.domain.usecase.GetWeekSessionsUseCase
 import ucb.edu.bo.todoApp.focus_mode.domain.usecase.SaveFocusSessionUseCase
 import ucb.edu.bo.todoApp.login.domain.usecase.LoginUseCase
@@ -44,4 +46,6 @@ val domainModule = module {
     factory { DeleteTaskUseCase(get()) }
     factory { ToggleTaskUseCase(get()) }
     factory {ImportGoogleCalendarUseCase(repository = get())}
+    factory { GetAllCategoriesUseCase(get()) }
+    factory { CreateCategoryUseCase(get()) }
 }
