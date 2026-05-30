@@ -20,6 +20,7 @@ import org.jetbrains.compose.resources.stringResource
 import ucb.edu.bo.todoApp.settings.presentation.composable.ColorSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.LanguageSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.SettingItem
+import ucb.edu.bo.todoApp.settings.presentation.composable.TypographySelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.viewmodel.SettingsViewModel
 
 @Composable
@@ -74,7 +75,7 @@ fun SettingsScreen(
             SettingItem(
                 iconRes = Res.drawable.text,
                 title = stringResource(Res.string.change_typography), // Dinámico
-                onClick = { /* TODO: Modal de tipografía */ }
+                onClick = { viewModel.showTypographyModal() }
             )
 
             SettingItem(
@@ -115,6 +116,14 @@ fun SettingsScreen(
                 currentColorHex = state.currentAppColorHex,
                 onColorSelected = { viewModel.onColorSelected(it) },
                 onDismiss = { viewModel.hideColorModal() }
+            )
+        }
+        // ── DIBUJO DEL MODAL DE TIPOGRAFÍA ────────────────────────────────────
+        if (state.isTypographyModalVisible) {
+            TypographySelectionModal(
+                currentTypography = state.currentTypography,
+                onTypographySelected = { viewModel.onTypographySelected(it) },
+                onDismiss = { viewModel.hideTypographyModal() }
             )
         }
     }

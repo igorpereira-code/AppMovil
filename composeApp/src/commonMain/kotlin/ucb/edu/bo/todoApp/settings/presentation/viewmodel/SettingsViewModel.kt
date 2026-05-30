@@ -13,7 +13,9 @@ data class SettingsUIState(
     val currentLanguage: String = "en",
     // ── ESTADO DEL COLOR ──
     val isColorModalVisible: Boolean = false,
-    val currentAppColorHex: String = "FF8687E7" // Tu morado por defecto
+    val currentAppColorHex: String = "FF8687E7", // Tu morado por defecto
+    val isTypographyModalVisible: Boolean = false,
+    val currentTypography: String = "Default"
 )
 
 class SettingsViewModel(
@@ -33,6 +35,11 @@ class SettingsViewModel(
         viewModelScope.launch {
             settingsPreferences.getAppColor().collect { savedColor ->
                 _state.value = _state.value.copy(currentAppColorHex = savedColor)
+            }
+        }
+        viewModelScope.launch {
+            settingsPreferences.getTypography().collect { savedFont ->
+                _state.value = _state.value.copy(currentTypography = savedFont)
             }
         }
     }
@@ -78,6 +85,26 @@ class SettingsViewModel(
         // Guardamos el color elegido en el DataStore
         viewModelScope.launch {
             settingsPreferences.saveAppColor(colorHex)
+        }
+    }
+    // ── CONTROLES DE TIPOGRAFÍA ──────────────────────────────────────────────
+
+    fun showTypographyModal() {
+        _state.value = _state.value.copy(isTypographyModalVisible = true)
+    }
+
+    fun hideTypographyModal() {
+        _state.value = _state.value.copy(isTypographyModalVisible = false)
+    }
+
+    fun onTypographySelected(fontName: String) {
+        _state.value = _state.value.copy(
+            currentTypography = fontName,
+            isTypographyModalVisible = false
+        )
+        // Guardamos físicamente
+        viewModelScope.launch {
+            settingsPreferences.saveTypography(fontName)
         }
     }
 }

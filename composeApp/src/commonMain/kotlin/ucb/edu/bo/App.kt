@@ -37,11 +37,15 @@ fun App() {
     // 2. Observamos el idioma en tiempo real (por defecto "en")
     val currentLanguage by settingsPreferences.getLanguage().collectAsState(initial = "en")
     val currentColorHex by settingsPreferences.getAppColor().collectAsState(initial = "FF8687E7")
+    val currentTypography by settingsPreferences.getTypography().collectAsState(initial = "Default")
+
     // 3. Efecto Secundario: Cada vez que el idioma cambie, avisamos al sistema nativo
     LaunchedEffect(currentLanguage) {
         setAppLanguage(currentLanguage)
     }
-    AppTheme(dynamicPrimaryColorHex = currentColorHex) {
+    AppTheme(
+        dynamicPrimaryColorHex = currentColorHex,
+        dynamicTypography = currentTypography) {
         key(currentLanguage) {
             AppNavigation(startDestination = startDestination)
         }
