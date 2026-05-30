@@ -1,5 +1,6 @@
 package ucb.edu.bo.di
 
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import ucb.edu.bo.config.domain.usecase.SyncInitialConfigUseCase
@@ -15,6 +16,7 @@ import ucb.edu.bo.todoApp.focus_mode.domain.usecase.GetWeekSessionsUseCase
 import ucb.edu.bo.todoApp.focus_mode.domain.usecase.SaveFocusSessionUseCase
 import ucb.edu.bo.todoApp.login.domain.usecase.LoginUseCase
 import ucb.edu.bo.todoApp.login.domain.usecase.RegisterUseCase
+import ucb.edu.bo.todoApp.settings.domain.usecase.ImportGoogleCalendarUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.CreateTaskUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.DeleteTaskUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.GetAllTasksUseCase
@@ -41,4 +43,5 @@ val domainModule = module {
     factory { CreateTaskUseCase(get()) }
     factory { DeleteTaskUseCase(get()) }
     factory { ToggleTaskUseCase(get()) }
+    factory {ImportGoogleCalendarUseCase(repository = get())}
 }

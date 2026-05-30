@@ -31,8 +31,12 @@ import ucb.edu.bo.todoApp.task.data.datasource.TaskLocalDataSourceImpl
 import ucb.edu.bo.todoApp.task.data.repository.TaskRepositoryImpl
 import ucb.edu.bo.todoApp.task.domain.repository.TaskRepository
 import ucb.edu.bo.kmp_room.core.data.db.AppDatabase
+import ucb.edu.bo.todoApp.settings.data.datasource.GoogleCalendarRemoteDataSource
 import ucb.edu.bo.todoApp.settings.data.preferences.SettingsPreferencesImpl
+import ucb.edu.bo.todoApp.settings.data.repository.CalendarAuthRepositoryImpl
 import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
+import ucb.edu.bo.todoApp.settings.domain.repository.CalendarAuthRepository
+import io.ktor.client.HttpClient
 
 val dataModule = module {
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
@@ -53,4 +57,9 @@ val dataModule = module {
     single<TaskLocalDataSource> { TaskLocalDataSourceImpl(get()) }
     single<TaskRepository> { TaskRepositoryImpl(get()) }
     single<ISettingsPreferences> { SettingsPreferencesImpl(dataStore = get()) }
+
+    single { HttpClient() }
+    single {GoogleCalendarRemoteDataSource(httpClient = get()) }
+    // 3. Repositorio de Autenticación y Calendario
+    single<CalendarAuthRepository> { CalendarAuthRepositoryImpl(remoteDataSource = get(), taskDao = get())}// Koin ya sabe darte este DAO gracias a platformModule
 }

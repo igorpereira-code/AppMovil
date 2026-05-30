@@ -97,7 +97,7 @@ fun SettingsScreen(
             SettingItem(
                 iconRes = Res.drawable.import,
                 title = stringResource(Res.string.import_google), // Dinámico
-                onClick = { /* TODO */ }
+                onClick = { viewModel.importGoogleCalendar() }
             )
         }
 
@@ -124,6 +124,24 @@ fun SettingsScreen(
                 currentTypography = state.currentTypography,
                 onTypographySelected = { viewModel.onTypographySelected(it) },
                 onDismiss = { viewModel.hideTypographyModal() }
+            )
+        }
+
+        // Indicador opcional debajo de la fila si el proceso está corriendo
+        if (state.isImporting) {
+            Spacer(modifier = Modifier.height(8.dp))
+            androidx.compose.material3.LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                color = androidx.compose.material3.MaterialTheme.colorScheme.primary
+            )
+        }
+
+        state.importError?.let { error ->
+            Text(
+                text = error,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
             )
         }
     }

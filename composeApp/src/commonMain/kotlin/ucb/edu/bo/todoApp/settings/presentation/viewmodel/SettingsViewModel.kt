@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
+import ucb.edu.bo.todoApp.settings.domain.usecase.ImportGoogleCalendarUseCase
 
 data class SettingsUIState(
     val isLanguageModalVisible: Boolean = false,
@@ -15,11 +16,14 @@ data class SettingsUIState(
     val isColorModalVisible: Boolean = false,
     val currentAppColorHex: String = "FF8687E7", // Tu morado por defecto
     val isTypographyModalVisible: Boolean = false,
-    val currentTypography: String = "Default"
+    val currentTypography: String = "Default",
+    val isImporting: Boolean = false,
+    val importError: String? = null
 )
 
 class SettingsViewModel(
-    private val settingsPreferences: ISettingsPreferences
+    private val settingsPreferences: ISettingsPreferences,
+    private val importGoogleCalendarUseCase: ImportGoogleCalendarUseCase // Inyectamos el Caso de Uso
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsUIState())
@@ -105,6 +109,24 @@ class SettingsViewModel(
         // Guardamos físicamente
         viewModelScope.launch {
             settingsPreferences.saveTypography(fontName)
+        }
+    }
+
+    // ── NUEVO: LOGICA DE IMPORTACIÓN DESDE GOOGLE CALENDAR ───────────────────
+    fun importGoogleCalendar() {
+        _state.value = _state.value.copy(isImporting = true, importError = null)
+
+        viewModelScope.launch {
+            val result = importGoogleCalendarUseCase()
+            result.onSuccess {
+                _state.value = _state.value.copy(isImporting = false)
+                // Opcional: Podrías gatillar una bandera de éxito para mostrar un Toast o diálogo
+            }.onFailure { error ->
+                _state.value = _state.value.copy(
+                    isImporting = false,
+                    importError = error.message ?: "Unknown error during import"
+                )
+            }
         }
     }
 }
