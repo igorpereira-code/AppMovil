@@ -17,6 +17,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.* // Importa todas tus llaves y drawables
 import org.jetbrains.compose.resources.stringResource
+import ucb.edu.bo.todoApp.settings.presentation.composable.ColorSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.LanguageSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.SettingItem
 import ucb.edu.bo.todoApp.settings.presentation.viewmodel.SettingsViewModel
@@ -66,8 +67,8 @@ fun SettingsScreen(
 
             SettingItem(
                 iconRes = Res.drawable.brush,
-                title = stringResource(Res.string.change_color), // Dinámico
-                onClick = { /* TODO: Modal de color */ }
+                title = stringResource(Res.string.change_color),
+                onClick = { viewModel.showColorModal() } // ¡ABRIR MODAL DE COLOR!
             )
 
             SettingItem(
@@ -105,6 +106,15 @@ fun SettingsScreen(
                 currentLanguageCode = state.currentLanguage,
                 onLanguageSelected = { viewModel.onLanguageSelected(it) },
                 onDismiss = { viewModel.hideLanguageModal() }
+            )
+        }
+
+        // ── DIBUJO DEL MODAL DE COLOR ─────────────────────────────────────────
+        if (state.isColorModalVisible) {
+            ColorSelectionModal(
+                currentColorHex = state.currentAppColorHex,
+                onColorSelected = { viewModel.onColorSelected(it) },
+                onDismiss = { viewModel.hideColorModal() }
             )
         }
     }

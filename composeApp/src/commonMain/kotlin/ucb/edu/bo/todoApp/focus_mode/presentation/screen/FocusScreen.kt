@@ -185,7 +185,7 @@ fun TimeSelectorSection(
                     )
                 },
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = Color(0xFF8687E7),
+                    selectedContainerColor = MaterialTheme.colorScheme.primary,
                     containerColor = Color(0xFF1D1D1D)
                 )
             )
@@ -213,11 +213,11 @@ fun TimeSelectorSection(
             ),
             modifier = Modifier.weight(1f),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF8687E7),
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = Color(0xFF444444),
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
-                cursorColor = Color(0xFF8687E7)
+                cursorColor = MaterialTheme.colorScheme.primary
             ),
             shape = RoundedCornerShape(8.dp)
         )
@@ -233,7 +233,7 @@ fun TimeSelectorSection(
                     }
                 }
             },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8687E7)),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(8.dp)
         ) {
             Text(text = "OK", color = Color.White)
@@ -267,7 +267,7 @@ fun TimerSection(state: FocusState) {
         CircularProgressIndicator(
             progress = { progress },
             modifier = Modifier.fillMaxSize(),
-            color = Color(0xFF8687E7),
+            color = MaterialTheme.colorScheme.primary,
             strokeWidth = 8.dp,
             trackColor = Color(0xFF2C2C2C)
         )
@@ -280,7 +280,7 @@ fun TimerSection(state: FocusState) {
             )
             Text(
                 text = if (state.isRunning) "Enfocado" else "Listo",
-                color = Color(0xFF8687E7),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp
             )
         }
@@ -312,7 +312,7 @@ fun ControlButtons(
         } else {
             Button(
                 onClick = onStart,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8687E7)),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .height(48.dp)
@@ -351,7 +351,7 @@ fun StatsSection(state: FocusState) {
     Spacer(modifier = Modifier.height(16.dp))
 
     if (state.isLoadingStats) {
-        CircularProgressIndicator(color = Color(0xFF8687E7))
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
     } else {
         val maxMinutes = state.weekSessions
             .groupBy { it.dayOfWeek }
@@ -377,7 +377,7 @@ fun StatsSection(state: FocusState) {
                     if (dayMinutes > 0) {
                         Text(
                             text = "${dayMinutes}m",
-                            color = Color(0xFF8687E7),
+                            color = MaterialTheme.colorScheme.primary,
                             fontSize = 9.sp
                         )
                     }
@@ -388,7 +388,7 @@ fun StatsSection(state: FocusState) {
                             .height(if (dayMinutes > 0) barHeight.coerceAtLeast(8.dp) else 8.dp)
                             .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
                             .background(
-                                if (dayMinutes > 0) Color(0xFF8687E7) else Color(0xFF2C2C2C)
+                                if (dayMinutes > 0) MaterialTheme.colorScheme.primary else Color(0xFF2C2C2C)
                             )
                     )
                     Spacer(modifier = Modifier.height(6.dp))
@@ -429,7 +429,7 @@ fun StatsSection(state: FocusState) {
                 }
                 Text(
                     text = "%.0f min".format(state.weeklyAverageMinutes),
-                    color = Color(0xFF8687E7),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )

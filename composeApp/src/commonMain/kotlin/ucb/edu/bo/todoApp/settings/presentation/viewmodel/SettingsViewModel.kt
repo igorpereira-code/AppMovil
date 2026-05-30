@@ -10,24 +10,34 @@ import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
 
 data class SettingsUIState(
     val isLanguageModalVisible: Boolean = false,
-    val currentLanguage: String = "en"
+    val currentLanguage: String = "en",
+    // ── ESTADO DEL COLOR ──
+    val isColorModalVisible: Boolean = false,
+    val currentAppColorHex: String = "FF8687E7" // Tu morado por defecto
 )
 
 class SettingsViewModel(
-    private val settingsPreferences: ISettingsPreferences // NUEVO: Inyectamos el DataStore
+    private val settingsPreferences: ISettingsPreferences
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsUIState())
     val state: StateFlow<SettingsUIState> = _state.asStateFlow()
 
     init {
-        // Al abrir la pantalla de Settings, leemos qué idioma estaba guardado
+        // Leemos el idioma y el color guardados al abrir la app
         viewModelScope.launch {
             settingsPreferences.getLanguage().collect { savedLanguage ->
                 _state.value = _state.value.copy(currentLanguage = savedLanguage)
             }
         }
+        viewModelScope.launch {
+            settingsPreferences.getAppColor().collect { savedColor ->
+                _state.value = _state.value.copy(currentAppColorHex = savedColor)
+            }
+        }
     }
+
+    // ── CONTROLES DE IDIOMA ──────────────────────────────────────────────────
 
     fun showLanguageModal() {
         _state.value = _state.value.copy(isLanguageModalVisible = true)
@@ -37,14 +47,37 @@ class SettingsViewModel(
         _state.value = _state.value.copy(isLanguageModalVisible = false)
     }
 
+    // Nota: Aquí le cambiamos el nombre ligeramente al parámetro para no confundir
+    // con el de color, pero funciona igual.
     fun onLanguageSelected(languageCode: String) {
         _state.value = _state.value.copy(
             currentLanguage = languageCode,
             isLanguageModalVisible = false
         )
-        // Guardamos físicamente la elección en el teléfono
+        // Guardamos físicamente la elección
         viewModelScope.launch {
             settingsPreferences.saveLanguage(languageCode)
+        }
+    }
+
+    // ── CONTROLES DE COLOR ───────────────────────────────────────────────────
+
+    fun showColorModal() {
+        _state.value = _state.value.copy(isColorModalVisible = true)
+    }
+
+    fun hideColorModal() {
+        _state.value = _state.value.copy(isColorModalVisible = false)
+    }
+
+    fun onColorSelected(colorHex: String) {
+        _state.value = _state.value.copy(
+            currentAppColorHex = colorHex,
+            isColorModalVisible = false
+        )
+        // Guardamos el color elegido en el DataStore
+        viewModelScope.launch {
+            settingsPreferences.saveAppColor(colorHex)
         }
     }
 }

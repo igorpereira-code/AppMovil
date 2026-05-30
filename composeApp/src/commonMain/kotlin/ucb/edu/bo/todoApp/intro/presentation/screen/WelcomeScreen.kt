@@ -33,7 +33,7 @@ fun WelcomeScreen(
             Box(
                 modifier = Modifier
                     .size(120.dp)
-                    .background(Color(0xFF8687E7), shape = MaterialTheme.shapes.large),
+                    .background(MaterialTheme.colorScheme.primary, shape = MaterialTheme.shapes.large),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -71,7 +71,7 @@ fun WelcomeScreen(
                     .fillMaxWidth()
                     .height(52.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF8687E7)
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Text(
@@ -90,7 +90,7 @@ fun WelcomeScreen(
                     .fillMaxWidth()
                     .height(52.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = Color(0xFF8687E7)
+                    contentColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Text(

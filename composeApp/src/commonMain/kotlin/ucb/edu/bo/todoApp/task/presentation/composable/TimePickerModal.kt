@@ -47,13 +47,13 @@ fun TimePickerModal(
                     clockDialColor = Color(0xFF272727),
                     clockDialSelectedContentColor = Color.White,
                     clockDialUnselectedContentColor = Color.LightGray,
-                    selectorColor = PrimaryPurple,
+                    selectorColor = MaterialTheme.colorScheme.primary,
                     containerColor = SurfaceDark,
-                    periodSelectorBorderColor = PrimaryPurple,
-                    periodSelectorSelectedContainerColor = PrimaryPurple,
+                    periodSelectorBorderColor = MaterialTheme.colorScheme.primary,
+                    periodSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary,
                     periodSelectorSelectedContentColor = Color.White,
                     periodSelectorUnselectedContentColor = Color.LightGray,
-                    timeSelectorSelectedContainerColor = PrimaryPurple,
+                    timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary,
                     timeSelectorSelectedContentColor = Color.White,
                     timeSelectorUnselectedContainerColor = Color(0xFF272727),
                     timeSelectorUnselectedContentColor = Color.LightGray
@@ -70,7 +70,7 @@ fun TimePickerModal(
                     onClick = onDismiss,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Cancel", color = PrimaryPurple)
+                    Text("Cancel", color = MaterialTheme.colorScheme.primary)
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
@@ -78,7 +78,7 @@ fun TimePickerModal(
                         val selectedTime = LocalTime(state.hour, state.minute)
                         onTimeSelected(selectedTime)
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f)
                 ) {
                     Text("Save", color = Color.White)

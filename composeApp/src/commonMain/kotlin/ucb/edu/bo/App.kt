@@ -6,6 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.example.designsystem.theme.AppTheme
 import org.koin.compose.KoinApplication
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.dsl.KoinAppDeclaration
@@ -35,12 +36,12 @@ fun App() {
 
     // 2. Observamos el idioma en tiempo real (por defecto "en")
     val currentLanguage by settingsPreferences.getLanguage().collectAsState(initial = "en")
-
+    val currentColorHex by settingsPreferences.getAppColor().collectAsState(initial = "FF8687E7")
     // 3. Efecto Secundario: Cada vez que el idioma cambie, avisamos al sistema nativo
     LaunchedEffect(currentLanguage) {
         setAppLanguage(currentLanguage)
     }
-    MaterialTheme {
+    AppTheme(dynamicPrimaryColorHex = currentColorHex) {
         key(currentLanguage) {
             AppNavigation(startDestination = startDestination)
         }

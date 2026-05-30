@@ -56,11 +56,11 @@ fun AddTaskSheetContent(
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = PrimaryPurple,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = Color(0xFF444444),
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
-                cursorColor = PrimaryPurple,
+                cursorColor = MaterialTheme.colorScheme.primary,
                 focusedContainerColor = Color(0xFF1D1D1D),
                 unfocusedContainerColor = Color(0xFF1D1D1D)
             ),
@@ -76,11 +76,11 @@ fun AddTaskSheetContent(
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = PrimaryPurple,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = Color(0xFF444444),
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
-                cursorColor = PrimaryPurple,
+                cursorColor = MaterialTheme.colorScheme.primary,
                 focusedContainerColor = Color(0xFF1D1D1D),
                 unfocusedContainerColor = Color(0xFF1D1D1D)
             ),
@@ -147,7 +147,7 @@ fun AddTaskSheetContent(
 
             if (isSaving) {
                 CircularProgressIndicator(
-                    color = PrimaryPurple,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(24.dp),
                     strokeWidth = 2.dp
                 )
@@ -158,7 +158,7 @@ fun AddTaskSheetContent(
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape)
-                        .background(if (title.isNotBlank()) PrimaryPurple else Color(0xFF444444))
+                        .background(if (title.isNotBlank()) MaterialTheme.colorScheme.primary else Color(0xFF444444))
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.send),

@@ -75,7 +75,7 @@ fun CalendarScreen(
                 Button(
                     onClick = { viewModel.onTabSelected("Today") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (state.selectedTab == "Today") PrimaryPurple else Color.Transparent
+                        containerColor = if (state.selectedTab == "Today") MaterialTheme.colorScheme.primary else Color.Transparent
                     ),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.weight(1f).height(48.dp)
@@ -86,7 +86,7 @@ fun CalendarScreen(
                 Button(
                     onClick = { viewModel.onTabSelected("Completed") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (state.selectedTab == "Completed") PrimaryPurple else Color.Transparent
+                        containerColor = if (state.selectedTab == "Completed") MaterialTheme.colorScheme.primary else Color.Transparent
                     ),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.weight(1f).height(48.dp)
@@ -98,7 +98,7 @@ fun CalendarScreen(
             // ── Lista de Tareas Filtradas ────────────────────────────────────────────
             if (state.isLoading) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = PrimaryPurple)
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 }
             } else if (state.filteredTasks.isEmpty()) {
                 EmptyTasksContent(modifier = Modifier.fillMaxSize().padding(bottom = 80.dp))

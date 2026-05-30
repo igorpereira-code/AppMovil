@@ -35,14 +35,14 @@ fun DatePickerModal(
                         onDateSelected(selectedDate)
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple)
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
                 Text("Choose Date", color = Color.White)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = PrimaryPurple)
+                Text("Cancel", color = MaterialTheme.colorScheme.primary)
             }
         }
     ) {
@@ -50,14 +50,14 @@ fun DatePickerModal(
             state = datePickerState,
             colors = DatePickerDefaults.colors(
                 containerColor = Color.Transparent,
-                titleContentColor = PrimaryPurple,
+                titleContentColor = MaterialTheme.colorScheme.primary,
                 headlineContentColor = Color.White,
                 weekdayContentColor = Color.LightGray,
                 dayContentColor = Color.White,
-                selectedDayContainerColor = PrimaryPurple,
+                selectedDayContainerColor = MaterialTheme.colorScheme.primary,
                 selectedDayContentColor = Color.White,
-                todayContentColor = PrimaryPurple,
-                todayDateBorderColor = PrimaryPurple
+                todayContentColor = MaterialTheme.colorScheme.primary,
+                todayDateBorderColor = MaterialTheme.colorScheme.primary
             )
         )
     }

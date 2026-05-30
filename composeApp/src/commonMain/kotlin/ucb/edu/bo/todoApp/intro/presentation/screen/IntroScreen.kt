@@ -40,7 +40,7 @@ fun IntroScreen(
             ) {
                 Text(
                     text = "Omitir",
-                    color = Color(0xFF8687E7),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 16.sp
                 )
             }
@@ -100,7 +100,7 @@ fun IntroScreen(
                             .size(if (index == state.currentPage) 24.dp else 8.dp, 8.dp)
                             .clip(CircleShape)
                             .background(
-                                if (index == state.currentPage) Color(0xFF8687E7)
+                                if (index == state.currentPage) MaterialTheme.colorScheme.primary
                                 else Color(0xFF444444)
                             )
                     )
@@ -121,7 +121,7 @@ fun IntroScreen(
                     }) {
                         Text(
                             text = "Atrás",
-                            color = Color(0xFF8687E7),
+                            color = MaterialTheme.colorScheme.primary,
                             fontSize = 16.sp
                         )
                     }
@@ -135,7 +135,7 @@ fun IntroScreen(
                         else viewModel.nextPage()
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF8687E7)
+                        containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
                     Text(

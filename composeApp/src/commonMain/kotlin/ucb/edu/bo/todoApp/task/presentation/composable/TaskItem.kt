@@ -36,7 +36,7 @@ fun TaskItem(
     timeText: String, // Ej: "Today At 16:45"
     priority: Int,
     categoryName: String? = null, // Ej: "University", "Home", "Work"
-    categoryColor: Color = PrimaryPurple, // Color de fondo de la etiqueta
+    categoryColor: Color = MaterialTheme.colorScheme.primary, // Color de fondo de la etiqueta
     isCompleted: Boolean,
     onToggle: () -> Unit,
     onClick: () -> Unit // Para abrir la pantalla de detalles de la tarea
@@ -60,10 +60,10 @@ fun TaskItem(
                     modifier = Modifier
                         .size(22.dp)
                         .clip(CircleShape)
-                        .background(if (isCompleted) PrimaryPurple else Color.Transparent)
+                        .background(if (isCompleted) MaterialTheme.colorScheme.primary else Color.Transparent)
                         .border(
                             width = 2.dp,
-                            color = if (isCompleted) PrimaryPurple else Color(0xFF888888),
+                            color = if (isCompleted) MaterialTheme.colorScheme.primary else Color(0xFF888888),
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
@@ -157,7 +157,7 @@ fun TaskItem(
                     Row(
                         modifier = Modifier
                             .clip(RoundedCornerShape(6.dp))
-                            .border(1.dp, PrimaryPurple, RoundedCornerShape(6.dp)) // Borde morado como en tu diseño
+                            .border(1.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(6.dp)) // Borde morado como en tu diseño
                             .padding(horizontal = 8.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {

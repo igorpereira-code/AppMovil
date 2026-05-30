@@ -55,7 +55,7 @@ fun PriorityPickerModal(
                         modifier = Modifier
                             .aspectRatio(1f)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(if (isSelected) PrimaryPurple else Color(0xFF272727))
+                            .background(if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFF272727))
                             .clickable { selectedPriority = priorityValue },
                         contentAlignment = Alignment.Center
                     ) {
@@ -83,7 +83,7 @@ fun PriorityPickerModal(
         confirmButton = {
             Button(
                 onClick = { onPrioritySelected(selectedPriority) },
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.fillMaxWidth(0.45f)
             ) {
                 Text("Save", color = Color.White)
@@ -94,7 +94,7 @@ fun PriorityPickerModal(
                 onClick = onDismiss,
                 modifier = Modifier.fillMaxWidth(0.45f)
             ) {
-                Text("Cancel", color = PrimaryPurple)
+                Text("Cancel", color = MaterialTheme.colorScheme.primary)
             }
         }
     )

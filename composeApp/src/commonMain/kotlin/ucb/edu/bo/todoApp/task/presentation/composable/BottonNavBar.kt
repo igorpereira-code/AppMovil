@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -65,7 +66,7 @@ fun BottomNavBar(
             // FAB central (botón +)
             FloatingActionButton(
                 onClick = onAddClick,
-                containerColor = PrimaryPurple,
+                containerColor = MaterialTheme.colorScheme.primary,
                 shape = CircleShape,
                 modifier = Modifier.size(56.dp)
             ) {
@@ -112,13 +113,13 @@ private fun NavItem(
         Icon(
             painter = painterResource(iconRes),
             contentDescription = label,
-            tint = if (isSelected) PrimaryPurple else Color(0xFF888888),
+            tint = if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFF888888),
             modifier = Modifier.size(22.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = label,
-            color = if (isSelected) PrimaryPurple else Color(0xFF888888),
+            color = if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFF888888),
             fontSize = 10.sp
         )
     }

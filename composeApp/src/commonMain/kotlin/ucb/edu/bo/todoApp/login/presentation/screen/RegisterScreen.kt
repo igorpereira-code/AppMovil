@@ -78,11 +78,11 @@ fun RegisterScreen(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF8687E7),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFF444444),
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF8687E7)
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             )
@@ -100,11 +100,11 @@ fun RegisterScreen(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF8687E7),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFF444444),
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF8687E7)
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             )
@@ -123,11 +123,11 @@ fun RegisterScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF8687E7),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFF444444),
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF8687E7)
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             )
@@ -146,11 +146,11 @@ fun RegisterScreen(
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF8687E7),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFF444444),
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF8687E7)
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             )
@@ -184,7 +184,7 @@ fun RegisterScreen(
                     .fillMaxWidth()
                     .height(52.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF8687E7)
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             ) {
@@ -250,7 +250,7 @@ fun RegisterScreen(
                 )
                 Text(
                     text = "Inicia sesión",
-                    color = Color(0xFF8687E7),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable { onGoToLogin() }

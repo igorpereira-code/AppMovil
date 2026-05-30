@@ -62,12 +62,12 @@ fun LanguageSelectionModal(
                 ) {
                     Text(
                         text = name, // Mantenemos el nombre nativo del idioma
-                        color = if (isSelected) Color(0xFF8687E7) else Color.White,
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else Color.White,
                         fontSize = 16.sp,
                         fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
                     )
                     if (isSelected) {
-                        Text("✓", color = Color(0xFF8687E7), fontSize = 20.sp)
+                        Text("✓", color = MaterialTheme.colorScheme.primary, fontSize = 20.sp)
                     }
                 }
                 HorizontalDivider(color = Color(0xFF444444))

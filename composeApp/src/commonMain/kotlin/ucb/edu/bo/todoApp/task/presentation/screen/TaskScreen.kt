@@ -84,7 +84,7 @@ fun TaskScreen(
         // ── Contenido principal ──────────────────────────────────────────────────
         if (state.isLoading) {
             CircularProgressIndicator(
-                color = PrimaryPurple,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.align(Alignment.Center)
             )
         } else if (state.tasks.isEmpty()) {

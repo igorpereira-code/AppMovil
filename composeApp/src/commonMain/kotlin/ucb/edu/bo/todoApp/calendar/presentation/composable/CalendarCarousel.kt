@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +21,6 @@ import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.sort_image // Puedes cambiar esto por íconos de flechas
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
-import ucb.edu.bo.todoApp.task.presentation.composable.PrimaryPurple
 
 @Composable
 fun CalendarCarousel(
@@ -77,7 +77,7 @@ fun CalendarCarousel(
                     modifier = Modifier
                         .width(46.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(if (isSelected) PrimaryPurple else Color(0xFF272727))
+                        .background(if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFF272727))
                         .clickable { onDateSelected(date) }
                         .padding(vertical = 12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
