@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -36,7 +38,7 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .background(Color(0xFF121212))
         ) {
-            // ── Top Bar ──────────────────────────────────────────────────────────────
+            // ── Top Bar ──────────────────────────────────────────────────────
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -46,9 +48,8 @@ fun SettingsScreen(
                 IconButton(onClick = { navController.popBackStack() }) {
                     Text("<", color = Color.White, fontSize = 24.sp)
                 }
-
                 Text(
-                    text = stringResource(Res.string.settings_title), // Dinámico
+                    text = stringResource(Res.string.settings_title),
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
@@ -58,9 +59,9 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // ── Categoría: Settings ──────────────────────────────────────────────────
+            // ── Categoría: Personalización ───────────────────────────────────
             Text(
-                text = stringResource(Res.string.settings_title), // Dinámico
+                text = stringResource(Res.string.settings_title),
                 color = Color(0xFF888888),
                 fontSize = 14.sp,
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
@@ -68,27 +69,27 @@ fun SettingsScreen(
 
             SettingItem(
                 iconRes = Res.drawable.brush,
-                title = stringResource(Res.string.settings_item_theme),
-                onClick = { viewModel.showColorModal() } // ¡ABRIR MODAL DE COLOR!
+                title = stringResource(Res.string.change_color),
+                onClick = { viewModel.showColorModal() }
             )
 
             SettingItem(
                 iconRes = Res.drawable.text,
-                title = stringResource(Res.string.change_typography), // Dinámico
+                title = stringResource(Res.string.change_typography),
                 onClick = { viewModel.showTypographyModal() }
             )
 
             SettingItem(
                 iconRes = Res.drawable.language_square,
-                title = stringResource(Res.string.settings_item_language), // Dinámico
-                onClick = { viewModel.showLanguageModal() } // Abre el modal
+                title = stringResource(Res.string.change_language),
+                onClick = { viewModel.showLanguageModal() }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // ── Categoría: Import ────────────────────────────────────────────────────
-            Text(
-                text = stringResource(Res.string.import_title), // Dinámico
+            // ── Categoría: Importación ───────────────────────────────────────
+            /*Text(
+                text = stringResource(Res.string.import_title),
                 color = Color(0xFF888888),
                 fontSize = 14.sp,
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
@@ -96,9 +97,31 @@ fun SettingsScreen(
 
             SettingItem(
                 iconRes = Res.drawable.import,
-                title = stringResource(Res.string.import_google), // Dinámico
+                title = stringResource(Res.string.import_google),
                 onClick = { viewModel.importGoogleCalendar() }
             )
+
+            // ⚠️ CONTROL VISUAL IMPORTANTE: DEBEN ESTAR ADENTRO DEL COLUMN
+            // De esta forma respetan el espacio abajo del botón y no se encima nada
+            if (state.isImporting) {
+                Spacer(modifier = Modifier.height(12.dp))
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            state.importError?.let { error ->
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "Error: Módulo en desarrollo (Requiere OAuth2 Real).\nDetalle técnico: $error",
+                    color = Color.Red,
+                    fontSize = 13.sp,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+            }*/
         }
 
         // ── DIBUJO DEL MODAL SUPERPUESTO ─────────────────────────────────────────
@@ -127,22 +150,5 @@ fun SettingsScreen(
             )
         }
 
-        // Indicador opcional debajo de la fila si el proceso está corriendo
-        if (state.isImporting) {
-            Spacer(modifier = Modifier.height(8.dp))
-            androidx.compose.material3.LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
-                color = androidx.compose.material3.MaterialTheme.colorScheme.primary
-            )
-        }
-
-        state.importError?.let { error ->
-            Text(
-                text = error,
-                color = Color.Red,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
-            )
-        }
     }
 }
