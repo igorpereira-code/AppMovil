@@ -12,23 +12,26 @@ import ucb.edu.bo.events.data.dao.EventDao
 import ucb.edu.bo.events.data.entity.EventEntity
 import ucb.edu.bo.todoApp.task.data.dao.TaskDao
 import ucb.edu.bo.todoApp.task.data.entity.TaskEntity
+import ucb.edu.bo.remoteconfig.data.dao.RemoteConfigDao
+import ucb.edu.bo.remoteconfig.data.entity.RemoteConfigEntity
 
 @Database(
     entities = [
         DollarEntity::class,
         TaskEntity::class,
         ConfigEntity::class,
-        EventEntity::class
+        EventEntity::class,
+        RemoteConfigEntity::class
     ],
-    version = 6
+    version = 7
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getDao(): DollarDao
     abstract fun getConfigDao(): ConfigDao
-
     abstract fun getEventDao(): EventDao
     abstract fun taskDao(): TaskDao
+    abstract fun remoteConfigDao(): RemoteConfigDao
 }
 
 @Suppress("KotlinNoActualForExpect")

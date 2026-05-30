@@ -11,6 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WelcomeScreen(
@@ -47,7 +49,7 @@ fun WelcomeScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "Bienvenido a UpTodo",
+                text = stringResource(Res.string.welcome_title),
                 color = Color.White,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -57,7 +59,7 @@ fun WelcomeScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Por favor inicia sesión en tu cuenta o crea una nueva para continuar",
+                text = stringResource(Res.string.welcome_description),
                 color = Color.Gray,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
@@ -75,7 +77,7 @@ fun WelcomeScreen(
                 )
             ) {
                 Text(
-                    text = "Iniciar sesión",
+                    text = stringResource(Res.string.welcome_button_login),
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -94,7 +96,7 @@ fun WelcomeScreen(
                 )
             ) {
                 Text(
-                    text = "Crear cuenta",
+                    text = stringResource(Res.string.welcome_button_register),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )

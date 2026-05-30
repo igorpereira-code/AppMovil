@@ -46,6 +46,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.play.services)
             implementation("com.karumi:dexter:6.2.3")
             implementation(libs.firebase.auth)
+            implementation(libs.datastore.preferences)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)

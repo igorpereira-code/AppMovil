@@ -16,14 +16,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.add_image
-import appmovil.composeapp.generated.resources.calendar
-import appmovil.composeapp.generated.resources.home_2
-import appmovil.composeapp.generated.resources.timer
-import appmovil.composeapp.generated.resources.user
+import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BottomNavBar(
@@ -51,14 +47,14 @@ fun BottomNavBar(
             // Index (Home)
             NavItem(
                 iconRes = Res.drawable.home_2,
-                label = "Index",
+                label = stringResource(Res.string.nav_index),
                 isSelected = currentRoute == "Index", // Dinámico
                 onClick = onHomeClick
             )
             // Calendar
             NavItem(
                 iconRes = Res.drawable.calendar,
-                label = "Calendario",
+                label = stringResource(Res.string.nav_calendar),
                 isSelected = currentRoute == "Calendario", // Dinámico
                 onClick = onCalendarClick
             )
@@ -72,7 +68,7 @@ fun BottomNavBar(
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.add_image),
-                    contentDescription = "Agregar tarea",
+                    contentDescription = stringResource(Res.string.nav_cd_add_task),
                     tint = Color.White,
                     modifier = Modifier.size(24.dp)
                 )
@@ -80,14 +76,14 @@ fun BottomNavBar(
 
             NavItem(
                 iconRes = Res.drawable.timer,
-                label = "Focus",
+                label = stringResource(Res.string.nav_focus),
                 isSelected = currentRoute == "Focus",
                 onClick = onFocusClick
             )
             // Profile (Callbacks pendientes para tu equipo)
             NavItem(
                 iconRes = Res.drawable.user,
-                label = "Perfil",
+                label = stringResource(Res.string.nav_profile),
                 isSelected = currentRoute == "Perfil",
                 onClick = { onProfileClick() }
             )

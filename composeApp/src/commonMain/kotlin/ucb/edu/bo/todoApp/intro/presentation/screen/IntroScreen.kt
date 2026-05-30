@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.todoApp.intro.presentation.viewmodel.IntroViewModel
 
@@ -39,7 +41,7 @@ fun IntroScreen(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Omitir",
+                    text = stringResource(Res.string.intro_button_skip),
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 16.sp
                 )
@@ -120,7 +122,7 @@ fun IntroScreen(
                         // No hay función back en el viewmodel, podemos ignorar o agregar
                     }) {
                         Text(
-                            text = "Atrás",
+                            text = stringResource(Res.string.intro_button_back),
                             color = MaterialTheme.colorScheme.primary,
                             fontSize = 16.sp
                         )
@@ -139,7 +141,7 @@ fun IntroScreen(
                     )
                 ) {
                     Text(
-                        text = if (isLastPage) "Comenzar" else "Siguiente",
+                        text = if (isLastPage) stringResource(Res.string.intro_button_start) else stringResource(Res.string.intro_button_next),
                         color = Color.White,
                         fontSize = 16.sp
                     )

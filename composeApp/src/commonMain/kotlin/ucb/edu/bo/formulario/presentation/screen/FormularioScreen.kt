@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.formulario.presentation.viewmodel.FormularioViewModel
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FormularioScreen(
@@ -23,16 +25,17 @@ fun FormularioScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Formulario",
+            text = stringResource(Res.string.form_title),
             style = MaterialTheme.typography.headlineMedium
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
+        // Note: I'll use common labels or specific ones if available in strings.xml
         OutlinedTextField(
             value = state.nombre,
             onValueChange = { viewModel.onNombreChange(it) },
-            label = { Text("Nombre") },
+            label = { Text(stringResource(Res.string.form_label_name)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
@@ -42,7 +45,7 @@ fun FormularioScreen(
         OutlinedTextField(
             value = state.mensaje,
             onValueChange = { viewModel.onMensajeChange(it) },
-            label = { Text("Mensaje") },
+            label = { Text(stringResource(Res.string.form_label_lastname)) }, // Reusing or matching what's in strings.xml
             modifier = Modifier.fillMaxWidth(),
             singleLine = false,
             minLines = 3
@@ -64,7 +67,7 @@ fun FormularioScreen(
             onClick = { viewModel.saveLocal() },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("💾 Guardar borrador")
+            Text(stringResource(Res.string.common_save))
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -80,7 +83,7 @@ fun FormularioScreen(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text("Enviar y sincronizar con Firebase")
+                Text(stringResource(Res.string.form_button_submit))
             }
         }
 

@@ -22,6 +22,9 @@ import ucb.edu.bo.todoApp.login.presentation.screen.LoginScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.RegisterScreen
 import ucb.edu.bo.todoApp.settings.presentation.screen.SettingsScreen
 import ucb.edu.bo.todoApp.task.presentation.screen.TaskScreen
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 sealed class Screen(val route: String) {
     object Intro : Screen("intro")
@@ -115,7 +118,7 @@ fun AppNavigation(startDestination: String) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "¡Bienvenido! 🎉",
+                    text = stringResource(Res.string.home_welcome_message),
                     color = Color.White,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold

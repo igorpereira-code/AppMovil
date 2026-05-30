@@ -2,11 +2,14 @@ package ucb.edu.bo.todoApp.task.presentation.composable
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.*
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,12 +40,12 @@ fun DatePickerModal(
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
-                Text("Choose Date", color = Color.White)
+                Text(stringResource(Res.string.date_picker_button_choose), color = Color.White)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = MaterialTheme.colorScheme.primary)
+                Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary)
             }
         }
     ) {

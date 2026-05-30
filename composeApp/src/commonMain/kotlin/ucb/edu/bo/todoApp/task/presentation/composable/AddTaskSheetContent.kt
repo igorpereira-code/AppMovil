@@ -14,11 +14,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.flag
-import appmovil.composeapp.generated.resources.send
-import appmovil.composeapp.generated.resources.tag
-import appmovil.composeapp.generated.resources.timer
+import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AddTaskSheetContent(
@@ -41,7 +39,7 @@ fun AddTaskSheetContent(
             .padding(bottom = 24.dp)
     ) {
         Text(
-            text = "Agregar Tarea",
+            text = stringResource(Res.string.add_task_title),
             color = Color.White,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold
@@ -52,7 +50,7 @@ fun AddTaskSheetContent(
         OutlinedTextField(
             value = title,
             onValueChange = onTitleChange,
-            placeholder = { Text("Título de la tarea", color = Color(0xFF888888)) },
+            placeholder = { Text(stringResource(Res.string.add_task_placeholder_title), color = Color(0xFF888888)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
@@ -72,7 +70,7 @@ fun AddTaskSheetContent(
         OutlinedTextField(
             value = description,
             onValueChange = onDescriptionChange,
-            placeholder = { Text("Descripción", color = Color(0xFF888888)) },
+            placeholder = { Text(stringResource(Res.string.add_task_placeholder_desc), color = Color(0xFF888888)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
@@ -109,7 +107,7 @@ fun AddTaskSheetContent(
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.timer),
-                    contentDescription = "Timer",
+                    contentDescription = stringResource(Res.string.add_task_cd_timer),
                     tint = Color(0xFF888888),
                     modifier = Modifier.size(22.dp)
                 )
@@ -123,7 +121,7 @@ fun AddTaskSheetContent(
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.tag),
-                    contentDescription = "Etiqueta",
+                    contentDescription = stringResource(Res.string.add_task_cd_tag),
                     tint = Color(0xFF888888),
                     modifier = Modifier.size(22.dp)
                 )
@@ -137,7 +135,7 @@ fun AddTaskSheetContent(
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.flag),
-                    contentDescription = "Prioridad",
+                    contentDescription = stringResource(Res.string.add_task_cd_priority),
                     tint = Color(0xFF888888),
                     modifier = Modifier.size(22.dp)
                 )
@@ -162,7 +160,7 @@ fun AddTaskSheetContent(
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.send),
-                        contentDescription = "Guardar tarea",
+                        contentDescription = stringResource(Res.string.add_task_cd_save),
                         tint = Color.White,
                         modifier = Modifier.size(18.dp)
                     )

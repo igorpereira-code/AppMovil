@@ -54,6 +54,7 @@ val dataModule = module {
 
     // Task Module
     single { get<AppDatabase>().taskDao() }
+    single { get<AppDatabase>().remoteConfigDao() }
     single<TaskLocalDataSource> { TaskLocalDataSourceImpl(get()) }
     single<TaskRepository> { TaskRepositoryImpl(get()) }
     single<ISettingsPreferences> { SettingsPreferencesImpl(dataStore = get()) }

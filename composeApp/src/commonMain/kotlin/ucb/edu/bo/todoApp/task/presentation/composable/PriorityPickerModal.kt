@@ -15,8 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.flag
+import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PriorityPickerModal(
@@ -32,7 +33,7 @@ fun PriorityPickerModal(
         shape = RoundedCornerShape(16.dp),
         title = {
             Text(
-                text = "Task Priority",
+                text = stringResource(Res.string.priority_picker_title),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
@@ -65,7 +66,7 @@ fun PriorityPickerModal(
                         ) {
                             Icon(
                                 painter = painterResource(Res.drawable.flag),
-                                contentDescription = "Prioridad $priorityValue",
+                                contentDescription = stringResource(Res.string.priority_cd_value, priorityValue),
                                 tint = Color.White,
                                 modifier = Modifier.size(20.dp)
                             )
@@ -86,7 +87,7 @@ fun PriorityPickerModal(
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 modifier = Modifier.fillMaxWidth(0.45f)
             ) {
-                Text("Save", color = Color.White)
+                Text(stringResource(Res.string.common_save), color = Color.White)
             }
         },
         dismissButton = {
@@ -94,7 +95,7 @@ fun PriorityPickerModal(
                 onClick = onDismiss,
                 modifier = Modifier.fillMaxWidth(0.45f)
             ) {
-                Text("Cancel", color = MaterialTheme.colorScheme.primary)
+                Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary)
             }
         }
     )

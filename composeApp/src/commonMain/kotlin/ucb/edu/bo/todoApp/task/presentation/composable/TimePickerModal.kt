@@ -11,7 +11,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.*
 import kotlinx.datetime.LocalTime
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,7 +37,7 @@ fun TimePickerModal(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Choose Time",
+                text = stringResource(Res.string.time_picker_title),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
@@ -70,7 +73,7 @@ fun TimePickerModal(
                     onClick = onDismiss,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Cancel", color = MaterialTheme.colorScheme.primary)
+                    Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary)
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
@@ -81,7 +84,7 @@ fun TimePickerModal(
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("Save", color = Color.White)
+                    Text(stringResource(Res.string.common_save), color = Color.White)
                 }
             }
         }

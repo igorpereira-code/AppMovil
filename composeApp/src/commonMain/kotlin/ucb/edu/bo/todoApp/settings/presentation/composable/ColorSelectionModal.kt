@@ -18,9 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-// import appmovil.composeapp.generated.resources.Res
-// import appmovil.composeapp.generated.resources.change_color
-// import org.jetbrains.compose.resources.stringResource
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 // Función utilitaria para convertir Hex a Color en Compose
 fun String.toColor(): Color {
@@ -58,7 +58,7 @@ fun ColorSelectionModal(
                 .padding(bottom = 32.dp, top = 8.dp)
         ) {
             Text(
-                text = "Select App Color", // Reemplaza con stringResource(Res.string.change_color)
+                text = stringResource(Res.string.change_theme_title),
                 color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,

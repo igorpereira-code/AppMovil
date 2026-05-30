@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.sort_image
-import appmovil.composeapp.generated.resources.user
+import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.Screen
 import ucb.edu.bo.todoApp.task.presentation.composable.*
@@ -49,7 +49,7 @@ fun TaskScreen(
         ) {
             Icon(
                 painter = painterResource(Res.drawable.sort_image),
-                contentDescription = "Menú",
+                contentDescription = stringResource(Res.string.task_desc_menu),
                 tint = Color.White,
                 modifier = Modifier.size(24.dp)
             )
@@ -57,7 +57,7 @@ fun TaskScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
-                text = "Index",
+                text = stringResource(Res.string.task_title_index),
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium
@@ -74,7 +74,7 @@ fun TaskScreen(
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.user),
-                    contentDescription = "Perfil",
+                    contentDescription = stringResource(Res.string.task_desc_profile),
                     tint = Color.White,
                     modifier = Modifier.size(20.dp)
                 )

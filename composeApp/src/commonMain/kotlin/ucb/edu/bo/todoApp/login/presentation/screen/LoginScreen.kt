@@ -14,6 +14,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.todoApp.login.presentation.state.LoginState
 import ucb.edu.bo.todoApp.login.presentation.viewmodel.LoginViewModel
@@ -56,7 +58,7 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Iniciar sesión",
+                text = stringResource(Res.string.login_title),
                 color = Color.White,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -72,7 +74,7 @@ fun LoginScreen(
                     email = it
                     errorMessage = ""
                 },
-                label = { Text("Correo electrónico", color = Color.Gray) },
+                label = { Text(stringResource(Res.string.login_label_email), color = Color.Gray) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -94,7 +96,7 @@ fun LoginScreen(
                     password = it
                     errorMessage = ""
                 },
-                label = { Text("Contraseña", color = Color.Gray) },
+                label = { Text(stringResource(Res.string.login_label_password), color = Color.Gray) },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
@@ -143,7 +145,7 @@ fun LoginScreen(
                     )
                 } else {
                     Text(
-                        text = "Iniciar sesión",
+                        text = stringResource(Res.string.login_title),
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
@@ -160,7 +162,7 @@ fun LoginScreen(
             ) {
                 HorizontalDivider(modifier = Modifier.weight(1f), color = Color(0xFF444444))
                 Text(
-                    text = "  o  ",
+                    text = stringResource(Res.string.login_text_or),
                     color = Color.Gray,
                     fontSize = 14.sp
                 )
@@ -184,7 +186,7 @@ fun LoginScreen(
                 )
             ) {
                 Text(
-                    text = "Iniciar sesión con Google",
+                    text = stringResource(Res.string.login_button_google),
                     fontSize = 15.sp
                 )
             }
@@ -194,12 +196,12 @@ fun LoginScreen(
             // Link a Register
             Row {
                 Text(
-                    text = "¿No tienes cuenta? ",
+                    text = stringResource(Res.string.login_text_no_account),
                     color = Color.Gray,
                     fontSize = 14.sp
                 )
                 Text(
-                    text = "Regístrate",
+                    text = stringResource(Res.string.login_link_register),
                     color = MaterialTheme.colorScheme.primary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,

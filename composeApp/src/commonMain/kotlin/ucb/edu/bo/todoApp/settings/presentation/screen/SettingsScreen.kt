@@ -68,7 +68,7 @@ fun SettingsScreen(
 
             SettingItem(
                 iconRes = Res.drawable.brush,
-                title = stringResource(Res.string.change_color),
+                title = stringResource(Res.string.settings_item_theme),
                 onClick = { viewModel.showColorModal() } // ¡ABRIR MODAL DE COLOR!
             )
 
@@ -80,7 +80,7 @@ fun SettingsScreen(
 
             SettingItem(
                 iconRes = Res.drawable.language_square,
-                title = stringResource(Res.string.change_language), // Dinámico
+                title = stringResource(Res.string.settings_item_language), // Dinámico
                 onClick = { viewModel.showLanguageModal() } // Abre el modal
             )
 

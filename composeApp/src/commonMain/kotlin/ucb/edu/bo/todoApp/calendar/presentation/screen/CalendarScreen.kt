@@ -14,6 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.Screen
 import ucb.edu.bo.todoApp.calendar.presentation.composable.CalendarCarousel
@@ -44,7 +46,7 @@ fun CalendarScreen(
 
             // ── Top Bar ──────────────────────────────────────────────────────────────
             Text(
-                text = "Calendar",
+                text = stringResource(Res.string.calendar_title),
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
@@ -80,7 +82,7 @@ fun CalendarScreen(
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.weight(1f).height(48.dp)
                 ) {
-                    Text("Today", color = Color.White, fontSize = 16.sp)
+                    Text(stringResource(Res.string.calendar_tab_today), color = Color.White, fontSize = 16.sp)
                 }
 
                 Button(
@@ -91,7 +93,7 @@ fun CalendarScreen(
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.weight(1f).height(48.dp)
                 ) {
-                    Text("Completed", color = Color.White, fontSize = 16.sp)
+                    Text(stringResource(Res.string.calendar_filter_completed), color = Color.White, fontSize = 16.sp)
                 }
             }
 

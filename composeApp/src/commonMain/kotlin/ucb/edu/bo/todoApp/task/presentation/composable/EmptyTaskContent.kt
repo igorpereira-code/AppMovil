@@ -11,9 +11,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.checklist_rafiki_1
+import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun EmptyTasksContent(modifier: Modifier = Modifier) {
@@ -32,7 +32,7 @@ fun EmptyTasksContent(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = "¿Qué quieres hacer hoy?",
+            text = stringResource(Res.string.empty_task_title),
             color = Color.White,
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
@@ -42,7 +42,7 @@ fun EmptyTasksContent(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Presiona + para agregar tus tareas",
+            text = stringResource(Res.string.empty_task_subtitle),
             color = Color(0xFF888888),
             fontSize = 14.sp,
             textAlign = TextAlign.Center
