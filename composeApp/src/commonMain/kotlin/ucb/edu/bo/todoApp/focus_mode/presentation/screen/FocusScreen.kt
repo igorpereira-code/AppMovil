@@ -17,89 +17,136 @@ import ucb.edu.bo.todoApp.focus_mode.presentation.state.FocusState
 import ucb.edu.bo.todoApp.focus_mode.presentation.viewmodel.FocusViewModel
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.navigation.NavHostController
+import ucb.edu.bo.Screen
+import ucb.edu.bo.todoApp.task.presentation.composable.*
+// NUEVO: Importamos el ViewModel de tareas
+import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalMaterial3Api::class) // NUEVO: Necesario para el ModalBottomSheet
 @Composable
 fun FocusScreen(
     onLogout: () -> Unit,
-    viewModel: FocusViewModel = koinViewModel()
+    viewModel: FocusViewModel = koinViewModel(),
+    taskViewModel: TaskViewModel = koinViewModel(), // NUEVO: Inyectamos el TaskViewModel
+    navController: NavHostController
 ) {
     val state by viewModel.state.collectAsState()
+    val taskState by taskViewModel.state.collectAsState() // NUEVO: Escuchamos el estado de las tareas
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true) // NUEVO
 
-    Column(
+    // NUEVO: Envolvemos todo en un Box para anclar la barra de navegación abajo
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121212))
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Header con título y botón cerrar sesión
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .padding(bottom = 72.dp), // Espacio para que la barra no tape las estadísticas
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Modo Enfoque",
-                color = Color.White,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
-            TextButton(onClick = onLogout) {
+            // Header con título y botón cerrar sesión
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = "Cerrar sesión",
-                    color = Color(0xFFE74C3C),
-                    fontSize = 14.sp
+                    text = stringResource(Res.string.focus_title),
+                    color = Color.White,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                TextButton(onClick = onLogout) {
+                    Text(
+                        text = stringResource(Res.string.focus_button_logout),
+                        color = Color(0xFFE74C3C),
+                        fontSize = 14.sp
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Selector de minutos
+            if (!state.isRunning && state.elapsedSeconds == 0) {
+                TimeSelectorSection(
+                    selectedMinutes = state.selectedMinutes,
+                    onSelectMinutes = { viewModel.setSelectedMinutes(it) }
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            // Temporizador circular
+            TimerSection(state = state)
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Botones de control
+            ControlButtons(
+                state = state,
+                onStart = { viewModel.startFocus() },
+                onStop = { viewModel.stopFocus() },
+                onReset = { viewModel.resetFocus() }
+            )
+
+            if (state.isSaving) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = stringResource(Res.string.focus_status_saving),
+                    color = Color.Gray,
+                    fontSize = 13.sp
                 )
             }
-        }
 
-        Spacer(modifier = Modifier.height(24.dp))
+            state.saveError?.let {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = it, color = Color.Red, fontSize = 13.sp)
+            }
 
-        // Selector de minutos
-        if (!state.isRunning && state.elapsedSeconds == 0) {
-            TimeSelectorSection(
-                selectedMinutes = state.selectedMinutes,
-                onSelectMinutes = { viewModel.setSelectedMinutes(it) }
-            )
+            Spacer(modifier = Modifier.height(32.dp))
+
+            HorizontalDivider(color = Color(0xFF2C2C2C))
+
             Spacer(modifier = Modifier.height(24.dp))
+
+            // Estadísticas semanales
+            StatsSection(state = state)
         }
 
-        // Temporizador circular
-        TimerSection(state = state)
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Botones de control
-        ControlButtons(
-            state = state,
-            onStart = { viewModel.startFocus() },
-            onStop = { viewModel.stopFocus() },
-            onReset = { viewModel.resetFocus() }
+        // ── Bottom Nav Bar ───────────────────────────────────────────────────────
+        BottomNavBar(
+            currentRoute = Screen.Focus.route,
+            onHomeClick = {
+                navController.navigate(Screen.Task.route) {
+                    popUpTo(Screen.Task.route) { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
+            onCalendarClick = {
+                navController.navigate(Screen.Calendar.route) {
+                    popUpTo(Screen.Task.route) // Volvemos al root antes de abrir calendario
+                    launchSingleTop = true
+                }
+            },
+            onFocusClick = {},
+            onProfileClick = {
+                navController.navigate(Screen.Settings.route) {//Cambiar a perfil cuando haya
+                    popUpTo(Screen.Task.route)
+                    launchSingleTop = true
+                }
+            },
+            onAddClick = { taskViewModel.showAddTaskSheet() }, // NUEVO: Llama al modal
+            modifier = Modifier.align(Alignment.BottomCenter) // Ahora sí funciona porque está en un Box
         )
-
-        if (state.isSaving) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = "Guardando sesión...",
-                color = Color.Gray,
-                fontSize = 13.sp
-            )
-        }
-
-        state.saveError?.let {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = it, color = Color.Red, fontSize = 13.sp)
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        HorizontalDivider(color = Color(0xFF2C2C2C))
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Estadísticas semanales
-        StatsSection(state = state)
     }
+
+    AddTaskModalsGlobal(taskViewModel = taskViewModel)
 }
 
 @Composable
@@ -112,7 +159,7 @@ fun TimeSelectorSection(
     var inputError by remember { mutableStateOf("") }
 
     Text(
-        text = "Selecciona el tiempo",
+        text = stringResource(Res.string.focus_subtitle_select_time),
         color = Color.Gray,
         fontSize = 14.sp
     )
@@ -140,7 +187,7 @@ fun TimeSelectorSection(
                     )
                 },
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = Color(0xFF8687E7),
+                    selectedContainerColor = MaterialTheme.colorScheme.primary,
                     containerColor = Color(0xFF1D1D1D)
                 )
             )
@@ -161,20 +208,20 @@ fun TimeSelectorSection(
                 customInput = it.filter { c -> c.isDigit() }.take(3)
                 inputError = ""
             },
-            label = { Text("Minutos personalizados", color = Color.Gray, fontSize = 12.sp) },
+            label = { Text(stringResource(Res.string.focus_label_custom_minutes), color = Color.Gray, fontSize = 12.sp) },
             singleLine = true,
-            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
-                keyboardType = androidx.compose.ui.text.input.KeyboardType.Number
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
             ),
             modifier = Modifier.weight(1f),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color(0xFF8687E7),
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = Color(0xFF444444),
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
-                cursorColor = Color(0xFF8687E7)
+                cursorColor = MaterialTheme.colorScheme.primary
             ),
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp)
         )
         Button(
             onClick = {
@@ -188,17 +235,22 @@ fun TimeSelectorSection(
                     }
                 }
             },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8687E7)),
-            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+            shape = RoundedCornerShape(8.dp)
         ) {
-            Text(text = "OK", color = Color.White)
+            Text(text = stringResource(Res.string.focus_button_ok), color = Color.White)
         }
     }
 
     if (inputError.isNotEmpty()) {
+        val errorMessage = if (inputError == "Ingresa un valor válido") {
+            stringResource(Res.string.error_invalid_value)
+        } else {
+            stringResource(Res.string.error_max_minutes)
+        }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = inputError,
+            text = errorMessage,
             color = Color.Red,
             fontSize = 12.sp
         )
@@ -222,7 +274,7 @@ fun TimerSection(state: FocusState) {
         CircularProgressIndicator(
             progress = { progress },
             modifier = Modifier.fillMaxSize(),
-            color = Color(0xFF8687E7),
+            color = MaterialTheme.colorScheme.primary,
             strokeWidth = 8.dp,
             trackColor = Color(0xFF2C2C2C)
         )
@@ -234,8 +286,8 @@ fun TimerSection(state: FocusState) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = if (state.isRunning) "Enfocado" else "Listo",
-                color = Color(0xFF8687E7),
+                text = if (state.isRunning) stringResource(Res.string.focus_state_focused) else stringResource(Res.string.focus_state_ready),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp
             )
         }
@@ -262,18 +314,18 @@ fun ControlButtons(
                     .height(48.dp)
                     .width(140.dp)
             ) {
-                Text(text = "Detener", color = Color.White, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(Res.string.focus_button_stop), color = Color.White, fontWeight = FontWeight.Bold)
             }
         } else {
             Button(
                 onClick = onStart,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8687E7)),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .height(48.dp)
                     .width(140.dp)
             ) {
-                Text(text = "Iniciar", color = Color.White, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(Res.string.focus_button_start), color = Color.White, fontWeight = FontWeight.Bold)
             }
             if (state.elapsedSeconds > 0) {
                 OutlinedButton(
@@ -284,7 +336,7 @@ fun ControlButtons(
                         .width(120.dp),
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Gray)
                 ) {
-                    Text(text = "Reiniciar", fontSize = 13.sp)
+                    Text(text = stringResource(Res.string.focus_button_restart), fontSize = 13.sp)
                 }
             }
         }
@@ -293,10 +345,19 @@ fun ControlButtons(
 
 @Composable
 fun StatsSection(state: FocusState) {
-    val days = listOf("LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM")
+    val days = listOf(
+        stringResource(Res.string.focus_day_mon),
+        stringResource(Res.string.focus_day_tue),
+        stringResource(Res.string.focus_day_wed),
+        stringResource(Res.string.focus_day_thu),
+        stringResource(Res.string.focus_day_fri),
+        stringResource(Res.string.focus_day_sat),
+        stringResource(Res.string.focus_day_sun)
+    )
+    val dayLabels = listOf("LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM")
 
     Text(
-        text = "Esta semana",
+        text = stringResource(Res.string.focus_stats_this_week),
         color = Color.White,
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
@@ -306,7 +367,7 @@ fun StatsSection(state: FocusState) {
     Spacer(modifier = Modifier.height(16.dp))
 
     if (state.isLoadingStats) {
-        CircularProgressIndicator(color = Color(0xFF8687E7))
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
     } else {
         val maxMinutes = state.weekSessions
             .groupBy { it.dayOfWeek }
@@ -318,7 +379,7 @@ fun StatsSection(state: FocusState) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom
         ) {
-            days.forEach { day ->
+            dayLabels.forEachIndexed { index, day ->
                 val dayMinutes = state.weekSessions
                     .filter { it.dayOfWeek == day }
                     .sumOf { it.durationMinutes }
@@ -331,8 +392,8 @@ fun StatsSection(state: FocusState) {
                 ) {
                     if (dayMinutes > 0) {
                         Text(
-                            text = "${dayMinutes}m",
-                            color = Color(0xFF8687E7),
+                            text = "${dayMinutes}${stringResource(Res.string.focus_unit_min)}",
+                            color = MaterialTheme.colorScheme.primary,
                             fontSize = 9.sp
                         )
                     }
@@ -343,12 +404,12 @@ fun StatsSection(state: FocusState) {
                             .height(if (dayMinutes > 0) barHeight.coerceAtLeast(8.dp) else 8.dp)
                             .clip(RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp))
                             .background(
-                                if (dayMinutes > 0) Color(0xFF8687E7) else Color(0xFF2C2C2C)
+                                if (dayMinutes > 0) MaterialTheme.colorScheme.primary else Color(0xFF2C2C2C)
                             )
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = day,
+                        text = days[index],
                         color = Color.Gray,
                         fontSize = 10.sp
                     )
@@ -372,19 +433,19 @@ fun StatsSection(state: FocusState) {
             ) {
                 Column {
                     Text(
-                        text = "Promedio diario",
+                        text = stringResource(Res.string.focus_stats_daily_average),
                         color = Color.Gray,
                         fontSize = 13.sp
                     )
                     Text(
-                        text = "Esta semana",
+                        text = stringResource(Res.string.focus_stats_this_week),
                         color = Color.Gray,
                         fontSize = 11.sp
                     )
                 }
                 Text(
                     text = "%.0f min".format(state.weeklyAverageMinutes),
-                    color = Color(0xFF8687E7),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )

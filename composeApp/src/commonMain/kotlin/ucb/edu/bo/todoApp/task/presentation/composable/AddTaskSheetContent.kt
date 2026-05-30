@@ -14,11 +14,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.flag
-import appmovil.composeapp.generated.resources.send
-import appmovil.composeapp.generated.resources.tag
-import appmovil.composeapp.generated.resources.timer
+import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AddTaskSheetContent(
@@ -28,7 +26,11 @@ fun AddTaskSheetContent(
     errorMessage: String?,
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
-    onSend: () -> Unit
+    onSend: () -> Unit,
+    // NUEVOS PARÁMETROS: Callbacks para los íconos
+    onTimeClick: () -> Unit,
+    onTagClick: () -> Unit,
+    onPriorityClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -37,7 +39,7 @@ fun AddTaskSheetContent(
             .padding(bottom = 24.dp)
     ) {
         Text(
-            text = "Agregar Tarea",
+            text = stringResource(Res.string.add_task_title),
             color = Color.White,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold
@@ -48,15 +50,15 @@ fun AddTaskSheetContent(
         OutlinedTextField(
             value = title,
             onValueChange = onTitleChange,
-            placeholder = { Text("Título de la tarea", color = Color(0xFF888888)) },
+            placeholder = { Text(stringResource(Res.string.add_task_placeholder_title), color = Color(0xFF888888)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = PrimaryPurple,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = Color(0xFF444444),
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
-                cursorColor = PrimaryPurple,
+                cursorColor = MaterialTheme.colorScheme.primary,
                 focusedContainerColor = Color(0xFF1D1D1D),
                 unfocusedContainerColor = Color(0xFF1D1D1D)
             ),
@@ -68,15 +70,15 @@ fun AddTaskSheetContent(
         OutlinedTextField(
             value = description,
             onValueChange = onDescriptionChange,
-            placeholder = { Text("Descripción", color = Color(0xFF888888)) },
+            placeholder = { Text(stringResource(Res.string.add_task_placeholder_desc), color = Color(0xFF888888)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = PrimaryPurple,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = Color(0xFF444444),
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
-                cursorColor = PrimaryPurple,
+                cursorColor = MaterialTheme.colorScheme.primary,
                 focusedContainerColor = Color(0xFF1D1D1D),
                 unfocusedContainerColor = Color(0xFF1D1D1D)
             ),
@@ -98,32 +100,52 @@ fun AddTaskSheetContent(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(Res.drawable.timer),
-                contentDescription = "Timer",
-                tint = Color(0xFF888888),
-                modifier = Modifier.size(22.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                painter = painterResource(Res.drawable.tag),
-                contentDescription = "Etiqueta",
-                tint = Color(0xFF888888),
-                modifier = Modifier.size(22.dp)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                painter = painterResource(Res.drawable.flag),
-                contentDescription = "Prioridad",
-                tint = Color(0xFF888888),
-                modifier = Modifier.size(22.dp)
-            )
+            // MODIFICACIÓN: Íconos envueltos en IconButton
+            IconButton(
+                onClick = onTimeClick,
+                modifier = Modifier.size(36.dp)
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.timer),
+                    contentDescription = stringResource(Res.string.add_task_cd_timer),
+                    tint = Color(0xFF888888),
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            IconButton(
+                onClick = onTagClick,
+                modifier = Modifier.size(36.dp)
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.tag),
+                    contentDescription = stringResource(Res.string.add_task_cd_tag),
+                    tint = Color(0xFF888888),
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            IconButton(
+                onClick = onPriorityClick,
+                modifier = Modifier.size(36.dp)
+            ) {
+                Icon(
+                    painter = painterResource(Res.drawable.flag),
+                    contentDescription = stringResource(Res.string.add_task_cd_priority),
+                    tint = Color(0xFF888888),
+                    modifier = Modifier.size(22.dp)
+                )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
             if (isSaving) {
                 CircularProgressIndicator(
-                    color = PrimaryPurple,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(24.dp),
                     strokeWidth = 2.dp
                 )
@@ -134,11 +156,11 @@ fun AddTaskSheetContent(
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape)
-                        .background(if (title.isNotBlank()) PrimaryPurple else Color(0xFF444444))
+                        .background(if (title.isNotBlank()) MaterialTheme.colorScheme.primary else Color(0xFF444444))
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.send),
-                        contentDescription = "Guardar tarea",
+                        contentDescription = stringResource(Res.string.add_task_cd_save),
                         tint = Color.White,
                         modifier = Modifier.size(18.dp)
                     )

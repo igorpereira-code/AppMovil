@@ -4,30 +4,34 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import ucb.edu.bo.config.data.dao.ConfigDao
+import ucb.edu.bo.config.data.entity.ConfigEntity
 import ucb.edu.bo.dollar.data.dao.DollarDao
 import ucb.edu.bo.dollar.data.entity.DollarEntity
-import ucb.edu.bo.formulario.data.dao.FormularioDao
-import ucb.edu.bo.formulario.data.entity.FormularioEntity
-import ucb.edu.bo.remoteconfig.data.dao.RemoteConfigDao
-import ucb.edu.bo.remoteconfig.data.entity.RemoteConfigEntity
+import ucb.edu.bo.events.data.dao.EventDao
+import ucb.edu.bo.events.data.entity.EventEntity
 import ucb.edu.bo.todoApp.task.data.dao.TaskDao
 import ucb.edu.bo.todoApp.task.data.entity.TaskEntity
+import ucb.edu.bo.remoteconfig.data.dao.RemoteConfigDao
+import ucb.edu.bo.remoteconfig.data.entity.RemoteConfigEntity
 
 @Database(
     entities = [
         DollarEntity::class,
-        RemoteConfigEntity::class,
-        FormularioEntity::class,
-        TaskEntity::class
+        TaskEntity::class,
+        ConfigEntity::class,
+        EventEntity::class,
+        RemoteConfigEntity::class
     ],
-    version = 4
+    version = 7
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getDao(): DollarDao
-    abstract fun getRemoteConfigDao(): RemoteConfigDao
-    abstract fun getFormularioDao(): FormularioDao
+    abstract fun getConfigDao(): ConfigDao
+    abstract fun getEventDao(): EventDao
     abstract fun taskDao(): TaskDao
+    abstract fun remoteConfigDao(): RemoteConfigDao
 }
 
 @Suppress("KotlinNoActualForExpect")

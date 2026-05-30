@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.todoApp.intro.presentation.viewmodel.IntroViewModel
 
@@ -39,8 +41,8 @@ fun IntroScreen(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = "Omitir",
-                    color = Color(0xFF8687E7),
+                    text = stringResource(Res.string.intro_button_skip),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 16.sp
                 )
             }
@@ -100,7 +102,7 @@ fun IntroScreen(
                             .size(if (index == state.currentPage) 24.dp else 8.dp, 8.dp)
                             .clip(CircleShape)
                             .background(
-                                if (index == state.currentPage) Color(0xFF8687E7)
+                                if (index == state.currentPage) MaterialTheme.colorScheme.primary
                                 else Color(0xFF444444)
                             )
                     )
@@ -120,8 +122,8 @@ fun IntroScreen(
                         // No hay función back en el viewmodel, podemos ignorar o agregar
                     }) {
                         Text(
-                            text = "Atrás",
-                            color = Color(0xFF8687E7),
+                            text = stringResource(Res.string.intro_button_back),
+                            color = MaterialTheme.colorScheme.primary,
                             fontSize = 16.sp
                         )
                     }
@@ -135,11 +137,11 @@ fun IntroScreen(
                         else viewModel.nextPage()
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF8687E7)
+                        containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
                     Text(
-                        text = if (isLastPage) "Comenzar" else "Siguiente",
+                        text = if (isLastPage) stringResource(Res.string.intro_button_start) else stringResource(Res.string.intro_button_next),
                         color = Color.White,
                         fontSize = 16.sp
                     )

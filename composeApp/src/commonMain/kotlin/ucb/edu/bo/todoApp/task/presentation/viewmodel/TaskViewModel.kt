@@ -6,6 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
 import ucb.edu.bo.todoApp.task.domain.model.TaskModel
 import ucb.edu.bo.todoApp.task.domain.usecase.CreateTaskUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.DeleteTaskUseCase
@@ -66,15 +73,32 @@ class TaskViewModel(
         val title = _state.value.newTaskTitle
         val description = _state.value.newTaskDescription
 
+        // Capturamos los datos seleccionados de los modales
+        val date = _state.value.selectedDate
+        val time = _state.value.selectedTime
+        val priority = _state.value.selectedPriority ?: 1 // 1 por defecto
+
         _state.value = _state.value.copy(isSaving = true)
         viewModelScope.launch {
-            createTaskUseCase(TaskModel(title = title, description = description))
+            val newTask = TaskModel(
+                title = title,
+                description = description,
+                date = date,
+                time = time,
+                priority = priority
+            )
+
+            createTaskUseCase(newTask)
                 .onSuccess {
                     _state.value = _state.value.copy(
                         isSaving = false,
                         isAddTaskSheetVisible = false,
                         newTaskTitle = "",
-                        newTaskDescription = ""
+                        newTaskDescription = "",
+                        // Limpiamos los campos para la próxima tarea
+                        selectedDate = null,
+                        selectedTime = null,
+                        selectedPriority = null
                     )
                     loadTasks()
                 }
@@ -85,6 +109,65 @@ class TaskViewModel(
                     )
                 }
         }
+    }
+    // ── Modales de Fecha, Hora y Prioridad ──────────────────────────────────────
+
+    fun showDatePicker() {
+        _state.value = _state.value.copy(isDatePickerVisible = true)
+    }
+    fun hideDatePicker() {
+        _state.value = _state.value.copy(isDatePickerVisible = false)
+    }
+    fun onDateSelected(date: LocalDate) {
+        _state.value = _state.value.copy(
+            selectedDate = date,
+            isDatePickerVisible = false, // Cerramos el modal de fecha
+            isTimePickerVisible = true   // Abrimos automáticamente el modal de hora
+        )
+    }
+
+    // Formateador de tiempo KMP
+    fun formatTaskTimeText(taskDate: LocalDate?, taskTime: LocalTime?): String {
+        if (taskDate == null || taskTime == null) return "Sin programar"
+
+        val today = Clock.System.now()
+            .toLocalDateTime(TimeZone.currentSystemDefault()).date
+
+        val tomorrow = today.plus(1, DateTimeUnit.DAY)
+
+        val dateText = when (taskDate) {
+            today -> "Today"
+            tomorrow -> "Tomorrow"
+            else -> {
+                val monthName = taskDate.month.name.lowercase().replaceFirstChar { it.uppercase() }
+                "$monthName ${taskDate.dayOfMonth}"
+            }
+        }
+
+        val hourText = taskTime.hour.toString().padStart(2, '0')
+        val minuteText = taskTime.minute.toString().padStart(2, '0')
+
+        return "$dateText At $hourText:$minuteText"
+    }
+
+    fun showTimePicker() {
+        _state.value = _state.value.copy(isTimePickerVisible = true)
+    }
+    fun hideTimePicker() {
+        _state.value = _state.value.copy(isTimePickerVisible = false)
+    }
+    fun onTimeSelected(time: LocalTime) {
+        _state.value = _state.value.copy(selectedTime = time, isTimePickerVisible = false)
+    }
+
+    fun showPriorityPicker() {
+        _state.value = _state.value.copy(isPriorityPickerVisible = true)
+    }
+    fun hidePriorityPicker() {
+        _state.value = _state.value.copy(isPriorityPickerVisible = false)
+    }
+    fun onPrioritySelected(priority: Int) {
+        _state.value = _state.value.copy(selectedPriority = priority, isPriorityPickerVisible = false)
     }
 
     // ── Task actions ────────────────────────────────────────────────────────────
