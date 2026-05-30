@@ -20,7 +20,7 @@ import ucb.edu.bo.todoApp.task.data.entity.TaskEntity
         ConfigEntity::class,
         EventEntity::class
     ],
-    version = 5
+    version = 6
 )
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {

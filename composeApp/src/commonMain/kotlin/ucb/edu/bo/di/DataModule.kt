@@ -31,6 +31,8 @@ import ucb.edu.bo.todoApp.task.data.datasource.TaskLocalDataSourceImpl
 import ucb.edu.bo.todoApp.task.data.repository.TaskRepositoryImpl
 import ucb.edu.bo.todoApp.task.domain.repository.TaskRepository
 import ucb.edu.bo.kmp_room.core.data.db.AppDatabase
+import ucb.edu.bo.todoApp.settings.data.preferences.SettingsPreferencesImpl
+import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
 
 val dataModule = module {
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
@@ -50,4 +52,5 @@ val dataModule = module {
     single { get<AppDatabase>().taskDao() }
     single<TaskLocalDataSource> { TaskLocalDataSourceImpl(get()) }
     single<TaskRepository> { TaskRepositoryImpl(get()) }
+    single<ISettingsPreferences> { SettingsPreferencesImpl(dataStore = get()) }
 }

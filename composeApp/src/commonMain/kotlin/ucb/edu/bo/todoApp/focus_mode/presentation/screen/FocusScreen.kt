@@ -133,6 +133,12 @@ fun FocusScreen(
                 }
             },
             onFocusClick = {},
+            onProfileClick = {
+                navController.navigate(Screen.Settings.route) {//Cambiar a perfil cuando haya
+                    popUpTo(Screen.Task.route)
+                    launchSingleTop = true
+                }
+            },
             onAddClick = { taskViewModel.showAddTaskSheet() }, // NUEVO: Llama al modal
             modifier = Modifier.align(Alignment.BottomCenter) // Ahora sí funciona porque está en un Box
         )

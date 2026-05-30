@@ -20,6 +20,7 @@ import ucb.edu.bo.todoApp.intro.presentation.screen.IntroScreen
 import ucb.edu.bo.todoApp.intro.presentation.screen.WelcomeScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.LoginScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.RegisterScreen
+import ucb.edu.bo.todoApp.settings.presentation.screen.SettingsScreen
 import ucb.edu.bo.todoApp.task.presentation.screen.TaskScreen
 
 sealed class Screen(val route: String) {
@@ -31,6 +32,8 @@ sealed class Screen(val route: String) {
     object Home : Screen("home")
     object Task : Screen("task")
     object Calendar : Screen("calendar")
+
+    object Settings : Screen("settings")
 }
 
 @Composable
@@ -118,6 +121,10 @@ fun AppNavigation(startDestination: String) {
                     fontWeight = FontWeight.Bold
                 )
             }
+        }
+
+        composable(Screen.Settings.route) {
+            SettingsScreen(navController = navController)
         }
     }
 }

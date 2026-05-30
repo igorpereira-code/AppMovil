@@ -39,6 +39,7 @@ composeTest = "1.10.3"
 mockative="3.0.1"
 kotlinx-datetime = "0.6.1"
 
+datastore = "1.1.1"
 
 [libraries]
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
@@ -100,6 +101,8 @@ ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.re
 mockative = { module = "io.mockative:mokative", version.ref = "mockative"}
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
+# Librería Core de DataStore compatible con Kotlin Multiplatform
+datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
 
 [plugins]
 #BASE DE DATOS ROOM

@@ -137,6 +137,12 @@ fun TaskScreen(
                     launchSingleTop = true
                 }
             },
+            onProfileClick = {
+                navController.navigate(Screen.Settings.route) {//Cambiar a perfil cuando haya
+                    popUpTo(Screen.Task.route)
+                    launchSingleTop = true
+                }
+            },
             onAddClick = { viewModel.showAddTaskSheet() }, // Abre el modal local
             modifier = Modifier.align(Alignment.BottomCenter)
         )

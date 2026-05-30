@@ -18,6 +18,9 @@ import ucb.edu.bo.pushnotification.presentation.screen.PushNotificationScreen
 import ucb.edu.bo.realtimedatabasecmp.presentation.screen.FirebaseTestScreen
 import ucb.edu.bo.remoteconfig.presentation.screen.RemoteConfigScreen
 import com.google.firebase.auth.FirebaseAuth
+import org.koin.compose.koinInject
+import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
+import ucb.edu.bo.utils.setAppLanguage
 
 @Composable
 fun App() {
@@ -27,8 +30,19 @@ fun App() {
     } else {
         Screen.Intro.route
     }
+    // 1. Inyectamos las preferencias directamente en la raíz
+    val settingsPreferences = koinInject<ISettingsPreferences>()
 
+    // 2. Observamos el idioma en tiempo real (por defecto "en")
+    val currentLanguage by settingsPreferences.getLanguage().collectAsState(initial = "en")
+
+    // 3. Efecto Secundario: Cada vez que el idioma cambie, avisamos al sistema nativo
+    LaunchedEffect(currentLanguage) {
+        setAppLanguage(currentLanguage)
+    }
     MaterialTheme {
-        AppNavigation(startDestination = startDestination)
+        key(currentLanguage) {
+            AppNavigation(startDestination = startDestination)
+        }
     }
 }

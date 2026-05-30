@@ -147,6 +147,12 @@ fun CalendarScreen(
                     launchSingleTop = true
                     }
             },
+            onProfileClick = {
+                navController.navigate(Screen.Settings.route) {//Cambiar a perfil cuando haya
+                    popUpTo(Screen.Settings.route)
+                    launchSingleTop = true
+                }
+            },
             onAddClick = { taskViewModel.showAddTaskSheet()},
             modifier = Modifier.align(Alignment.BottomCenter)
         )

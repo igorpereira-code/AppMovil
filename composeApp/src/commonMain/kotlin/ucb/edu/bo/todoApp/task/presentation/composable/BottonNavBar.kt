@@ -31,6 +31,7 @@ fun BottomNavBar(
     onCalendarClick: () -> Unit, // NUEVO: Callback para el calendario
     onFocusClick: () -> Unit, // NUEVO: Callback para el focus
     onAddClick: () -> Unit,
+    onProfileClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -87,7 +88,7 @@ fun BottomNavBar(
                 iconRes = Res.drawable.user,
                 label = "Perfil",
                 isSelected = currentRoute == "Perfil",
-                onClick = { /* TODO */ }
+                onClick = { onProfileClick() }
             )
         }
     }
