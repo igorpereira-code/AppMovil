@@ -41,6 +41,9 @@ import ucb.edu.bo.todoApp.category.data.datasource.CategoryLocalDataSource
 import ucb.edu.bo.todoApp.category.data.datasource.CategoryLocalDataSourceImpl
 import ucb.edu.bo.todoApp.category.data.repository.CategoryRepositoryImpl
 import ucb.edu.bo.todoApp.category.domain.repository.CategoryRepository
+import ucb.edu.bo.todoApp.profile.data.datasource.ProfileDataSource
+import ucb.edu.bo.todoApp.profile.data.repository.ProfileRepositoryImpl
+import ucb.edu.bo.todoApp.profile.domain.repository.ProfileRepository
 
 val dataModule = module {
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
@@ -66,6 +69,9 @@ val dataModule = module {
     single { get<AppDatabase>().categoryDao() } // Asegúrate de agregar abstract fun categoryDao() en AppDatabase.kt
     single<CategoryLocalDataSource> { CategoryLocalDataSourceImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
+
+    single { ProfileDataSource() }
+    single<ProfileRepository> { ProfileRepositoryImpl(get()) }
 
     single { HttpClient() }
     single {GoogleCalendarRemoteDataSource(httpClient = get()) }

@@ -37,6 +37,7 @@ fun CalendarScreen(
     LaunchedEffect(taskState.tasks) {
         viewModel.loadTasksForSelectedDate()
     }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -112,18 +113,19 @@ fun CalendarScreen(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    // Iteramos sobre todas las tareas filtradas
                     items(state.filteredTasks, key = { it.id }) { task ->
-
-                        // 1. INTEGRACIÓN: Calculamos el texto de la hora para ESTA tarea en específico
                         val timeString = viewModel.formatTaskTimeText(task.date, task.time)
 
-                        // 2. Dibujamos tu nuevo TaskItem pasándole ese texto
+                        // CORREGIDO: Buscamos la categoría real de la tarea para mostrar ícono y color
+                        val category = taskState.categories.find { it.id == task.categoryId }
+
                         TaskItem(
                             title = task.title,
-                            timeText = timeString,           // <-- Aquí le pasamos "Today At 16:45"
-                            priority = task.priority,        // <-- Aquí le pasamos el número de la banderita
-                            categoryName = null,             // <-- Lo dejamos en null hasta que tu compañero termine las categorías
+                            timeText = timeString,
+                            priority = task.priority,
+                            categoryName = category?.name,
+                            categoryIcon = category?.iconResName,
+                            categoryColor = category?.colorHex?.let { Color(it) } ?: MaterialTheme.colorScheme.primary,
                             isCompleted = task.isCompleted,
                             onToggle = { /* Lógica de tu ViewModel para completar tarea */ },
                             onClick = { /* Lógica para abrir la pantalla de detalles (Task Screen) */ }
@@ -138,26 +140,28 @@ fun CalendarScreen(
             currentRoute = "Calendario",
             onHomeClick = {
                 navController.navigate(Screen.Task.route) {
-                    popUpTo(Screen.Task.route){inclusive=true}
+                    popUpTo(Screen.Task.route) { inclusive = true }
                     launchSingleTop = true
                 }
-                          },
+            },
             onCalendarClick = { /* Ya estás aquí, no haces nada */ },
             onFocusClick = {
                 navController.navigate(Screen.Focus.route) {
-                    popUpTo(Screen.Focus.route)
-                    launchSingleTop = true
-                    }
-            },
-            onProfileClick = {
-                navController.navigate(Screen.Settings.route) {//Cambiar a perfil cuando haya
-                    popUpTo(Screen.Settings.route)
+                    popUpTo(Screen.Task.route)
                     launchSingleTop = true
                 }
             },
-            onAddClick = { taskViewModel.showAddTaskSheet()},
+            onProfileClick = {
+                // CORREGIDO: Navega a Profile
+                navController.navigate(Screen.Profile.route) {
+                    popUpTo(Screen.Task.route)
+                    launchSingleTop = true
+                }
+            },
+            onAddClick = { taskViewModel.showAddTaskSheet() },
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
+
     AddTaskModalsGlobal(taskViewModel = taskViewModel)
 }

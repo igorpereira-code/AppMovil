@@ -13,7 +13,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.FirebaseAuth
+
+// IMPORTANTE: Ya no importamos FirebaseAuth aquí para no romper el Multiplataforma
+
 import ucb.edu.bo.todoApp.calendar.presentation.screen.CalendarScreen
 import ucb.edu.bo.todoApp.focus_mode.presentation.screen.FocusScreen
 import ucb.edu.bo.todoApp.intro.presentation.screen.IntroScreen
@@ -22,6 +24,7 @@ import ucb.edu.bo.todoApp.login.presentation.screen.LoginScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.RegisterScreen
 import ucb.edu.bo.todoApp.settings.presentation.screen.SettingsScreen
 import ucb.edu.bo.todoApp.task.presentation.screen.TaskScreen
+import ucb.edu.bo.todoApp.profile.presentation.screen.ProfileScreen // Tu pantalla de perfil
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -35,8 +38,8 @@ sealed class Screen(val route: String) {
     object Home : Screen("home")
     object Task : Screen("task")
     object Calendar : Screen("calendar")
-
     object Settings : Screen("settings")
+    object Profile : Screen("profile")
 }
 
 @Composable
@@ -92,12 +95,12 @@ fun AppNavigation(startDestination: String) {
         composable(Screen.Focus.route) {
             FocusScreen(
                 onLogout = {
-                    FirebaseAuth.getInstance().signOut()
+                    // Usamos SessionManager en lugar de Firebase
+                    ucb.edu.bo.SessionManager.logout()
                     navController.navigate(Screen.Welcome.route) {
                         popUpTo(0) { inclusive = true }
                     }
                 },
-                // NUEVO: Agregamos el navController para que FocusScreen pueda navegar
                 navController = navController
             )
         }
@@ -124,6 +127,26 @@ fun AppNavigation(startDestination: String) {
                     fontWeight = FontWeight.Bold
                 )
             }
+        }
+
+        // UN SOLO BLOQUE DE PROFILE SCREEN
+        composable(Screen.Profile.route) {
+            // Instanciamos el TaskViewModel aquí
+            val taskViewModel: ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel = org.koin.compose.viewmodel.koinViewModel()
+
+            ProfileScreen(
+                navController = navController,
+                taskViewModel = taskViewModel, // PASAMOS EL VIEWMODEL
+                onNavigateToSettings = {
+                    navController.navigate(Screen.Settings.route)
+                },
+                onLogoutSuccess = {
+                    ucb.edu.bo.SessionManager.logout()
+                    navController.navigate(Screen.Welcome.route) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            )
         }
 
         composable(Screen.Settings.route) {

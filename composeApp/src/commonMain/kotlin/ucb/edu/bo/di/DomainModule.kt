@@ -18,6 +18,10 @@ import ucb.edu.bo.todoApp.focus_mode.domain.usecase.GetWeekSessionsUseCase
 import ucb.edu.bo.todoApp.focus_mode.domain.usecase.SaveFocusSessionUseCase
 import ucb.edu.bo.todoApp.login.domain.usecase.LoginUseCase
 import ucb.edu.bo.todoApp.login.domain.usecase.RegisterUseCase
+import ucb.edu.bo.todoApp.profile.domain.usecase.GetProfileUseCase
+import ucb.edu.bo.todoApp.profile.domain.usecase.LogoutUseCase
+import ucb.edu.bo.todoApp.profile.domain.usecase.UpdateNameUseCase
+import ucb.edu.bo.todoApp.profile.domain.usecase.UpdatePasswordUseCase
 import ucb.edu.bo.todoApp.settings.domain.usecase.ImportGoogleCalendarUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.CreateTaskUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.DeleteTaskUseCase
@@ -48,4 +52,9 @@ val domainModule = module {
     factory {ImportGoogleCalendarUseCase(repository = get())}
     factory { GetAllCategoriesUseCase(get()) }
     factory { CreateCategoryUseCase(get()) }
+
+    factory { GetProfileUseCase(get()) }
+    factory { UpdateNameUseCase(get()) }
+    factory { UpdatePasswordUseCase(get()) }
+    factory { LogoutUseCase(get()) }
 }

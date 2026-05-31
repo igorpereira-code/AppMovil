@@ -15,4 +15,17 @@ class AuthRepositoryImpl(
     override suspend fun register(username: String, email: String, password: String): Result<User> {
         return authDataSource.register(username, email, password)
     }
+
+    // NUEVAS FUNCIONES:
+    override suspend fun changePassword(newPassword: String): Result<Unit> {
+        return authDataSource.changePassword(newPassword)
+    }
+
+    override suspend fun updateName(newName: String): Result<Unit> {
+        return authDataSource.updateName(newName)
+    }
+
+    override fun getCurrentUserName(): String {
+        return authDataSource.getCurrentUserName()
+    }
 }

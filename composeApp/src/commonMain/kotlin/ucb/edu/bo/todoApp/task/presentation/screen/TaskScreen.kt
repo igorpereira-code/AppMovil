@@ -29,7 +29,7 @@ import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 @Composable
 fun TaskScreen(
     viewModel: TaskViewModel = koinViewModel(),
-    navController: androidx.navigation.NavHostController, // NUEVO
+    navController: androidx.navigation.NavHostController,
 ) {
     val state by viewModel.state.collectAsState()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -110,10 +110,7 @@ fun TaskScreen(
                         timeText = timeString,
                         priority = task.priority,
                         categoryName = category?.name,
-
-                        // ¡NUEVA LÍNEA! Le pasamos el nombre real del archivo .png
                         categoryIcon = category?.iconResName,
-
                         categoryColor = category?.colorHex?.let { Color(it) } ?: MaterialTheme.colorScheme.primary,
                         isCompleted = task.isCompleted,
                         onToggle = { viewModel.toggleTask(task.id, !task.isCompleted) },
@@ -140,12 +137,13 @@ fun TaskScreen(
                 }
             },
             onProfileClick = {
-                navController.navigate(Screen.Settings.route) {//Cambiar a perfil cuando haya
+                // CORREGIDO: Navega a Profile
+                navController.navigate(Screen.Profile.route) {
                     popUpTo(Screen.Task.route)
                     launchSingleTop = true
                 }
             },
-            onAddClick = { viewModel.showAddTaskSheet() }, // Abre el modal local
+            onAddClick = { viewModel.showAddTaskSheet() },
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
