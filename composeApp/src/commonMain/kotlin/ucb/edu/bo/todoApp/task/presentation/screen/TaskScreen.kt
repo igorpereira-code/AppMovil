@@ -114,7 +114,7 @@ fun TaskScreen(
                         categoryColor = category?.colorHex?.let { Color(it) } ?: MaterialTheme.colorScheme.primary,
                         isCompleted = task.isCompleted,
                         onToggle = { viewModel.toggleTask(task.id, !task.isCompleted) },
-                        onClick = { /* Lógica para abrir la pantalla de detalles */ }
+                        onClick = { navController.navigate(Screen.EditTask.createRoute(task.id))/* Lógica para abrir la pantalla de detalles */ }
                     )
                 }
             }

@@ -14,8 +14,16 @@ class TaskRepositoryImpl (
         return localDataSource.getAll().map { it.toModel() }
     }
 
+    override suspend fun getById(taskId: Int): TaskModel? {
+        return localDataSource.getById(taskId)?.toModel()
+    }
+
     override suspend fun save(task: TaskModel) {
         localDataSource.insert(task.toEntity())
+    }
+
+    override suspend fun update(task: TaskModel) {
+        localDataSource.update(task.toEntity())
     }
 
     override suspend fun delete(taskId: Int) {

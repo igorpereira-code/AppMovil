@@ -10,9 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 // IMPORTANTE: Ya no importamos FirebaseAuth aquí para no romper el Multiplataforma
 
@@ -28,6 +30,7 @@ import ucb.edu.bo.todoApp.profile.presentation.screen.ProfileScreen // Tu pantal
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import ucb.edu.bo.todoApp.task.presentation.screen.EditTaskScreen
 
 sealed class Screen(val route: String) {
     object Intro : Screen("intro")
@@ -39,6 +42,10 @@ sealed class Screen(val route: String) {
     object Task : Screen("task")
     object Calendar : Screen("calendar")
     object Settings : Screen("settings")
+
+    object EditTask : Screen("edit_task/{taskId}") {
+        fun createRoute(taskId: Int) = "edit_task/$taskId"
+    }
     object Profile : Screen("profile")
 }
 
@@ -127,6 +134,17 @@ fun AppNavigation(startDestination: String) {
                     fontWeight = FontWeight.Bold
                 )
             }
+        }
+
+        composable(
+            route = Screen.EditTask.route,
+            arguments = listOf(navArgument("taskId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val taskId = backStackEntry.arguments?.getInt("taskId") ?: return@composable
+            EditTaskScreen(
+                taskId = taskId,
+                navController = navController
+            )
         }
 
         // UN SOLO BLOQUE DE PROFILE SCREEN
