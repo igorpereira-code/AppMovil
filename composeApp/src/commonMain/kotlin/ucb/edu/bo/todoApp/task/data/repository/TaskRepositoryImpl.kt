@@ -33,4 +33,7 @@ class TaskRepositoryImpl (
     override suspend fun toggleComplete(taskId: Int, isCompleted: Boolean) {
         localDataSource.toggleComplete(taskId, isCompleted)
     }
+
+    override suspend fun markAsSynced(taskId: Int) =
+        localDataSource.markAsSynced(taskId)
 }

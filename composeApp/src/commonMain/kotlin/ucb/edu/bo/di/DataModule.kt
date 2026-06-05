@@ -12,6 +12,7 @@ import ucb.edu.bo.dollar.domain.repository.DollarRepository
 import ucb.edu.bo.events.data.repository.EventRepositoryImpl
 import ucb.edu.bo.events.domain.repository.EventRepository
 import ucb.edu.bo.firebase.RemoteConfigManager
+import ucb.edu.bo.firebase.FirebaseManager
 import ucb.edu.bo.formulario.data.datasource.FormularioFirebaseDataSource
 import ucb.edu.bo.formulario.data.repository.FormularioRepositoryImpl
 import ucb.edu.bo.formulario.domain.repository.FormularioRepository
@@ -51,6 +52,10 @@ val dataModule = module {
     factory { FirebaseDataSource() }
     factory<FirebaseTestRepository> { FirebaseTestRepositoryImpl(get()) }
     single { RemoteConfigManager() }
+    
+    // Registro de FirebaseManager para que TaskSyncWorker pueda inyectarlo
+    single { FirebaseManager() }
+
     single<RemoteConfigRepository> { RemoteConfigRepositoryImpl(get(), get()) }
     single<ConfigRepository>{ ConfigRepositoryImpl(get(), get()) }
     single<EventRepository> { EventRepositoryImpl(get()) }
@@ -66,7 +71,7 @@ val dataModule = module {
     single<TaskRepository> { TaskRepositoryImpl(get()) }
     single<ISettingsPreferences> { SettingsPreferencesImpl(dataStore = get()) }
 
-    single { get<AppDatabase>().categoryDao() } // Asegúrate de agregar abstract fun categoryDao() en AppDatabase.kt
+    single { get<AppDatabase>().categoryDao() }
     single<CategoryLocalDataSource> { CategoryLocalDataSourceImpl(get()) }
     single<CategoryRepository> { CategoryRepositoryImpl(get()) }
 
@@ -75,6 +80,5 @@ val dataModule = module {
 
     single { HttpClient() }
     single {GoogleCalendarRemoteDataSource(httpClient = get()) }
-    // 3. Repositorio de Autenticación y Calendario
-    single<CalendarAuthRepository> { CalendarAuthRepositoryImpl(remoteDataSource = get(), taskDao = get())}// Koin ya sabe darte este DAO gracias a platformModule
+    single<CalendarAuthRepository> { CalendarAuthRepositoryImpl(remoteDataSource = get(), taskDao = get())}
 }

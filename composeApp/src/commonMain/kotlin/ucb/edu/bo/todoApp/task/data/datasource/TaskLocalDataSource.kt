@@ -11,4 +11,5 @@ interface TaskLocalDataSource {
     suspend fun update(task: TaskEntity)
     suspend fun delete(taskId: Int)
     suspend fun toggleComplete(taskId: Int, isCompleted: Boolean)
+    suspend fun markAsSynced(taskId: Int)
 }

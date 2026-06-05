@@ -19,4 +19,6 @@ class TaskLocalDataSourceImpl (
 
     override suspend fun toggleComplete(taskId: Int, isCompleted: Boolean) =
         taskDao.toggleComplete(taskId, isCompleted)
+
+    override suspend fun markAsSynced(taskId: Int) = taskDao.markAsSynced(taskId)
 }

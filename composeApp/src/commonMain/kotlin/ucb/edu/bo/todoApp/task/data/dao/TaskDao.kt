@@ -34,4 +34,8 @@ interface TaskDao {
 
     @Query("UPDATE tasks SET isCompleted = :isCompleted WHERE id = :taskId")
     suspend fun toggleComplete(taskId: Int, isCompleted: Boolean)
+
+    // alias claro para el Worker de sincronización delta
+    @Query("UPDATE tasks SET isSynced = 1 WHERE id = :taskId")
+    suspend fun markAsSynced(taskId: Int)
 }

@@ -9,4 +9,5 @@ interface TaskRepository {
     suspend fun update(task: TaskModel)
     suspend fun delete(taskId: Int)
     suspend fun toggleComplete(taskId: Int, isCompleted: Boolean)
+    suspend fun markAsSynced(taskId: Int)
 }
