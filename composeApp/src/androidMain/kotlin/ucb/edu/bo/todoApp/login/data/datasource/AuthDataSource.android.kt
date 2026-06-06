@@ -68,4 +68,39 @@ actual class AuthDataSource actual constructor() {
             Result.failure(Exception("Error al crear la cuenta: ${e.message}"))
         }
     }
+
+    // ── NUEVAS FUNCIONES PARA EL PERFIL ──────────────────────────────────────
+
+    actual suspend fun changePassword(newPassword: String): Result<Unit> {
+        val user = auth.currentUser ?: return Result.failure(Exception("No hay sesión activa"))
+
+        return try {
+            user.updatePassword(newPassword).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(Exception(e.message ?: "Error al cambiar contraseña"))
+        }
+    }
+
+    actual suspend fun updateName(newName: String): Result<Unit> {
+        val user = auth.currentUser ?: return Result.failure(Exception("No hay sesión activa"))
+
+        return try {
+            val profileUpdates = userProfileChangeRequest {
+                displayName = newName
+            }
+            user.updateProfile(profileUpdates).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(Exception(e.message ?: "Error al actualizar nombre"))
+        }
+    }
+
+    actual fun getCurrentUserName(): String {
+        val user = auth.currentUser
+        // Intenta sacar el nombre real. Si está vacío, usa lo que está antes del "@" en el correo.
+        return user?.displayName?.takeIf { it.isNotBlank() }
+            ?: user?.email?.substringBefore("@")
+            ?: "Usuario"
+    }
 }

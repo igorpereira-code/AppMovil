@@ -1,16 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  Loco xml export: Android strings
- Project: todo-list
- Locale: en, English
+ Project: todoApp
+ Locale: en-US, English (USA)
  Exported by: María Jesús Lozada
- Exported at: Wed, 22 Apr 2026 15:08:16 -0400
+ Exported at: Sat, 30 May 2026 01:04:04 -0400
 -->
 <resources>
-    <string name="pendientes">to do list</string>
-    <string name="sign_in">Sign in</string>
-    <string name="app_name">App Móvil</string>
-    <string name="welcome_message">Welcome</string>
-    <string name="button_save">Save</string>
-    <string name="button_cancel">Cancel</string>
+    <string name="settings_title">Settings</string>
+    <string name="change_color">Change app color</string>
+    <string name="change_typography">Change app typography</string>
+    <string name="change_language">Change app language</string>
+    <string name="import_title">Import</string>
+    <string name="import_google">Import from Google calendar</string>
+    <string name="select_language">Select Language</string>
+    <string name="change_theme_title">Select App Color</string>
+    <string name="change_typography_title">Select Typography</string>
+    <string name="calendar_title">Calendar</string>
+    <string name="calendar_tab_today">Today</string>
+    <string name="calendar_tab_month">Month</string>
+    <string name="calendar_no_tasks_title">No tasks for today</string>
+    <string name="calendar_no_tasks_subtitle">Take a break or add a new task!</string>
+    <string name="calendar_event_all_day">All day</string>
+    <string name="calendar_filter_completed">Completed</string>
+    <string name="calendar_filter_pending">Pending</string>
+    <string name="task_title_index">Index</string>
+    <string name="task_desc_menu">Menu</string>
+    <string name="task_desc_profile">Profile</string>
+    <string name="focus_title">Focus Mode</string>
+    <string name="focus_button_logout">Log out</string>
+    <string name="focus_subtitle_select_time">Select time</string>
+    <string name="focus_label_custom_minutes">Custom minutes</string>
+    <string name="focus_button_ok">OK</string>
+    <string name="focus_status_saving">Saving session...</string>
+    <string name="focus_state_focused">Focused</string>
+    <string name="focus_state_ready">Ready</string>
+    <string name="focus_button_stop">Stop</string>
+    <string name="focus_button_start">Start</string>
+    <string name="focus_button_restart">Restart</string>
+    <string name="focus_stats_this_week">This week</string>
+    <string name="focus_stats_daily_average">Daily average</string>
+    <string name="focus_time_format">%02d:%02d</string>
+    <string name="login_title">Log in</string>
+    <string name="login_label_email">Email</string>
+    <string name="login_label_password">Password</string>
+    <string name="login_button_google">Log in with Google</string>
+    <string name="login_text_no_account">Don\'t have an account?\u0020</string>
+    <string name="login_link_register">Sign up</string>
+    <string name="login_text_or">\u0020or\u0020</string>
+    <string name="register_title">Create account</string>
+    <string name="register_label_username">Username</string>
+    <string name="register_label_email">Email</string>
+    <string name="register_label_password">Password</string>
+    <string name="register_label_confirm_password">Confirm password</string>
+    <string name="register_error_password_mismatch">Passwords do not match</string>
+    <string name="register_button_google">Sign up with Google</string>
+    <string name="register_text_already_have_account">Already have an account?\u0020</string>
+    <string name="register_link_login">Log in</string>
+    <string name="welcome_title">Welcome to UpTodo</string>
+    <string name="welcome_description">Please log in to your account or create a new one to continue</string>
+    <string name="welcome_button_login">Log in</string>
+    <string name="welcome_button_register">Create account</string>
+    <string name="intro_button_skip">Skip</string>
+    <string name="intro_button_back">Back</string>
+    <string name="intro_button_next">Next</string>
+    <string name="intro_button_start">Get Started</string>
+    <string name="dollar_records_count">Number of Records %d</string>
+    <string name="calendar_button_choose_date">Choose Date</string>
+    <string name="empty_task_title">What do you want to do today?</string>
+    <string name="empty_task_subtitle">Tap + to add your tasks</string>
+    <string name="add_task_title">Add Task</string>
+    <string name="add_task_placeholder_title">Task title</string>
+    <string name="add_task_placeholder_desc">Description</string>
+    <string name="add_task_cd_timer">Timer</string>
+    <string name="add_task_cd_tag">Tag</string>
+    <string name="add_task_cd_priority">Priority</string>
+    <string name="add_task_cd_save">Save task</string>
+    <string name="priority_picker_title">Task Priority</string>
+    <string name="priority_cd_value">Priority %d</string>
+    <string name="time_picker_title">Choose Time</string>
+    <string name="date_picker_button_choose">Choose Date</string>
+    <string name="common_save">Save</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="nav_index">Index</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_focus">Focus</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_cd_add_task">Add task</string>
+    <string name="settings_item_language">Language</string>
+    <string name="settings_item_theme">Theme Color</string>
+    <string name="settings_item_about">About us</string>
+    <string name="settings_item_logout">Log out</string>
+    <string name="form_title">Registration Form</string>
+    <string name="form_label_name">First Name</string>
+    <string name="form_label_lastname">Last Name</string>
+    <string name="form_label_age">Age</string>
+    <string name="form_label_email">Email</string>
+    <string name="form_button_submit">Submit</string>
+    <string name="error_invalid_value">Enter a valid value</string>
+    <string name="error_max_minutes">Maximum 180 minutes</string>
+    <string name="status_saving_session">Saving session...</string>
+    <string name="home_welcome_message">Welcome! 🎉</string>
+    <string name="task_item_cd_delete">Delete</string>
+    <string name="intro_title_page1">Manage your tasks</string>
+    <string name="intro_desc_page1">You can easily manage all of your daily tasks for free</string>
+    <string name="intro_title_page2">Create daily routine</string>
+    <string name="intro_desc_page2">In our app you can create your personalized routine to stay productive</string>
+    <string name="intro_title_page3">Organize your tasks</string>
+    <string name="intro_desc_page3">You can organize your daily tasks by adding your tasks into separate categories</string>
+    <string name="focus_unit_min">min</string>
+    <string name="focus_day_mon">MON</string>
+    <string name="focus_day_tue">TUE</string>
+    <string name="focus_day_wed">WED</string>
+    <string name="focus_day_thu">THU</string>
+    <string name="focus_day_fri">FRI</string>
+    <string name="focus_day_sat">SAT</string>
+    <string name="focus_day_sun">SUN</string>
+    <string name="notification_focus_title">Session completed! 🎉</string>
+    <string name="notification_focus_body">You completed %d minutes of focus. Excellent work!</string>
+    <string name="app_name">todoApp</string>
 </resources>

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "b0dfc9694898647621bcccd7da776df3",
+    "identityHash": "5e51ba714bf235bcd9e78179123bd737",
     "entities": [
       {
         "tableName": "dollars",
@@ -39,38 +39,32 @@
         }
       },
       {
-        "tableName": "remote_config_cache",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `value` TEXT NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`key`))",
+        "tableName": "remote_configs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`config_key` TEXT NOT NULL, `config_value` TEXT NOT NULL, PRIMARY KEY(`config_key`))",
         "fields": [
           {
             "fieldPath": "key",
-            "columnName": "key",
+            "columnName": "config_key",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "value",
-            "columnName": "value",
+            "columnName": "config_value",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "updatedAt",
-            "columnName": "updatedAt",
-            "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "key"
+            "config_key"
           ]
         }
       },
       {
-        "tableName": "formulario",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT NOT NULL, `mensaje` TEXT NOT NULL, `sincronizado` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "tableName": "app_events",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `event_type` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `is_synced` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -79,26 +73,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "nombre",
-            "columnName": "nombre",
+            "fieldPath": "eventType",
+            "columnName": "event_type",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "mensaje",
-            "columnName": "mensaje",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "sincronizado",
-            "columnName": "sincronizado",
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "updatedAt",
-            "columnName": "updatedAt",
+            "fieldPath": "isSynced",
+            "columnName": "is_synced",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -113,7 +101,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b0dfc9694898647621bcccd7da776df3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5e51ba714bf235bcd9e78179123bd737')"
     ]
   }
 }
