@@ -13,4 +13,8 @@ interface ISettingsPreferences {
 
     suspend fun saveTypography(fontName: String)
     fun getTypography(): Flow<String>
+
+    suspend fun saveThemeMode(isDark: Boolean)
+
+    fun getThemeMode(): Flow<Boolean>
 }

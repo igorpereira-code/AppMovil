@@ -22,6 +22,7 @@ import org.jetbrains.compose.resources.stringResource
 import ucb.edu.bo.todoApp.settings.presentation.composable.ColorSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.LanguageSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.SettingItem
+import ucb.edu.bo.todoApp.settings.presentation.composable.ThemeModeSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.TypographySelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.viewmodel.SettingsViewModel
 
@@ -85,7 +86,25 @@ fun SettingsScreen(
                 onClick = { viewModel.showLanguageModal() }
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            SettingItem(
+                iconRes = Res.drawable.moon,
+                title = "Modo de Pantalla", // Reemplaza por tu stringResource
+                onClick = { viewModel.showThemeModeModal() }
+            )
+
+            Spacer(modifier = Modifier.weight(1f)) // Empuja el texto hacia abajo
+
+            // Frase motivacional (NUEVO)
+            Text(
+                text = state.dailyQuote,
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 14.sp,
+                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+                modifier = Modifier.padding(24.dp).align(Alignment.CenterHorizontally),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // ── Categoría: Importación ───────────────────────────────────────
             /*Text(
@@ -147,6 +166,13 @@ fun SettingsScreen(
                 currentTypography = state.currentTypography,
                 onTypographySelected = { viewModel.onTypographySelected(it) },
                 onDismiss = { viewModel.hideTypographyModal() }
+            )
+        }
+        if (state.isThemeModeModalVisible) {
+            ThemeModeSelectionModal(
+                isDarkMode = state.isDarkMode,
+                onModeSelected = { viewModel.onThemeModeSelected(it) },
+                onDismiss = { viewModel.hideThemeModeModal() }
             )
         }
 

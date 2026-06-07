@@ -47,6 +47,9 @@ kotlin {
             implementation("com.karumi:dexter:6.2.3")
             implementation(libs.firebase.auth)
             implementation(libs.datastore.preferences)
+            // Retrofit
+            implementation("com.squareup.retrofit2:retrofit:2.9.0")
+            implementation("com.squareup.retrofit2:converter-gson:2.9.0")
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)

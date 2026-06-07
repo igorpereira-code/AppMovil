@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.material3.Typography
+import androidx.compose.material3.lightColorScheme
 
 // Función de extensión segura para convertir Hex a Color
 fun String.toColor(): Color {
@@ -29,6 +30,7 @@ fun getFontFamily(fontName: String): FontFamily {
 fun AppTheme(
     dynamicPrimaryColorHex: String,
     dynamicTypography: String = "Default",
+    isDarkMode: Boolean = true,
     content: @Composable () -> Unit
 ) {
     // 1. Convertimos el Hex guardado en el teléfono a un objeto Color
@@ -45,6 +47,17 @@ fun AppTheme(
         onBackground = Color.White,           // El color del texto principal
         surfaceVariant = Color(0xFF1D1D1D)    // Color secundario oscuro para chips o menús
     )
+    val lightColors = lightColorScheme(
+        primary = primaryColor, // ¡Mantiene el color dinámico que eligió el usuario!
+        background = Color(0xFFF5F5F5),       // Fondo general claro (Gris muy claro)
+        surface = Color(0xFFFFFFFF),          // Fondo de tarjetas y modales (Blanco)
+        onPrimary = Color.White,              // Texto sobre botones primarios
+        onBackground = Color(0xFF121212),     // Texto principal (Casi negro)
+        surfaceVariant = Color(0xFFE0E0E0)    // Color secundario claro
+    )
+    // Elegimos la paleta basándonos en el parámetro
+    val colorScheme = if (isDarkMode) darkColors else lightColors
+
     val defaultTypography = Typography()
     val appTypography = Typography(
         displayLarge = defaultTypography.displayLarge.copy(fontFamily = fontFamily),
@@ -66,7 +79,7 @@ fun AppTheme(
 
     // 3. Inyectamos esta paleta a toda la aplicación
     MaterialTheme(
-        colorScheme = darkColors,
+        colorScheme = colorScheme,
         typography = appTypography,
         content = content
     )

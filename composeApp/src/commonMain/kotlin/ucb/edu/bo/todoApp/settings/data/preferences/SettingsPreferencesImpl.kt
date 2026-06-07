@@ -2,6 +2,7 @@ package ucb.edu.bo.todoApp.settings.data.preferences
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
@@ -17,6 +18,7 @@ class SettingsPreferencesImpl(
         val LANGUAGE_KEY = stringPreferencesKey("app_language")
         val COLOR_KEY = stringPreferencesKey("app_color")
         val TYPOGRAPHY_KEY = stringPreferencesKey("app_typography")
+        val THEME_MODE_KEY = booleanPreferencesKey("app_theme_mode")
     }
 
     // ── IDIOMA ───────────────────────────────────────────────────────────────
@@ -56,6 +58,18 @@ class SettingsPreferencesImpl(
     override fun getTypography(): Flow<String> {
         return dataStore.data.map { preferences ->
             preferences[TYPOGRAPHY_KEY] ?: "Default"
+        }
+    }
+
+    override suspend fun saveThemeMode(isDark: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[THEME_MODE_KEY] = isDark
+        }
+    }
+
+    override fun getThemeMode(): Flow<Boolean> {
+        return dataStore.data.map { preferences ->
+            preferences[THEME_MODE_KEY] ?: true // true = Modo oscuro por defecto
         }
     }
 }

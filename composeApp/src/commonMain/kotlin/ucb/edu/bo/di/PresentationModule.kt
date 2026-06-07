@@ -31,5 +31,5 @@ val presentationModule = module {
     viewModel { FocusViewModel(get(), get()) }
     viewModelOf(::TaskViewModel)
     viewModelOf(::CalendarViewModel)
-    viewModel { SettingsViewModel(settingsPreferences = get(),importGoogleCalendarUseCase = get())}
+    viewModel { SettingsViewModel(settingsPreferences = get(),importGoogleCalendarUseCase = get(), quoteRepository = get())}
 }

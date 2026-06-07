@@ -14,13 +14,15 @@ import ucb.edu.bo.formulario.data.preferences.FormularioPreferences
 import ucb.edu.bo.formulario.data.preferences.IFormularioPreferences
 import ucb.edu.bo.events.domain.usecase.BackgroundEventTrigger
 import ucb.edu.bo.kmp_room.core.data.db.AppDatabase
+import ucb.edu.bo.todoApp.settings.data.RetrofitQuoteRepositoryImpl
+import ucb.edu.bo.todoApp.settings.domain.repository.QuoteRepository
 import ucb.edu.bo.workmanager.AndroidBackgroundEventTrigger
 import java.io.File
 
 actual val platformModule = module {
     single<AppDatabase> {
         val context = androidContext()
-        val dbFile = context.getDatabasePath("dollar_db.db")
+        val dbFile = context.getDatabasePath("todo_app_db.db")
         Room.databaseBuilder<AppDatabase>(
             context = context,
             name = dbFile.absolutePath
@@ -40,7 +42,7 @@ actual val platformModule = module {
 
     single<IFormularioPreferences> { FormularioPreferences(androidContext()) }
     single<BackgroundEventTrigger> { AndroidBackgroundEventTrigger(androidContext()) }
-
+    single<QuoteRepository> { RetrofitQuoteRepositoryImpl() }
 
     // DAOs provided via AppDatabase
     single { get<AppDatabase>().getDao() }

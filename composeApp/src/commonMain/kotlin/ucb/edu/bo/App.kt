@@ -38,6 +38,7 @@ fun App() {
     val currentLanguage by settingsPreferences.getLanguage().collectAsState(initial = "en")
     val currentColorHex by settingsPreferences.getAppColor().collectAsState(initial = "FF8687E7")
     val currentTypography by settingsPreferences.getTypography().collectAsState(initial = "Default")
+    val isDarkMode by settingsPreferences.getThemeMode().collectAsState(initial = true)
 
     // 3. Efecto Secundario: Cada vez que el idioma cambie, avisamos al sistema nativo
     LaunchedEffect(currentLanguage) {
@@ -45,7 +46,8 @@ fun App() {
     }
     AppTheme(
         dynamicPrimaryColorHex = currentColorHex,
-        dynamicTypography = currentTypography) {
+        dynamicTypography = currentTypography,
+        isDarkMode = isDarkMode) {
         key(currentLanguage) {
             AppNavigation(startDestination = startDestination)
         }

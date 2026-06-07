@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
+import ucb.edu.bo.todoApp.settings.domain.repository.QuoteRepository
 import ucb.edu.bo.todoApp.settings.domain.usecase.ImportGoogleCalendarUseCase
 
 data class SettingsUIState(
@@ -18,12 +19,16 @@ data class SettingsUIState(
     val isTypographyModalVisible: Boolean = false,
     val currentTypography: String = "Default",
     val isImporting: Boolean = false,
-    val importError: String? = null
+    val importError: String? = null,
+    val isThemeModeModalVisible: Boolean = false,
+    val isDarkMode: Boolean = true,
+    val dailyQuote: String = "Cargando frase..."
 )
 
 class SettingsViewModel(
     private val settingsPreferences: ISettingsPreferences,
-    private val importGoogleCalendarUseCase: ImportGoogleCalendarUseCase // Inyectamos el Caso de Uso
+    private val importGoogleCalendarUseCase: ImportGoogleCalendarUseCase, // Inyectamos el Caso de Uso
+    private val quoteRepository: QuoteRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsUIState())
@@ -45,6 +50,15 @@ class SettingsViewModel(
             settingsPreferences.getTypography().collect { savedFont ->
                 _state.value = _state.value.copy(currentTypography = savedFont)
             }
+        }
+        viewModelScope.launch {
+            settingsPreferences.getThemeMode().collect { isDark ->
+                _state.value = _state.value.copy(isDarkMode = isDark)
+            }
+        }
+        viewModelScope.launch {
+            val quote = quoteRepository.getRandomMotivationalQuote()
+            _state.value = _state.value.copy(dailyQuote = quote)
         }
     }
 
@@ -127,6 +141,23 @@ class SettingsViewModel(
                     importError = error.message ?: "Unknown error during import"
                 )
             }
+        }
+    }
+    fun showThemeModeModal() {
+        _state.value = _state.value.copy(isThemeModeModalVisible = true)
+    }
+
+    fun hideThemeModeModal() {
+        _state.value = _state.value.copy(isThemeModeModalVisible = false)
+    }
+
+    fun onThemeModeSelected(isDark: Boolean) {
+        _state.value = _state.value.copy(
+            isDarkMode = isDark,
+            isThemeModeModalVisible = false
+        )
+        viewModelScope.launch {
+            settingsPreferences.saveThemeMode(isDark)
         }
     }
 }
