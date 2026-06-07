@@ -46,6 +46,10 @@ kotlin {
             implementation(libs.kotlinx.coroutines.play.services)
             implementation("com.karumi:dexter:6.2.3")
             implementation(libs.firebase.auth)
+            implementation(libs.datastore.preferences)
+            // Retrofit
+            implementation("com.squareup.retrofit2:retrofit:2.9.0")
+            implementation("com.squareup.retrofit2:converter-gson:2.9.0")
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -68,7 +72,9 @@ kotlin {
             implementation(libs.coil.network)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.kotlinx.datetime)
             implementation(project(":designsystem"))
+            implementation(libs.datastore.preferences.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

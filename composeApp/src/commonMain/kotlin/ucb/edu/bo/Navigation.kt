@@ -14,11 +14,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
+import ucb.edu.bo.todoApp.calendar.presentation.screen.CalendarScreen
 import ucb.edu.bo.todoApp.focus_mode.presentation.screen.FocusScreen
 import ucb.edu.bo.todoApp.intro.presentation.screen.IntroScreen
 import ucb.edu.bo.todoApp.intro.presentation.screen.WelcomeScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.LoginScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.RegisterScreen
+import ucb.edu.bo.todoApp.settings.presentation.screen.SettingsScreen
+import ucb.edu.bo.todoApp.task.presentation.screen.TaskScreen
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+import androidx.navigation.NavHostController
 
 sealed class Screen(val route: String) {
     object Intro : Screen("intro")
@@ -27,11 +34,14 @@ sealed class Screen(val route: String) {
     object Register : Screen("register")
     object Focus : Screen("focus")
     object Home : Screen("home")
+    object Task : Screen("task")
+    object Calendar : Screen("calendar")
+
+    object Settings : Screen("settings")
 }
 
 @Composable
-fun AppNavigation(startDestination: String) {
-    val navController = rememberNavController()
+fun AppNavigation(startDestination: String, navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = startDestination
@@ -54,7 +64,7 @@ fun AppNavigation(startDestination: String) {
         composable(Screen.Login.route) {
             LoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(Screen.Focus.route) {
+                    navController.navigate(Screen.Task.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 },
@@ -68,7 +78,7 @@ fun AppNavigation(startDestination: String) {
         composable(Screen.Register.route) {
             RegisterScreen(
                 onRegisterSuccess = {
-                    navController.navigate(Screen.Focus.route) {
+                    navController.navigate(Screen.Task.route) {
                         popUpTo(Screen.Welcome.route) { inclusive = true }
                     }
                 },
@@ -86,9 +96,20 @@ fun AppNavigation(startDestination: String) {
                     navController.navigate(Screen.Welcome.route) {
                         popUpTo(0) { inclusive = true }
                     }
-                }
+                },
+                // NUEVO: Agregamos el navController para que FocusScreen pueda navegar
+                navController = navController
             )
         }
+
+        composable(Screen.Task.route) {
+            TaskScreen(navController = navController)
+        }
+
+        composable(Screen.Calendar.route) {
+            CalendarScreen(navController = navController)
+        }
+
         composable(Screen.Home.route) {
             Box(
                 modifier = Modifier
@@ -97,12 +118,16 @@ fun AppNavigation(startDestination: String) {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "¡Bienvenido! 🎉",
+                    text = stringResource(Res.string.home_welcome_message),
                     color = Color.White,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
+        }
+
+        composable(Screen.Settings.route) {
+            SettingsScreen(navController = navController)
         }
     }
 }
