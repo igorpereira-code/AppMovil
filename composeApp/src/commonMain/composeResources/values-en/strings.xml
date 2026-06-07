@@ -4,7 +4,7 @@
  Project: todoApp
  Locale: en-US, English (USA)
  Exported by: María Jesús Lozada
- Exported at: Sat, 30 May 2026 01:04:04 -0400
+ Exported at: Sun, 07 Jun 2026 00:57:42 -0400
 -->
 <resources>
     <string name="settings_title">Settings</string>
@@ -119,4 +119,59 @@
     <string name="notification_focus_title">Session completed! 🎉</string>
     <string name="notification_focus_body">You completed %d minutes of focus. Excellent work!</string>
     <string name="app_name">todoApp</string>
+    <string name="profile_title">Profile</string>
+    <string name="profile_stats_pending">Tasks left</string>
+    <string name="profile_stats_completed">Tasks done</string>
+    <string name="profile_section_settings">Settings</string>
+    <string name="profile_section_account">Account</string>
+    <string name="profile_section_uptodo">Uptodo</string>
+    <string name="profile_item_app_settings">App Settings</string>
+    <string name="profile_item_change_name">Change account name</string>
+    <string name="profile_item_change_password">Change account password</string>
+    <string name="profile_item_change_image">Change account image</string>
+    <string name="profile_item_about">About us</string>
+    <string name="profile_item_faq">FAQ</string>
+    <string name="profile_item_help">Help &amp; Feedback</string>
+    <string name="profile_item_support">Support US</string>
+    <string name="profile_button_logout">Log out</string>
+    <string name="profile_image_take_photo">Take photo</string>
+    <string name="profile_image_import_gallery">Import from gallery</string>
+    <string name="profile_image_import_drive">Import from Google Drive</string>
+    <string name="profile_label_current_password">Current password</string>
+    <string name="profile_label_new_password">New password</string>
+    <string name="profile_text_about_desc">Uptodo is designed to help you organize your life efficiently and without complications.</string>
+    <string name="profile_text_faq_desc">How do I delete a task? Swipe or click the delete icon in the task details.</string>
+    <string name="profile_text_help_desc">If you found a bug or have any suggestions, please feel free to contact us to improve your experience.</string>
+    <string name="profile_text_support_desc">If you like Uptodo, don\'t forget to leave us 5 stars on the app store. It helps us a lot!</string>
+    <string name="category_title_add">Add Category</string>
+    <string name="category_label_name">Category name :</string>
+    <string name="category_label_icon">Category icon :</string>
+    <string name="category_label_color">Category color :</string>
+    <string name="category_title_select_icon">Choose Icon</string>
+    <string name="edit_task_cd_delete">Delete task</string>
+    <string name="edit_task_cd_repeat">Repeat</string>
+    <string name="edit_task_cd_close">Close</string>
+    <string name="edit_task_cd_edit_title">Edit title</string>
+    <string name="edit_task_cd_priority">Priority</string>
+    <string name="edit_task_placeholder_title">Task title</string>
+    <string name="edit_task_placeholder_desc">Task description</string>
+    <string name="settings_title_select_theme">Choose theme</string>
+    <string name="settings_item_display_mode">Display Mode</string>
+    <string name="settings_theme_light">Light Mode</string>
+    <string name="settings_theme_dark">Dark Mode</string>
+    <string name="test_firebase_title">Firebase Test</string>
+    <string name="test_firebase_placeholder">Type something to save</string>
+    <string name="test_firebase_button_save">Save to Firebase</string>
+    <string name="test_sync_title">Initial Synchronization</string>
+    <string name="test_sync_status">Syncing with Firebase...</string>
+    <string name="test_sync_local_value">Locally saved value:</string>
+    <string name="test_remote_config_title">Remote Config + Room</string>
+    <string name="test_push_title">Push Notifications</string>
+    <string name="notification_focus_body_minutes">You completed %d minutes of focus. Excellent work!</string>
+    <string name="notification_sync_checking">Checking for pending changes</string>
+    <string name="common_edit">Edit</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_understood">Got it</string>
+    <string name="calendar_cd_previous">Previous week</string>
+    <string name="calendar_cd_next">Next week</string>
 </resources>
