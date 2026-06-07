@@ -21,14 +21,12 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.todoApp.category.domain.model.CategoryModel
 import ucb.edu.bo.todoApp.category.presentation.composable.CategoryGridItem
 import ucb.edu.bo.todoApp.category.presentation.composable.getCategoryIconResource
 import ucb.edu.bo.todoApp.category.presentation.viewmodel.CategoryViewModel
-
-val SurfaceDark = Color(0xFF1D1D1D)
-val PrimaryPurple = Color(0xFF8687E7)
 
 @Composable
 fun CategoryScreen(
@@ -41,7 +39,7 @@ fun CategoryScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121212))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         if (state.isCreatingNew) {
             CreateCategoryView(
@@ -83,12 +81,12 @@ fun ChooseCategoryView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Text("<", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text("<", color = MaterialTheme.colorScheme.onBackground, fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "Elegir Categoría",
-                color = Color.White,
+                text = stringResource(Res.string.category_choose),
+                color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
@@ -113,7 +111,7 @@ fun ChooseCategoryView(
             }
             item {
                 CategoryGridItem(
-                    name = "Crear Nueva",
+                    name = stringResource(Res.string.add_new_category),
                     colorHex = 0xFF00FFCC,
                     iconName = "add_image",
                     onClick = onCreateNew
@@ -126,10 +124,14 @@ fun ChooseCategoryView(
         Button(
             onClick = onBack,
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text("Añadir Categoría", modifier = Modifier.padding(vertical = 8.dp))
+            Text(
+                text = stringResource(Res.string.category_title_add),
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
         }
     }
 }
@@ -156,56 +158,69 @@ fun CreateCategoryView(
             .fillMaxWidth()
             .padding(24.dp)
     ) {
-        Text("Crear nueva categoría", color = Color.White, fontWeight = FontWeight.Bold)
+        Text(
+            text = stringResource(Res.string.category_title_add),
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold
+        )
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text("Nombre de la categoría :", color = Color.LightGray, fontSize = 14.sp)
+        Text(
+            text = stringResource(Res.string.category_label_name),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+            fontSize = 14.sp
+        )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = name,
             onValueChange = onNameChange,
-            placeholder = { Text("Nombre de la categoría", color = Color.Gray) },
+            placeholder = { Text(stringResource(Res.string.category_label_name)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = SurfaceDark,
-                unfocusedContainerColor = SurfaceDark,
-                focusedBorderColor = PrimaryPurple,
-                unfocusedBorderColor = Color(0xFF444444),
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface
             )
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text("Icono de la categoría :", color = Color.LightGray, fontSize = 14.sp)
+        Text(
+            text = stringResource(Res.string.category_label_icon),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+            fontSize = 14.sp
+        )
         Spacer(modifier = Modifier.height(8.dp))
 
-        // ¡LA CONDICIÓN MÁGICA AQUÍ!
         if (selectedIcon.isEmpty()) {
-            // Si está vacío, mostramos el botón largo con texto
             Box(
                 modifier = Modifier
-                    .background(Color(0xFF333333), RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
                     .clickable { showIconDialog = true }
                     .padding(horizontal = 16.dp, vertical = 12.dp)
             ) {
-                Text("Elegir icono de la galería", color = Color.White, fontSize = 12.sp)
+                Text(
+                    text = stringResource(Res.string.profile_image_import_gallery),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 12.sp
+                )
             }
         } else {
-            // Si ya seleccionó uno, mostramos el cuadradito
             Box(
                 modifier = Modifier
                     .size(56.dp)
-                    .background(Color(0xFF333333), RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
                     .clickable { showIconDialog = true },
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(getCategoryIconResource(selectedIcon)),
                     contentDescription = null,
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -213,7 +228,11 @@ fun CreateCategoryView(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text("Color de la categoría :", color = Color.LightGray, fontSize = 14.sp)
+        Text(
+            text = stringResource(Res.string.category_label_color),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+            fontSize = 14.sp
+        )
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
@@ -229,7 +248,7 @@ fun CreateCategoryView(
                         .clickable { onColorSelect(colorHex) }
                         .border(
                             width = if (selectedColor == colorHex) 3.dp else 0.dp,
-                            color = if (selectedColor == colorHex) Color.White else Color.Transparent,
+                            color = if (selectedColor == colorHex) MaterialTheme.colorScheme.onBackground else Color.Transparent,
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
@@ -243,7 +262,7 @@ fun CreateCategoryView(
 
         errorMessage?.let {
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = it, color = Color.Red, fontSize = 12.sp)
+            Text(text = it, color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
         }
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -254,14 +273,17 @@ fun CreateCategoryView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(onClick = onCancel) {
-                Text("Cancelar", color = PrimaryPurple)
+                Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary)
             }
             Button(
                 onClick = onSave,
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Crear Categoría", modifier = Modifier.padding(horizontal = 16.dp))
+                Text(stringResource(Res.string.category_title_add), modifier = Modifier.padding(horizontal = 16.dp))
             }
         }
     }
@@ -282,34 +304,42 @@ fun IconSelectionDialog(onIconSelected: (String) -> Unit, onDismiss: () -> Unit)
     val iconList = listOf("school", "home", "social", "game", "exercise", "food", "heart", "cake")
 
     Dialog(onDismissRequest = onDismiss) {
-        Column(
-            modifier = Modifier
-                .background(SurfaceDark, RoundedCornerShape(16.dp))
-                .padding(24.dp)
+        Card(
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
-            Text("Seleccionar Ícono", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Spacer(modifier = Modifier.height(16.dp))
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(4),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+            Column(
+                modifier = Modifier.padding(24.dp)
             ) {
-                items(iconList) { iconName ->
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(Color(0xFF333333))
-                            .clickable { onIconSelected(iconName) },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(getCategoryIconResource(iconName)),
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(24.dp)
-                        )
+                Text(
+                    text = stringResource(Res.string.category_title_select_icon),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(4),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(iconList) { iconName ->
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                                .clickable { onIconSelected(iconName) },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                painter = painterResource(getCategoryIconResource(iconName)),
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
                     }
                 }
             }

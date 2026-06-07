@@ -28,10 +28,8 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import appmovil.composeapp.generated.resources.*
-import ucb.edu.bo.todoApp.task.presentation.composable.BackgroundDark
 import ucb.edu.bo.todoApp.task.presentation.composable.DatePickerModal
 import ucb.edu.bo.todoApp.task.presentation.composable.PriorityPickerModal
-import ucb.edu.bo.todoApp.task.presentation.composable.SurfaceDark
 import ucb.edu.bo.todoApp.task.presentation.composable.TimePickerModal
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.EditTaskViewModel
 import ucb.edu.bo.todoApp.task.presentation.composable.EditTaskCategoryPickerModal
@@ -61,7 +59,7 @@ fun EditTaskScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         if (state.isLoading) {
             CircularProgressIndicator(
@@ -84,16 +82,16 @@ fun EditTaskScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             painter = painterResource(Res.drawable.cancel),
-                            contentDescription = "Cerrar",
-                            tint = Color.White,
+                            contentDescription = stringResource(Res.string.edit_task_cd_close),
+                            tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.size(20.dp)
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
                         painter = painterResource(Res.drawable.repeat),
-                        contentDescription = "Repetir",
-                        tint = Color(0xFF888888),
+                        contentDescription = stringResource(Res.string.edit_task_cd_repeat),
+                        tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                         modifier = Modifier.size(22.dp)
                     )
                 }
@@ -111,7 +109,7 @@ fun EditTaskScreen(
                             .size(22.dp)
                             .border(
                                 width = 2.dp,
-                                color = Color(0xFF888888),
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                                 shape = androidx.compose.foundation.shape.CircleShape
                             )
                     )
@@ -119,8 +117,8 @@ fun EditTaskScreen(
 
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = state.title.ifBlank { "Sin título" },
-                            color = Color.White,
+                            text = state.title.ifBlank { stringResource(Res.string.edit_task_placeholder_title) },
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold
                         )
@@ -128,7 +126,7 @@ fun EditTaskScreen(
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = state.description,
-                                color = Color(0xFF888888),
+                                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                                 fontSize = 14.sp
                             )
                         }
@@ -138,28 +136,28 @@ fun EditTaskScreen(
                     IconButton(onClick = { viewModel.showTitleDialog() }) {
                         Icon(
                             painter = painterResource(Res.drawable.edit),
-                            contentDescription = "Editar título",
-                            tint = Color(0xFF888888),
+                            contentDescription = stringResource(Res.string.edit_task_cd_edit_title),
+                            tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                             modifier = Modifier.size(40.dp)
                         )
                     }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
-                HorizontalDivider(color = Color(0xFF2C2C2C), thickness = 1.dp)
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // ── Campos de edición ─────────────────────────────────
                 EditTaskFieldRow(
                     iconRes = Res.drawable.clock,
-                    label = "Task Time",
+                    label = stringResource(Res.string.time_picker_title),
                     value = formatTaskTimeText(state.selectedDate, state.selectedTime),
                     onClick = { viewModel.showDatePicker() }
                 )
 
                 EditTaskFieldRow(
                     iconRes = Res.drawable.tag,
-                    label = "Task Category",
+                    label = stringResource(Res.string.add_task_cd_tag),
                     valueContent = {
                         val category = state.categories.find { it.id == state.selectedCategoryId }
                         if (category != null) {
@@ -180,7 +178,7 @@ fun EditTaskScreen(
                                 )
                             }
                         } else {
-                            EditTaskChip(text = "Sin categoría")
+                            EditTaskChip(text = stringResource(Res.string.category_choose))
                         }
                     },
                     onClick = { viewModel.showCategoryPicker() }
@@ -188,10 +186,10 @@ fun EditTaskScreen(
 
                 EditTaskFieldRow(
                     iconRes = Res.drawable.flag,
-                    label = "Task Priority",
+                    label = stringResource(Res.string.edit_task_cd_priority),
                     value = when (state.selectedPriority) {
                         1 -> "Default"
-                        else -> "Priority ${state.selectedPriority}"
+                        else -> stringResource(Res.string.priority_cd_value, state.selectedPriority)
                     },
                     onClick = { viewModel.showPriorityPicker() }
                 )
@@ -218,13 +216,13 @@ fun EditTaskScreen(
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.trash),
-                        contentDescription = "Eliminar tarea",
+                        contentDescription = stringResource(Res.string.edit_task_cd_delete),
                         tint = Color(0xFFFF4444),
                         modifier = Modifier.size(20.dp)
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "Delete Task",
+                        text = stringResource(Res.string.edit_task_cd_delete),
                         color = Color(0xFFFF4444),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Medium
@@ -260,14 +258,14 @@ fun EditTaskScreen(
                 ) {
                     if (state.isSaving) {
                         CircularProgressIndicator(
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(22.dp),
                             strokeWidth = 2.dp
                         )
                     } else {
                         Text(
-                            text = "Edit Task",
-                            color = Color.White,
+                            text = stringResource(Res.string.common_edit),
+                            color = MaterialTheme.colorScheme.onPrimary,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold
                         )
@@ -331,18 +329,18 @@ fun EditTaskScreen(
     if (state.showDeleteConfirmDialog) {
         AlertDialog(
             onDismissRequest = { viewModel.hideDeleteConfirmDialog() },
-            containerColor = SurfaceDark,
+            containerColor = MaterialTheme.colorScheme.surface,
             title = {
                 Text(
-                    text = "Eliminar tarea",
-                    color = Color.White,
+                    text = stringResource(Res.string.edit_task_cd_delete),
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
             },
             text = {
                 Text(
-                    text = "¿Estás seguro de que deseas eliminar \"${state.title}\"?",
-                    color = Color(0xFFAFAFAF)
+                    text = stringResource(Res.string.edit_task_delete_confirm) + " \"${state.title}\"?",
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
             },
             confirmButton = {
@@ -350,12 +348,12 @@ fun EditTaskScreen(
                     onClick = { viewModel.deleteTask() },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF4444))
                 ) {
-                    Text("Eliminar", color = Color.White)
+                    Text(stringResource(Res.string.common_delete), color = Color.White)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { viewModel.hideDeleteConfirmDialog() }) {
-                    Text("Cancelar", color = MaterialTheme.colorScheme.primary)
+                    Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary)
                 }
             }
         )
@@ -382,13 +380,13 @@ private fun EditTaskFieldRow(
         Icon(
             painter = painterResource(iconRes),
             contentDescription = label,
-            tint = Color(0xFF888888),
+            tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
             modifier = Modifier.size(20.dp)
         )
         Spacer(modifier = Modifier.width(14.dp))
         Text(
             text = label,
-            color = Color(0xFF888888),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
             fontSize = 15.sp,
             modifier = Modifier.weight(1f)
         )
@@ -405,12 +403,12 @@ private fun EditTaskChip(text: String) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(Color(0xFF272727))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Text(
             text = text,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 13.sp
         )
     }
@@ -419,8 +417,8 @@ private fun EditTaskChip(text: String) {
 private fun formatTaskTimeText(
     taskDate: LocalDate?,
     taskTime: LocalTime?
-): String {
-    if (taskDate == null || taskTime == null) return "Sin programar"
+): String? {
+    if (taskDate == null || taskTime == null) return null
     val today = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault()).date
     val tomorrow = today.plus(1, DateTimeUnit.DAY)

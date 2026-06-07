@@ -33,10 +33,6 @@ import ucb.edu.bo.todoApp.profile.presentation.viewmodel.ProfileViewModel
 import ucb.edu.bo.todoApp.task.presentation.composable.BottomNavBar
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 
-val BackgroundDark = Color(0xFF121212)
-val SurfaceDark = Color(0xFF363636)
-val PrimaryPurple = Color(0xFF8687E7)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
@@ -57,7 +53,7 @@ fun ProfileScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -66,7 +62,7 @@ fun ProfileScreen(
         ) {
             Text(
                 text = stringResource(Res.string.profile_title),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
@@ -86,7 +82,7 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = state.userName,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -159,19 +155,19 @@ fun ProfileScreen(
         ModalBottomSheet(
             onDismissRequest = { viewModel.toggleAvatarDialog(false) },
             sheetState = sheetState,
-            containerColor = SurfaceDark,
-            dragHandle = null // Quita la barrita de arriba para que se vea como en tu diseño
+            containerColor = MaterialTheme.colorScheme.surface,
+            dragHandle = null
         ) {
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
                 Text(
                     text = stringResource(Res.string.profile_item_change_image),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp), color = Color.Gray)
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp), color = MaterialTheme.colorScheme.outline)
 
                 BottomSheetMenuItem(stringResource(Res.string.profile_image_take_photo)) { viewModel.toggleAvatarDialog(false) }
                 BottomSheetMenuItem(stringResource(Res.string.profile_image_import_gallery)) { viewModel.toggleAvatarDialog(false) }
@@ -201,21 +197,21 @@ fun ProfileScreen(
 @Composable
 fun StatCard(modifier: Modifier = Modifier, text: String) {
     Box(
-        modifier = modifier.background(Color(0xFF363636), RoundedCornerShape(8.dp)).padding(vertical = 16.dp),
+        modifier = modifier.background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp)).padding(vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, color = Color.White, fontSize = 14.sp)
+        Text(text = text, color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp)
     }
 }
 
 @Composable
 fun MenuSectionTitle(title: String) {
-    Text(text = title, color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp))
+    Text(text = title, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f), fontSize = 14.sp, modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp))
 }
 
 @Composable
 fun ProfileMenuItem(icon: ImageVector, text: String, isDestructive: Boolean = false, onClick: () -> Unit) {
-    val color = if (isDestructive) Color.Red else Color.White
+    val color = if (isDestructive) Color.Red else MaterialTheme.colorScheme.onBackground
     Row(
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 24.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -223,14 +219,14 @@ fun ProfileMenuItem(icon: ImageVector, text: String, isDestructive: Boolean = fa
         Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(24.dp))
         Spacer(modifier = Modifier.width(16.dp))
         Text(text = text, color = color, fontSize = 16.sp, modifier = Modifier.weight(1f))
-        if (!isDestructive) { Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = Color.White) }
+        if (!isDestructive) { Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.onBackground) }
     }
 }
 
 @Composable
 fun BottomSheetMenuItem(text: String, onClick: () -> Unit) {
     Text(
-        text = text, color = Color.White, fontSize = 16.sp,
+        text = text, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp,
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 24.dp, vertical = 16.dp)
     )
 }
@@ -243,12 +239,12 @@ fun ChangeNameDialog(currentName: String, onDismiss: () -> Unit, onSave: (String
     Dialog(onDismissRequest = onDismiss) {
         Card(
             shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(stringResource(Res.string.profile_item_change_name), color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color.Gray)
+                Text(stringResource(Res.string.profile_item_change_name), color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outline)
 
                 OutlinedTextField(
                     value = name,
@@ -256,25 +252,25 @@ fun ChangeNameDialog(currentName: String, onDismiss: () -> Unit, onSave: (String
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedBorderColor = Color.Gray,
-                        unfocusedBorderColor = Color.Gray
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline
                     )
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = onDismiss, modifier = Modifier.weight(1f)) {
-                        Text(stringResource(Res.string.common_cancel), color = PrimaryPurple, fontSize = 16.sp)
+                        Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary, fontSize = 16.sp)
                     }
                     Button(
                         onClick = { onSave(name) },
                         modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(4.dp)
                     ) {
-                        Text(stringResource(Res.string.common_edit), color = Color.White)
+                        Text(stringResource(Res.string.common_edit), color = MaterialTheme.colorScheme.onPrimary)
                     }
                 }
             }
@@ -290,14 +286,14 @@ fun ChangePasswordDialog(onDismiss: () -> Unit, onSave: (String, String) -> Unit
     Dialog(onDismissRequest = onDismiss) {
         Card(
             shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(stringResource(Res.string.profile_item_change_password), color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color.Gray)
+                Text(stringResource(Res.string.profile_item_change_password), color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outline)
 
-                Text(stringResource(Res.string.profile_label_current_password), color = Color.LightGray, fontSize = 12.sp)
+                Text(stringResource(Res.string.profile_label_current_password), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = oldPass,
@@ -305,12 +301,12 @@ fun ChangePasswordDialog(onDismiss: () -> Unit, onSave: (String, String) -> Unit
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White, unfocusedTextColor = Color.White, focusedBorderColor = Color.Gray, unfocusedBorderColor = Color.Gray)
+                    colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, focusedBorderColor = MaterialTheme.colorScheme.primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(stringResource(Res.string.profile_label_new_password), color = Color.LightGray, fontSize = 12.sp)
+                Text(stringResource(Res.string.profile_label_new_password), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = newPass,
@@ -318,21 +314,21 @@ fun ChangePasswordDialog(onDismiss: () -> Unit, onSave: (String, String) -> Unit
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White, unfocusedTextColor = Color.White, focusedBorderColor = Color.Gray, unfocusedBorderColor = Color.Gray)
+                    colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, focusedBorderColor = MaterialTheme.colorScheme.primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline)
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = onDismiss, modifier = Modifier.weight(1f)) {
-                        Text(stringResource(Res.string.common_cancel), color = PrimaryPurple, fontSize = 16.sp)
+                        Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary, fontSize = 16.sp)
                     }
                     Button(
                         onClick = { onSave(oldPass, newPass) },
                         modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(4.dp)
                     ) {
-                        Text(stringResource(Res.string.common_edit), color = Color.White)
+                        Text(stringResource(Res.string.common_edit), color = MaterialTheme.colorScheme.onPrimary)
                     }
                 }
             }
@@ -345,16 +341,16 @@ fun InfoDialog(title: String, content: String, onDismiss: () -> Unit) {
     Dialog(onDismissRequest = onDismiss) {
         Card(
             shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(24.dp)) {
-                Text(text = title, color = PrimaryPurple, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(text = title, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = content, color = Color.White, fontSize = 14.sp)
+                Text(text = content, color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(24.dp))
-                Button(onClick = onDismiss, modifier = Modifier.align(Alignment.End), colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple), shape = RoundedCornerShape(4.dp)) {
-                    Text(stringResource(Res.string.common_understood))
+                Button(onClick = onDismiss, modifier = Modifier.align(Alignment.End), colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary), shape = RoundedCornerShape(4.dp)) {
+                    Text(stringResource(Res.string.common_understood), color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
         }

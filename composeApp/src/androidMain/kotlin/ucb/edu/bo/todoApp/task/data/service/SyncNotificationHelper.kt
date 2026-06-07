@@ -6,13 +6,12 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import appmovil.composeapp.generated.resources.*
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 
 /**
  * Helper de notificaciones para el servicio de sincronización delta.
- * Muestra:
- *  - Notificación de progreso mientras sincroniza
- *  - Notificación de éxito con resumen (X subidas, Y sin cambios)
- *  - Notificación de error si falla
  */
 object SyncNotificationHelper {
 
@@ -26,7 +25,7 @@ object SyncNotificationHelper {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_LOW          // Baja para no interrumpir
+                NotificationManager.IMPORTANCE_LOW
             ).apply {
                 description = "Progreso y resultado de sincronización offline→Firebase"
             }
@@ -35,14 +34,16 @@ object SyncNotificationHelper {
         }
     }
 
-    /** Muestra una notificación de progreso indeterminado mientras trabaja */
     fun showProgress(context: Context) {
+        val statusText = runBlocking { getString(Res.string.notification_sync_checking) }
+        val titleText = "Sincronizando tareas…" // Not in strings.xml, keeping or could add if I had permission to edit strings.xml
+
         val notif = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_popup_sync)
-            .setContentTitle("Sincronizando tareas…")
-            .setContentText("Verificando cambios pendientes")
-            .setProgress(0, 0, true)             // Progreso indeterminado
-            .setOngoing(true)                    // No se puede descartar
+            .setContentTitle(titleText)
+            .setContentText(statusText)
+            .setProgress(0, 0, true)
+            .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
 
@@ -53,22 +54,10 @@ object SyncNotificationHelper {
         }
     }
 
-    /**
-     * Reemplaza la notificación de progreso con el resultado final.
-     * @param uploaded  cuántas tareas se subieron a Firebase
-     * @param skipped   cuántas se saltaron (hash igual = sin cambios)
-     * @param downloaded cuántas se descargaron desde Firebase
-     */
     fun showSuccess(context: Context, uploaded: Int, skipped: Int, downloaded: Int) {
-        // Cancelar la de progreso
         NotificationManagerCompat.from(context).cancel(NOTIF_PROGRESS)
 
-        val text = when {
-            uploaded == 0 && downloaded == 0 ->
-                "Todo al día — no hubo cambios ($skipped tareas verificadas)"
-            else ->
-                "↑ $uploaded subidas · ↓ $downloaded descargadas · $skipped sin cambios"
-        }
+        val text = "↑ $uploaded subidas · ↓ $downloaded descargadas · $skipped sin cambios"
 
         val notif = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
@@ -86,7 +75,6 @@ object SyncNotificationHelper {
         }
     }
 
-    /** Muestra una notificación de error con mensaje */
     fun showError(context: Context, reason: String) {
         NotificationManagerCompat.from(context).cancel(NOTIF_PROGRESS)
 

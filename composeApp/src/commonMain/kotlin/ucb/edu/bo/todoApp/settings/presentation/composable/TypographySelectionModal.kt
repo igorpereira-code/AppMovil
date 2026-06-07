@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.change_typography // Ajusta tu llave
+import appmovil.composeapp.generated.resources.change_typography
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,7 +35,7 @@ fun TypographySelectionModal(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = Color(0xFF363636),
+        containerColor = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
     ) {
         Column(
@@ -44,14 +44,14 @@ fun TypographySelectionModal(
                 .padding(bottom = 32.dp, top = 8.dp)
         ) {
             Text(
-                text = stringResource(Res.string.change_typography), // "Select Typography"
-                color = Color.White,
+                text = stringResource(Res.string.change_typography),
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
             )
 
-            HorizontalDivider(color = Color(0xFF444444))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
             availableFonts.forEach { (name, fontFamily) ->
                 val isSelected = name == currentTypography
@@ -66,8 +66,8 @@ fun TypographySelectionModal(
                 ) {
                     Text(
                         text = "Aa - $name",
-                        fontFamily = fontFamily, // ¡Muestra cómo luce la fuente real!
-                        color = if (isSelected) MaterialTheme.colorScheme.primary else Color.White,
+                        fontFamily = fontFamily,
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                         fontSize = 18.sp
                     )
 
@@ -75,7 +75,7 @@ fun TypographySelectionModal(
                         Text("✓", color = MaterialTheme.colorScheme.primary, fontSize = 20.sp)
                     }
                 }
-                HorizontalDivider(color = Color(0xFF444444))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             }
         }
     }

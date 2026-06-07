@@ -49,7 +49,7 @@ fun ColorSelectionModal(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = Color(0xFF363636),
+        containerColor = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
     ) {
         Column(
@@ -59,13 +59,13 @@ fun ColorSelectionModal(
         ) {
             Text(
                 text = stringResource(Res.string.change_theme_title),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
             )
 
-            HorizontalDivider(color = Color(0xFF444444))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -90,14 +90,14 @@ fun ColorSelectionModal(
                                 .background(hex.toColor())
                                 .border(
                                     width = if (isSelected) 4.dp else 0.dp,
-                                    color = if (isSelected) Color.White else Color.Transparent,
+                                    color = MaterialTheme.colorScheme.onSurface,
                                     shape = CircleShape
                                 )
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = name,
-                            color = if (isSelected) hex.toColor() else Color.Gray,
+                            color = if (isSelected) hex.toColor() else MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = 12.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                         )

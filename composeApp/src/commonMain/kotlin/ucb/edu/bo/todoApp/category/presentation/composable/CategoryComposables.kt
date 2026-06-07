@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,15 +21,15 @@ import org.jetbrains.compose.resources.painterResource
 fun getCategoryIconResource(iconName: String?): DrawableResource {
     return when (iconName?.lowercase()) {
         "school" -> Res.drawable.school
-        "home" -> Res.drawable.home
+        "home" -> Res.drawable.home_2
         "social" -> Res.drawable.social
         "game" -> Res.drawable.game
         "exercise" -> Res.drawable.exercise
         "food" -> Res.drawable.food
         "heart" -> Res.drawable.heart
         "cake" -> Res.drawable.cake
-        "add_image" -> Res.drawable.add_image // Ícono para crear nueva categoría
-        else -> Res.drawable.home
+        "add_image" -> Res.drawable.add_image
+        else -> Res.drawable.home_2
     }
 }
 
@@ -49,7 +50,6 @@ fun CategoryGridItem(
                 .background(Color(colorHex), RoundedCornerShape(12.dp)),
             contentAlignment = Alignment.Center
         ) {
-            // ¡Ya no mostramos la inicial, mostramos el ícono real!
             Icon(
                 painter = painterResource(getCategoryIconResource(iconName)),
                 contentDescription = null,
@@ -58,6 +58,10 @@ fun CategoryGridItem(
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = name, color = Color.White, fontSize = 12.sp)
+        Text(
+            text = name,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontSize = 12.sp
+        )
     }
 }

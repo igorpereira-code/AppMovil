@@ -2,6 +2,8 @@ package ucb.edu.bo.todoApp.calendar.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.no_calendar_program
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -73,9 +75,9 @@ class CalendarViewModel(
 
     // ── Formateador de Tiempo (KMP) ──────────────────────────────────────────
 
-    fun formatTaskTimeText(taskDate: kotlinx.datetime.LocalDate?, taskTime: kotlinx.datetime.LocalTime?): String {
+    fun formatTaskTimeText(taskDate: kotlinx.datetime.LocalDate?, taskTime: kotlinx.datetime.LocalTime?): String? {
         // Si la tarea no tiene fecha u hora, devolvemos un texto por defecto o vacío
-        if (taskDate == null || taskTime == null) return "Sin programar"
+        if (taskDate == null || taskTime == null) return null
 
         // Obtenemos la fecha actual exacta en la zona horaria del dispositivo
         val today = kotlinx.datetime.Clock.System.now()

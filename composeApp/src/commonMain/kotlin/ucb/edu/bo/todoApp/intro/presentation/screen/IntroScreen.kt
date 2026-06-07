@@ -30,7 +30,7 @@ fun IntroScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121212))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         // Botón Skip arriba a la derecha
         if (!isLastPage) {
@@ -59,12 +59,12 @@ fun IntroScreen(
             Box(
                 modifier = Modifier
                     .size(250.dp)
-                    .background(Color(0xFF1D1D1D), shape = MaterialTheme.shapes.large),
+                    .background(MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.large),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = currentPage.imageRes,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                     fontSize = 14.sp
                 )
             }
@@ -73,8 +73,8 @@ fun IntroScreen(
 
             // Título
             Text(
-                text = currentPage.title,
-                color = Color.White,
+                text = stringResource(currentPage.title),
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -84,8 +84,8 @@ fun IntroScreen(
 
             // Descripción
             Text(
-                text = currentPage.description,
-                color = Color.Gray,
+                text = stringResource(currentPage.description),
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
@@ -103,7 +103,7 @@ fun IntroScreen(
                             .clip(CircleShape)
                             .background(
                                 if (index == state.currentPage) MaterialTheme.colorScheme.primary
-                                else Color(0xFF444444)
+                                else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
                             )
                     )
                 }
@@ -137,12 +137,12 @@ fun IntroScreen(
                         else viewModel.nextPage()
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Text(
                         text = if (isLastPage) stringResource(Res.string.intro_button_start) else stringResource(Res.string.intro_button_next),
-                        color = Color.White,
                         fontSize = 16.sp
                     )
                 }

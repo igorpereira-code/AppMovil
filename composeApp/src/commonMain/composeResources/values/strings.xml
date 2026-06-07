@@ -4,7 +4,7 @@
  Project: todoApp
  Locale: es-BO, Español (Bolivia)
  Exported by: María Jesús Lozada
- Exported at: Sun, 07 Jun 2026 00:57:41 -0400
+ Exported at: Sun, 07 Jun 2026 02:54:03 -0400
 -->
 <resources>
     <string name="settings_title">Configuración</string>
@@ -174,4 +174,10 @@
     <string name="common_understood">Entendido</string>
     <string name="calendar_cd_previous">Semana anterior</string>
     <string name="calendar_cd_next">Siguiente semana</string>
+    <string name="add_new_category">Crear nueva</string>
+    <string name="category_choose">Elegir categoría</string>
+    <string name="no_calendar_program">Sin programar</string>
+    <string name="edit_task_delete_confirm">Are you sure you want to delete?</string>
+    <string name="edit_task_error_empty_title">The title cannot be empty</string>
+    <string name="edit_task_error_not_found">Task not found</string>
 </resources>

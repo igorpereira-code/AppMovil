@@ -15,12 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import ucb.edu.bo.todoApp.category.domain.model.CategoryModel
 
-/**
- * Modal para seleccionar categoría en la pantalla de edición.
- * Reutilizable y separado del sheet de crear tarea.
- */
 @Composable
 fun EditTaskCategoryPickerModal(
     categories: List<CategoryModel>,
@@ -30,12 +28,12 @@ fun EditTaskCategoryPickerModal(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        containerColor = SurfaceDark,
+        containerColor = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(16.dp),
         title = {
             Text(
-                text = "Task Category",
-                color = Color.White,
+                text = stringResource(Res.string.category_choose),
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
@@ -43,8 +41,8 @@ fun EditTaskCategoryPickerModal(
         text = {
             if (categories.isEmpty()) {
                 Text(
-                    text = "No hay categorías disponibles",
-                    color = Color(0xFF888888),
+                    text = stringResource(Res.string.calendar_no_tasks_title),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                     fontSize = 14.sp
                 )
             } else {
@@ -57,7 +55,7 @@ fun EditTaskCategoryPickerModal(
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(
                                     if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                                    else Color(0xFF272727)
+                                    else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
                                 )
                                 .clickable { onCategorySelected(category.id) }
                                 .padding(horizontal = 14.dp, vertical = 12.dp),
@@ -75,7 +73,7 @@ fun EditTaskCategoryPickerModal(
                             Spacer(modifier = Modifier.width(12.dp))
                             Text(
                                 text = category.name,
-                                color = if (isSelected) MaterialTheme.colorScheme.primary else Color.White,
+                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                                 fontSize = 15.sp,
                                 fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
                                 modifier = Modifier.weight(1f)
@@ -95,7 +93,7 @@ fun EditTaskCategoryPickerModal(
         confirmButton = {},
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar", color = Color(0xFF888888))
+                Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary)
             }
         }
     )

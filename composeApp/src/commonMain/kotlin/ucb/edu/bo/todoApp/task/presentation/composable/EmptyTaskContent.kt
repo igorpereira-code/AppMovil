@@ -2,6 +2,7 @@ package ucb.edu.bo.todoApp.task.presentation.composable
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +26,7 @@ fun EmptyTasksContent(modifier: Modifier = Modifier) {
         Icon(
             painter = painterResource(Res.drawable.checklist_rafiki_1),
             contentDescription = null,
-            tint = Color(0xFF888888),
+            tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
             modifier = Modifier.size(120.dp)
         )
 
@@ -33,7 +34,7 @@ fun EmptyTasksContent(modifier: Modifier = Modifier) {
 
         Text(
             text = stringResource(Res.string.empty_task_title),
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onBackground,
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
@@ -43,7 +44,7 @@ fun EmptyTasksContent(modifier: Modifier = Modifier) {
 
         Text(
             text = stringResource(Res.string.empty_task_subtitle),
-            color = Color(0xFF888888),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
             fontSize = 14.sp,
             textAlign = TextAlign.Center
         )

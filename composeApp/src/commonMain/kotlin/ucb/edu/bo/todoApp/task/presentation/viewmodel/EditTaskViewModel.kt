@@ -2,12 +2,16 @@ package ucb.edu.bo.todoApp.task.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.edit_task_error_empty_title
+import appmovil.composeapp.generated.resources.edit_task_error_not_found
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
+import org.jetbrains.compose.resources.getString
 import ucb.edu.bo.todoApp.category.domain.usecase.GetAllCategoriesUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.DeleteTaskUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.GetTaskByIdUseCase
@@ -49,7 +53,7 @@ class EditTaskViewModel(
                 } else {
                     _state.value = _state.value.copy(
                         isLoading = false,
-                        loadError = "Tarea no encontrada"
+                        loadError = getString(Res.string.edit_task_error_not_found)
                     )
                 }
             } catch (e: Exception) {
@@ -177,13 +181,15 @@ class EditTaskViewModel(
     // ─────────────────────────────────────────────────
 
     fun saveTask() {
-        val s = _state.value
-        if (s.title.isBlank()) {
-            _state.value = s.copy(saveError = "El título no puede estar vacío")
-            return
-        }
-
         viewModelScope.launch {
+            val s = _state.value
+            if (s.title.isBlank()) {
+                _state.value = s.copy(
+                    saveError = getString(Res.string.edit_task_error_empty_title)
+                )
+                return@launch // Detiene la ejecución aquí
+            }
+
             _state.value = _state.value.copy(isSaving = true, saveError = null)
 
             val updatedTask = ucb.edu.bo.todoApp.task.domain.model.TaskModel(

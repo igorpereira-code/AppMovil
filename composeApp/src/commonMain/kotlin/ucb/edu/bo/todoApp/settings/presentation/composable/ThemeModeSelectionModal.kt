@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +39,7 @@ fun ThemeModeSelectionModal(
             modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp, top = 8.dp)
         ) {
             Text(
-                text = "Seleccionar Tema", // Reemplaza por tu stringResource
+                text = stringResource(Res.string.settings_title_select_theme),
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
@@ -52,7 +54,7 @@ fun ThemeModeSelectionModal(
                     .padding(horizontal = 24.dp, vertical = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Modo Claro", color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp)
+                Text(stringResource(Res.string.settings_theme_light), color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp)
                 if (!isDarkMode) Text("✓", color = MaterialTheme.colorScheme.primary)
             }
 
@@ -64,7 +66,7 @@ fun ThemeModeSelectionModal(
                     .padding(horizontal = 24.dp, vertical = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Modo Oscuro", color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp)
+                Text(stringResource(Res.string.settings_theme_dark), color = MaterialTheme.colorScheme.onBackground, fontSize = 16.sp)
                 if (isDarkMode) Text("✓", color = MaterialTheme.colorScheme.primary)
             }
         }

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TaskItem(
@@ -25,14 +26,16 @@ fun TaskItem(
     timeText: String,
     priority: Int,
     categoryName: String? = null,
-    categoryIcon: String? = null, // NUEVO: Parámetro para recibir la imagen exacta
+    categoryIcon: String? = null,
     categoryColor: Color = MaterialTheme.colorScheme.primary,
     isCompleted: Boolean,
     onToggle: () -> Unit,
     onClick: () -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF363636)),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        ),
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -52,13 +55,13 @@ fun TaskItem(
                         .background(if (isCompleted) MaterialTheme.colorScheme.primary else Color.Transparent)
                         .border(
                             width = 2.dp,
-                            color = if (isCompleted) MaterialTheme.colorScheme.primary else Color(0xFF888888),
+                            color = if (isCompleted) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
                 ) {
                     if (isCompleted) {
-                        Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(Color.White))
+                        Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(MaterialTheme.colorScheme.onPrimary))
                     }
                 }
             }
@@ -68,7 +71,7 @@ fun TaskItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    color = if (isCompleted) Color(0xFF888888) else Color.White,
+                    color = if (isCompleted) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) else MaterialTheme.colorScheme.onSurface,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     textDecoration = if (isCompleted) TextDecoration.LineThrough else TextDecoration.None
@@ -82,7 +85,7 @@ fun TaskItem(
                 ) {
                     Text(
                         text = timeText,
-                        color = Color(0xFFAFAFAF),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 14.sp,
                         textDecoration = if (isCompleted) TextDecoration.LineThrough else TextDecoration.None
                     )
@@ -98,23 +101,22 @@ fun TaskItem(
                                 .padding(horizontal = 8.dp, vertical = 4.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            // AQUÍ ESTÁ LA CORRECCIÓN: Leemos el categoryIcon y no el name
                             val icon = when (categoryIcon?.lowercase()) {
                                 "school" -> painterResource(Res.drawable.school)
-                                "home" -> painterResource(Res.drawable.home)
+                                "home" -> painterResource(Res.drawable.home_2)
                                 "social" -> painterResource(Res.drawable.social)
                                 "game" -> painterResource(Res.drawable.game)
                                 "exercise" -> painterResource(Res.drawable.exercise)
                                 "food" -> painterResource(Res.drawable.food)
                                 "heart" -> painterResource(Res.drawable.heart)
                                 "cake" -> painterResource(Res.drawable.cake)
-                                else -> painterResource(Res.drawable.home)
+                                else -> painterResource(Res.drawable.home_2)
                             }
 
                             Icon(
                                 painter = icon,
                                 contentDescription = null,
-                                tint = Color.Black, // Color del ícono y texto (Negro sobre colores claros)
+                                tint = Color.Black, // Generalmente las categorías tienen colores vivos, texto negro queda bien
                                 modifier = Modifier.size(14.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
@@ -138,14 +140,14 @@ fun TaskItem(
                     ) {
                         Icon(
                             painter = painterResource(Res.drawable.flag),
-                            contentDescription = "Prioridad",
-                            tint = Color.White,
+                            contentDescription = stringResource(Res.string.add_task_cd_priority),
+                            tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.size(14.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = priority.toString(),
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium
                         )

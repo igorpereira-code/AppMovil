@@ -42,14 +42,14 @@ fun CalendarScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
 
             // ── Top Bar ──────────────────────────────────────────────────────────────
             Text(
                 text = stringResource(Res.string.calendar_title),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier
@@ -74,29 +74,31 @@ fun CalendarScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .background(Color(0xFF272727), RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
                     .padding(8.dp)
             ) {
                 Button(
                     onClick = { viewModel.onTabSelected("Today") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (state.selectedTab == "Today") MaterialTheme.colorScheme.primary else Color.Transparent
+                        containerColor = if (state.selectedTab == "Today") MaterialTheme.colorScheme.primary else Color.Transparent,
+                        contentColor = if (state.selectedTab == "Today") MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                     ),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.weight(1f).height(48.dp)
                 ) {
-                    Text(stringResource(Res.string.calendar_tab_today), color = Color.White, fontSize = 16.sp)
+                    Text(stringResource(Res.string.calendar_tab_today), fontSize = 16.sp)
                 }
 
                 Button(
                     onClick = { viewModel.onTabSelected("Completed") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (state.selectedTab == "Completed") MaterialTheme.colorScheme.primary else Color.Transparent
+                        containerColor = if (state.selectedTab == "Completed") MaterialTheme.colorScheme.primary else Color.Transparent,
+                        contentColor = if (state.selectedTab == "Completed") MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                     ),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.weight(1f).height(48.dp)
                 ) {
-                    Text(stringResource(Res.string.calendar_filter_completed), color = Color.White, fontSize = 16.sp)
+                    Text(stringResource(Res.string.calendar_filter_completed), fontSize = 16.sp)
                 }
             }
 
@@ -117,6 +119,7 @@ fun CalendarScreen(
                 ) {
                     items(state.filteredTasks, key = { it.id }) { task ->
                         val timeString = viewModel.formatTaskTimeText(task.date, task.time)
+                            ?: stringResource(Res.string.no_calendar_program)
 
                         // CORREGIDO: Buscamos la categoría real de la tarea para mostrar ícono y color
                         val category = taskState.categories.find { it.id == task.categoryId }
@@ -129,8 +132,10 @@ fun CalendarScreen(
                             categoryIcon = category?.iconResName,
                             categoryColor = category?.colorHex?.let { Color(it) } ?: MaterialTheme.colorScheme.primary,
                             isCompleted = task.isCompleted,
-                            onToggle = { /* Lógica de tu ViewModel para completar tarea */ },
-                            onClick = { /* Lógica para abrir la pantalla de detalles (Task Screen) */ }
+                            onToggle = { taskViewModel.toggleTask(task.id, !task.isCompleted)},
+                            onClick = { navController.navigate("edit_task/${task.id}") {
+                                launchSingleTop = true
+                            } }
                         )
                     }
                 }

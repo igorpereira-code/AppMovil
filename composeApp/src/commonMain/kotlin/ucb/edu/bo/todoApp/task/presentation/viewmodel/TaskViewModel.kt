@@ -129,8 +129,8 @@ class TaskViewModel(
         )
     }
 
-    fun formatTaskTimeText(taskDate: LocalDate?, taskTime: LocalTime?): String {
-        if (taskDate == null || taskTime == null) return "Sin programar"
+    fun formatTaskTimeText(taskDate: LocalDate?, taskTime: LocalTime?): String? {
+        if (taskDate == null || taskTime == null) return null
 
         val today = Clock.System.now()
             .toLocalDateTime(TimeZone.currentSystemDefault()).date

@@ -4,7 +4,7 @@
  Project: todoApp
  Locale: en-US, English (USA)
  Exported by: María Jesús Lozada
- Exported at: Sun, 07 Jun 2026 00:57:42 -0400
+ Exported at: Sun, 07 Jun 2026 02:54:04 -0400
 -->
 <resources>
     <string name="settings_title">Settings</string>
@@ -174,4 +174,10 @@
     <string name="common_understood">Got it</string>
     <string name="calendar_cd_previous">Previous week</string>
     <string name="calendar_cd_next">Next week</string>
+    <string name="add_new_category">Add new category</string>
+    <string name="category_choose">Choose category</string>
+    <string name="no_calendar_program">Unprogrammed</string>
+    <string name="edit_task_delete_confirm">¿Estás seguro de que deseas eliminar?</string>
+    <string name="edit_task_error_empty_title">El título no puede estar vacío</string>
+    <string name="edit_task_error_not_found">Tarea no encontrada</string>
 </resources>

@@ -27,7 +27,6 @@ fun AddTaskSheetContent(
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
     onSend: () -> Unit,
-    // NUEVOS PARÁMETROS: Callbacks para los íconos
     onTimeClick: () -> Unit,
     onTagClick: () -> Unit,
     onPriorityClick: () -> Unit
@@ -40,7 +39,7 @@ fun AddTaskSheetContent(
     ) {
         Text(
             text = stringResource(Res.string.add_task_title),
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold
         )
@@ -50,17 +49,17 @@ fun AddTaskSheetContent(
         OutlinedTextField(
             value = title,
             onValueChange = onTitleChange,
-            placeholder = { Text(stringResource(Res.string.add_task_placeholder_title), color = Color(0xFF888888)) },
+            placeholder = { Text(stringResource(Res.string.add_task_placeholder_title)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = Color(0xFF444444),
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 cursorColor = MaterialTheme.colorScheme.primary,
-                focusedContainerColor = Color(0xFF1D1D1D),
-                unfocusedContainerColor = Color(0xFF1D1D1D)
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
             ),
             shape = RoundedCornerShape(8.dp)
         )
@@ -70,17 +69,17 @@ fun AddTaskSheetContent(
         OutlinedTextField(
             value = description,
             onValueChange = onDescriptionChange,
-            placeholder = { Text(stringResource(Res.string.add_task_placeholder_desc), color = Color(0xFF888888)) },
+            placeholder = { Text(stringResource(Res.string.add_task_placeholder_desc)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = Color(0xFF444444),
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 cursorColor = MaterialTheme.colorScheme.primary,
-                focusedContainerColor = Color(0xFF1D1D1D),
-                unfocusedContainerColor = Color(0xFF1D1D1D)
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
             ),
             shape = RoundedCornerShape(8.dp)
         )
@@ -90,7 +89,7 @@ fun AddTaskSheetContent(
         errorMessage?.let {
             Text(
                 text = it,
-                color = Color.Red,
+                color = MaterialTheme.colorScheme.error,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -100,7 +99,6 @@ fun AddTaskSheetContent(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // MODIFICACIÓN: Íconos envueltos en IconButton
             IconButton(
                 onClick = onTimeClick,
                 modifier = Modifier.size(36.dp)
@@ -108,7 +106,7 @@ fun AddTaskSheetContent(
                 Icon(
                     painter = painterResource(Res.drawable.timer),
                     contentDescription = stringResource(Res.string.add_task_cd_timer),
-                    tint = Color(0xFF888888),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(22.dp)
                 )
             }
@@ -122,7 +120,7 @@ fun AddTaskSheetContent(
                 Icon(
                     painter = painterResource(Res.drawable.tag),
                     contentDescription = stringResource(Res.string.add_task_cd_tag),
-                    tint = Color(0xFF888888),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(22.dp)
                 )
             }
@@ -136,7 +134,7 @@ fun AddTaskSheetContent(
                 Icon(
                     painter = painterResource(Res.drawable.flag),
                     contentDescription = stringResource(Res.string.add_task_cd_priority),
-                    tint = Color(0xFF888888),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(22.dp)
                 )
             }
@@ -156,12 +154,12 @@ fun AddTaskSheetContent(
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape)
-                        .background(if (title.isNotBlank()) MaterialTheme.colorScheme.primary else Color(0xFF444444))
+                        .background(if (title.isNotBlank()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f))
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.send),
                         contentDescription = stringResource(Res.string.add_task_cd_save),
-                        tint = Color.White,
+                        tint = if (title.isNotBlank()) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
                         modifier = Modifier.size(18.dp)
                     )
                 }

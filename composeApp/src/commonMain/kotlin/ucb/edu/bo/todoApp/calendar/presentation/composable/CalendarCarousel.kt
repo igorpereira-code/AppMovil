@@ -17,15 +17,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.sort_image // Puedes cambiar esto por íconos de flechas
+import appmovil.composeapp.generated.resources.*
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CalendarCarousel(
-    monthYearText: String, // ej. "FEBRUARY \n 2022"
-    weekDays: List<LocalDate>, // Lista de exactamente 7 días
+    monthYearText: String,
+    weekDays: List<LocalDate>,
     selectedDate: LocalDate?,
     onDateSelected: (LocalDate) -> Unit,
     onPreviousWeek: () -> Unit,
@@ -35,7 +35,7 @@ fun CalendarCarousel(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF1D1D1D)) // Usando tu SurfaceDark
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             .padding(vertical = 16.dp)
     ) {
         // Cabecera: Mes, Año y Flechas
@@ -45,23 +45,33 @@ fun CalendarCarousel(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onPreviousWeek) {
-                Text("<", color = Color.White, fontSize = 20.sp) // Reemplazar con Icono
+                Text(
+                    text = "<",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(8.dp)
+                ) 
             }
 
             Text(
                 text = monthYearText,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
                 lineHeight = 20.sp,
                 modifier = Modifier
-                    .clickable { onMonthClick() } // <-- 2. AHORA EL MES ES CLICABLE
-                    .padding(8.dp) // Un poco de espacio extra para que sea fácil de tocar
+                    .clickable { onMonthClick() }
+                    .padding(8.dp)
             )
 
             IconButton(onClick = onNextWeek) {
-                Text(">", color = Color.White, fontSize = 20.sp) // Reemplazar con Icono
+                Text(
+                    text = ">",
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(8.dp)
+                )
             }
         }
 
@@ -74,28 +84,45 @@ fun CalendarCarousel(
         ) {
             weekDays.forEach { date ->
                 val isSelected = date == selectedDate
-                val dayOfWeek = date.dayOfWeek.name.take(3) // Ej. "MON"
+                val dayOfWeek = date.dayOfWeek.name.take(3)
                 val isWeekend = dayOfWeek == "SUN" || dayOfWeek == "SAT"
 
                 Column(
                     modifier = Modifier
                         .width(46.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFF272727))
+                        .background(
+                            if (isSelected) MaterialTheme.colorScheme.primary 
+                            else MaterialTheme.colorScheme.surfaceVariant
+                        )
                         .clickable { onDateSelected(date) }
                         .padding(vertical = 12.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    val dayLabel = when (dayOfWeek) {
+                        "MON" -> stringResource(Res.string.focus_day_mon)
+                        "TUE" -> stringResource(Res.string.focus_day_tue)
+                        "WED" -> stringResource(Res.string.focus_day_wed)
+                        "THU" -> stringResource(Res.string.focus_day_thu)
+                        "FRI" -> stringResource(Res.string.focus_day_fri)
+                        "SAT" -> stringResource(Res.string.focus_day_sat)
+                        "SUN" -> stringResource(Res.string.focus_day_sun)
+                        else -> dayOfWeek
+                    }
+
                     Text(
-                        text = dayOfWeek,
-                        color = if (isWeekend && !isSelected) Color(0xFFFF4C4C) else if (isSelected) Color.White else Color(0xFF888888),
+                        text = dayLabel,
+                        color = if (isWeekend && !isSelected) Color(0xFFFF4C4C) 
+                                else if (isSelected) MaterialTheme.colorScheme.onPrimary 
+                                else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = date.dayOfMonth.toString(),
-                        color = Color.White,
+                        color = if (isSelected) MaterialTheme.colorScheme.onPrimary 
+                                else MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )
