@@ -1,4 +1,3 @@
-// ucb.edu.bo.todoApp.category.presentation.screen.CategoryScreen.kt
 package ucb.edu.bo.todoApp.category.presentation.screen
 
 import androidx.compose.foundation.background
@@ -19,8 +18,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
+import ucb.edu.bo.todoApp.category.domain.model.CategoryModel
 import ucb.edu.bo.todoApp.category.presentation.composable.CategoryGridItem
+import ucb.edu.bo.todoApp.category.presentation.composable.getCategoryIconResource
 import ucb.edu.bo.todoApp.category.presentation.viewmodel.CategoryViewModel
 
 val SurfaceDark = Color(0xFF1D1D1D)
@@ -29,47 +33,67 @@ val PrimaryPurple = Color(0xFF8687E7)
 @Composable
 fun CategoryScreen(
     viewModel: CategoryViewModel = koinViewModel(),
-    onCategorySelected: (Int) -> Unit // Para retornar la categoría a la pantalla de Task
+    onCategorySelected: (Int) -> Unit,
+    onClose: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
 
-    // Controla qué pantalla mostrar basándose en el estado
-    if (state.isCreatingNew) {
-        CreateCategoryView(
-            name = state.newCategoryName,
-            selectedColor = state.selectedColor,
-            errorMessage = state.saveError,
-            onNameChange = { viewModel.updateName(it) },
-            onColorSelect = { viewModel.selectColor(it) },
-            onCancel = { viewModel.toggleCreateMode(false) },
-            onSave = { viewModel.saveCategory() }
-        )
-    } else {
-        ChooseCategoryView(
-            categories = state.categories,
-            onCreateNew = { viewModel.toggleCreateMode(true) },
-            onSelect = onCategorySelected
-        )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF121212))
+    ) {
+        if (state.isCreatingNew) {
+            CreateCategoryView(
+                name = state.newCategoryName,
+                selectedColor = state.selectedColor,
+                selectedIcon = state.selectedIcon,
+                errorMessage = state.saveError,
+                onNameChange = { viewModel.updateName(it) },
+                onColorSelect = { viewModel.selectColor(it) },
+                onIconSelect = { viewModel.selectIcon(it) },
+                onCancel = { viewModel.toggleCreateMode(false) },
+                onSave = { viewModel.saveCategory() }
+            )
+        } else {
+            ChooseCategoryView(
+                categories = state.categories,
+                onCreateNew = { viewModel.toggleCreateMode(true) },
+                onSelect = onCategorySelected,
+                onBack = onClose
+            )
+        }
     }
 }
 
 @Composable
 fun ChooseCategoryView(
-    categories: List<ucb.edu.bo.todoApp.category.domain.model.CategoryModel>,
+    categories: List<CategoryModel>,
     onCreateNew: () -> Unit,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
+    onBack: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(24.dp)
     ) {
-        Text(
-            text = "Choose Category",
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = onBack) {
+                Text("<", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "Elegir Categoría",
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+            Spacer(modifier = Modifier.weight(1.5f))
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -77,19 +101,21 @@ fun ChooseCategoryView(
             columns = GridCells.Fixed(3),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.height(300.dp)
+            modifier = Modifier.height(400.dp)
         ) {
             items(categories) { category ->
                 CategoryGridItem(
                     name = category.name,
                     colorHex = category.colorHex,
+                    iconName = category.iconResName,
                     onClick = { onSelect(category.id) }
                 )
             }
             item {
                 CategoryGridItem(
-                    name = "Create New",
-                    colorHex = 0xFF00FFCC, // Verde de la imagen
+                    name = "Crear Nueva",
+                    colorHex = 0xFF00FFCC,
+                    iconName = "add_image",
                     onClick = onCreateNew
                 )
             }
@@ -98,12 +124,12 @@ fun ChooseCategoryView(
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
-            onClick = { /* Acción por defecto si es necesario */ },
+            onClick = onBack,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text("Add Category", modifier = Modifier.padding(vertical = 8.dp))
+            Text("Añadir Categoría", modifier = Modifier.padding(vertical = 8.dp))
         }
     }
 }
@@ -113,30 +139,34 @@ fun ChooseCategoryView(
 fun CreateCategoryView(
     name: String,
     selectedColor: Long,
+    selectedIcon: String,
     errorMessage: String?,
     onNameChange: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
+    onIconSelect: (String) -> Unit,
     onCancel: () -> Unit,
     onSave: () -> Unit
 ) {
-    // Colores basados en tu diseño
     val palette = listOf(0xFFCCFF90, 0xFFFF8A80, 0xFF80D8FF, 0xFFFFD180, 0xFFB388FF, 0xFFFF80AB, 0xFF84FFFF, 0xFFFFFF8D)
+
+    var showIconDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(24.dp)
     ) {
-        Text("Create new category", color = Color.White, fontWeight = FontWeight.Bold)
+        Text("Crear nueva categoría", color = Color.White, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text("Category name :", color = Color.LightGray, fontSize = 14.sp)
+        Text("Nombre de la categoría :", color = Color.LightGray, fontSize = 14.sp)
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = name,
             onValueChange = onNameChange,
-            placeholder = { Text("Category name", color = Color.Gray) },
+            placeholder = { Text("Nombre de la categoría", color = Color.Gray) },
             modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = SurfaceDark,
                 unfocusedContainerColor = SurfaceDark,
@@ -149,20 +179,41 @@ fun CreateCategoryView(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text("Category icon :", color = Color.LightGray, fontSize = 14.sp)
+        Text("Icono de la categoría :", color = Color.LightGray, fontSize = 14.sp)
         Spacer(modifier = Modifier.height(8.dp))
-        Box(
-            modifier = Modifier
-                .background(Color(0xFF333333), RoundedCornerShape(8.dp))
-                .clickable { /* Abrir selector de iconos */ }
-                .padding(horizontal = 16.dp, vertical = 12.dp)
-        ) {
-            Text("Choose icon from library", color = Color.White, fontSize = 12.sp)
+
+        // ¡LA CONDICIÓN MÁGICA AQUÍ!
+        if (selectedIcon.isEmpty()) {
+            // Si está vacío, mostramos el botón largo con texto
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFF333333), RoundedCornerShape(8.dp))
+                    .clickable { showIconDialog = true }
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                Text("Elegir icono de la galería", color = Color.White, fontSize = 12.sp)
+            }
+        } else {
+            // Si ya seleccionó uno, mostramos el cuadradito
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(Color(0xFF333333), RoundedCornerShape(8.dp))
+                    .clickable { showIconDialog = true },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(getCategoryIconResource(selectedIcon)),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text("Category color :", color = Color.LightGray, fontSize = 14.sp)
+        Text("Color de la categoría :", color = Color.LightGray, fontSize = 14.sp)
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
@@ -203,14 +254,64 @@ fun CreateCategoryView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(onClick = onCancel) {
-                Text("Cancel", color = PrimaryPurple)
+                Text("Cancelar", color = PrimaryPurple)
             }
             Button(
                 onClick = onSave,
                 colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Create Category", modifier = Modifier.padding(horizontal = 16.dp))
+                Text("Crear Categoría", modifier = Modifier.padding(horizontal = 16.dp))
+            }
+        }
+    }
+
+    if (showIconDialog) {
+        IconSelectionDialog(
+            onIconSelected = {
+                onIconSelect(it)
+                showIconDialog = false
+            },
+            onDismiss = { showIconDialog = false }
+        )
+    }
+}
+
+@Composable
+fun IconSelectionDialog(onIconSelected: (String) -> Unit, onDismiss: () -> Unit) {
+    val iconList = listOf("school", "home", "social", "game", "exercise", "food", "heart", "cake")
+
+    Dialog(onDismissRequest = onDismiss) {
+        Column(
+            modifier = Modifier
+                .background(SurfaceDark, RoundedCornerShape(16.dp))
+                .padding(24.dp)
+        ) {
+            Text("Seleccionar Ícono", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(16.dp))
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(4),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(iconList) { iconName ->
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(Color(0xFF333333))
+                            .clickable { onIconSelected(iconName) },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(getCategoryIconResource(iconName)),
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                }
             }
         }
     }

@@ -9,10 +9,16 @@ class TaskLocalDataSourceImpl (
 
     override suspend fun getAll(): List<TaskEntity> = taskDao.getAll()
 
+    override suspend fun getById(taskId: Int): TaskEntity? = taskDao.getById(taskId)
+
     override suspend fun insert(task: TaskEntity) = taskDao.insert(task)
+
+    override suspend fun update(task: TaskEntity) = taskDao.update(task)
 
     override suspend fun delete(taskId: Int) = taskDao.delete(taskId)
 
     override suspend fun toggleComplete(taskId: Int, isCompleted: Boolean) =
         taskDao.toggleComplete(taskId, isCompleted)
+
+    override suspend fun markAsSynced(taskId: Int) = taskDao.markAsSynced(taskId)
 }

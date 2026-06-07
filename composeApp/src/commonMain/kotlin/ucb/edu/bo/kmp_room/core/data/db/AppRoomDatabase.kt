@@ -14,6 +14,8 @@ import ucb.edu.bo.todoApp.task.data.dao.TaskDao
 import ucb.edu.bo.todoApp.task.data.entity.TaskEntity
 import ucb.edu.bo.remoteconfig.data.dao.RemoteConfigDao
 import ucb.edu.bo.remoteconfig.data.entity.RemoteConfigEntity
+import ucb.edu.bo.todoApp.category.data.dao.CategoryDao
+import ucb.edu.bo.todoApp.category.data.entity.CategoryEntity
 
 @Database(
     entities = [
@@ -21,7 +23,8 @@ import ucb.edu.bo.remoteconfig.data.entity.RemoteConfigEntity
         TaskEntity::class,
         ConfigEntity::class,
         EventEntity::class,
-        RemoteConfigEntity::class
+        RemoteConfigEntity::class,
+        CategoryEntity::class
     ],
     version = 7
 )
@@ -32,6 +35,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getEventDao(): EventDao
     abstract fun taskDao(): TaskDao
     abstract fun remoteConfigDao(): RemoteConfigDao
+    abstract fun categoryDao(): CategoryDao
 }
 
 @Suppress("KotlinNoActualForExpect")

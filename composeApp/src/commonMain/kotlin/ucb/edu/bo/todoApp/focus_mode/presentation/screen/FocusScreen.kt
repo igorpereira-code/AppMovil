@@ -20,24 +20,22 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.navigation.NavHostController
 import ucb.edu.bo.Screen
 import ucb.edu.bo.todoApp.task.presentation.composable.*
-// NUEVO: Importamos el ViewModel de tareas
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class) // NUEVO: Necesario para el ModalBottomSheet
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FocusScreen(
     onLogout: () -> Unit,
     viewModel: FocusViewModel = koinViewModel(),
-    taskViewModel: TaskViewModel = koinViewModel(), // NUEVO: Inyectamos el TaskViewModel
+    taskViewModel: TaskViewModel = koinViewModel(),
     navController: NavHostController
 ) {
     val state by viewModel.state.collectAsState()
-    val taskState by taskViewModel.state.collectAsState() // NUEVO: Escuchamos el estado de las tareas
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true) // NUEVO
+    val taskState by taskViewModel.state.collectAsState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
-    // NUEVO: Envolvemos todo en un Box para anclar la barra de navegación abajo
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -47,10 +45,9 @@ fun FocusScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 24.dp, vertical = 16.dp)
-                .padding(bottom = 72.dp), // Espacio para que la barra no tape las estadísticas
+                .padding(bottom = 72.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Header con título y botón cerrar sesión
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -73,7 +70,6 @@ fun FocusScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Selector de minutos
             if (!state.isRunning && state.elapsedSeconds == 0) {
                 TimeSelectorSection(
                     selectedMinutes = state.selectedMinutes,
@@ -82,12 +78,10 @@ fun FocusScreen(
                 Spacer(modifier = Modifier.height(24.dp))
             }
 
-            // Temporizador circular
             TimerSection(state = state)
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Botones de control
             ControlButtons(
                 state = state,
                 onStart = { viewModel.startFocus() },
@@ -115,7 +109,6 @@ fun FocusScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Estadísticas semanales
             StatsSection(state = state)
         }
 
@@ -130,19 +123,20 @@ fun FocusScreen(
             },
             onCalendarClick = {
                 navController.navigate(Screen.Calendar.route) {
-                    popUpTo(Screen.Task.route) // Volvemos al root antes de abrir calendario
+                    popUpTo(Screen.Task.route)
                     launchSingleTop = true
                 }
             },
             onFocusClick = {},
             onProfileClick = {
-                navController.navigate(Screen.Settings.route) {//Cambiar a perfil cuando haya
+                // CORREGIDO: Navega a Profile
+                navController.navigate(Screen.Profile.route) {
                     popUpTo(Screen.Task.route)
                     launchSingleTop = true
                 }
             },
-            onAddClick = { taskViewModel.showAddTaskSheet() }, // NUEVO: Llama al modal
-            modifier = Modifier.align(Alignment.BottomCenter) // Ahora sí funciona porque está en un Box
+            onAddClick = { taskViewModel.showAddTaskSheet() },
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 
@@ -165,7 +159,6 @@ fun TimeSelectorSection(
     )
     Spacer(modifier = Modifier.height(12.dp))
 
-    // Chips de opciones rápidas
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.fillMaxWidth(),
@@ -196,7 +189,6 @@ fun TimeSelectorSection(
 
     Spacer(modifier = Modifier.height(12.dp))
 
-    // Input personalizado
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,

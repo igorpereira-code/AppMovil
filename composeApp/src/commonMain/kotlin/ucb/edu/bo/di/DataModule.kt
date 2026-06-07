@@ -12,6 +12,7 @@ import ucb.edu.bo.dollar.domain.repository.DollarRepository
 import ucb.edu.bo.events.data.repository.EventRepositoryImpl
 import ucb.edu.bo.events.domain.repository.EventRepository
 import ucb.edu.bo.firebase.RemoteConfigManager
+import ucb.edu.bo.firebase.FirebaseManager
 import ucb.edu.bo.formulario.data.datasource.FormularioFirebaseDataSource
 import ucb.edu.bo.formulario.data.repository.FormularioRepositoryImpl
 import ucb.edu.bo.formulario.domain.repository.FormularioRepository
@@ -37,6 +38,13 @@ import ucb.edu.bo.todoApp.settings.data.repository.CalendarAuthRepositoryImpl
 import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
 import ucb.edu.bo.todoApp.settings.domain.repository.CalendarAuthRepository
 import io.ktor.client.HttpClient
+import ucb.edu.bo.todoApp.category.data.datasource.CategoryLocalDataSource
+import ucb.edu.bo.todoApp.category.data.datasource.CategoryLocalDataSourceImpl
+import ucb.edu.bo.todoApp.category.data.repository.CategoryRepositoryImpl
+import ucb.edu.bo.todoApp.category.domain.repository.CategoryRepository
+import ucb.edu.bo.todoApp.profile.data.datasource.ProfileDataSource
+import ucb.edu.bo.todoApp.profile.data.repository.ProfileRepositoryImpl
+import ucb.edu.bo.todoApp.profile.domain.repository.ProfileRepository
 
 val dataModule = module {
     singleOf(::DollarRepositoryImpl).bind<DollarRepository>()
@@ -44,6 +52,10 @@ val dataModule = module {
     factory { FirebaseDataSource() }
     factory<FirebaseTestRepository> { FirebaseTestRepositoryImpl(get()) }
     single { RemoteConfigManager() }
+    
+    // Registro de FirebaseManager para que TaskSyncWorker pueda inyectarlo
+    single { FirebaseManager() }
+
     single<RemoteConfigRepository> { RemoteConfigRepositoryImpl(get(), get()) }
     single<ConfigRepository>{ ConfigRepositoryImpl(get(), get()) }
     single<EventRepository> { EventRepositoryImpl(get()) }
@@ -59,8 +71,14 @@ val dataModule = module {
     single<TaskRepository> { TaskRepositoryImpl(get()) }
     single<ISettingsPreferences> { SettingsPreferencesImpl(dataStore = get()) }
 
+    single { get<AppDatabase>().categoryDao() }
+    single<CategoryLocalDataSource> { CategoryLocalDataSourceImpl(get()) }
+    single<CategoryRepository> { CategoryRepositoryImpl(get()) }
+
+    single { ProfileDataSource() }
+    single<ProfileRepository> { ProfileRepositoryImpl(get()) }
+
     single { HttpClient() }
     single {GoogleCalendarRemoteDataSource(httpClient = get()) }
-    // 3. Repositorio de Autenticación y Calendario
-    single<CalendarAuthRepository> { CalendarAuthRepositoryImpl(remoteDataSource = get(), taskDao = get())}// Koin ya sabe darte este DAO gracias a platformModule
+    single<CalendarAuthRepository> { CalendarAuthRepositoryImpl(remoteDataSource = get(), taskDao = get())}
 }

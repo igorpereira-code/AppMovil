@@ -23,7 +23,8 @@ fun TaskEntity.toModel() = TaskModel(
     time = timeMillisOfDay?.let {
         LocalTime.fromMillisecondOfDay(it)
     },
-    priority = priority
+    priority = priority,
+            categoryId = categoryId
 )
 
 fun TaskModel.toEntity() = TaskEntity(
@@ -36,5 +37,6 @@ fun TaskModel.toEntity() = TaskEntity(
     // Convertimos los objetos kotlinx-datetime a primitivos para la BD
     dateMillis = date?.atStartOfDayIn(TimeZone.UTC)?.toEpochMilliseconds(),
     timeMillisOfDay = time?.toMillisecondOfDay(),
-    priority = priority
+    priority = priority,
+            categoryId = categoryId
 )

@@ -23,10 +23,10 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BottomNavBar(
-    currentRoute: String, // NUEVO: Para saber qué ícono pintar de morado
-    onHomeClick: () -> Unit, // NUEVO: Callback para el index
-    onCalendarClick: () -> Unit, // NUEVO: Callback para el calendario
-    onFocusClick: () -> Unit, // NUEVO: Callback para el focus
+    currentRoute: String,
+    onHomeClick: () -> Unit,
+    onCalendarClick: () -> Unit,
+    onFocusClick: () -> Unit,
     onAddClick: () -> Unit,
     onProfileClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -48,14 +48,15 @@ fun BottomNavBar(
             NavItem(
                 iconRes = Res.drawable.home_2,
                 label = stringResource(Res.string.nav_index),
-                isSelected = currentRoute == "Index", // Dinámico
+                isSelected = currentRoute == "Index" || currentRoute == "Task",
                 onClick = onHomeClick
             )
+
             // Calendar
             NavItem(
                 iconRes = Res.drawable.calendar,
                 label = stringResource(Res.string.nav_calendar),
-                isSelected = currentRoute == "Calendario", // Dinámico
+                isSelected = currentRoute == "Calendar" || currentRoute == "Calendario", // Corregido
                 onClick = onCalendarClick
             )
 
@@ -74,18 +75,20 @@ fun BottomNavBar(
                 )
             }
 
+            // Focus
             NavItem(
                 iconRes = Res.drawable.timer,
                 label = stringResource(Res.string.nav_focus),
                 isSelected = currentRoute == "Focus",
                 onClick = onFocusClick
             )
-            // Profile (Callbacks pendientes para tu equipo)
+
+            // Profile
             NavItem(
                 iconRes = Res.drawable.user,
                 label = stringResource(Res.string.nav_profile),
-                isSelected = currentRoute == "Perfil",
-                onClick = { onProfileClick() }
+                isSelected = currentRoute == "Profile" || currentRoute == "Perfil", // Corregido para que se pinte morado
+                onClick = onProfileClick
             )
         }
     }
@@ -96,7 +99,7 @@ private fun NavItem(
     iconRes: DrawableResource,
     label: String,
     isSelected: Boolean,
-    onClick: () -> Unit // NUEVO: Parámetro para recibir el clic
+    onClick: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

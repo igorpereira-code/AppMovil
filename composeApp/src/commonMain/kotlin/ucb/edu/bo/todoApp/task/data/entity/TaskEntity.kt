@@ -16,5 +16,6 @@ data class TaskEntity(
     val dateMillis: Long? = null,
     val timeMillisOfDay: Int? = null,
     val priority: Int = 1,
-    val isSynced: Boolean = false
+    val isSynced: Boolean = false,
+    val categoryId: Int? = null
 )

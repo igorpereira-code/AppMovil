@@ -15,6 +15,7 @@ import ucb.edu.bo.di.getModules
 import ucb.edu.bo.formulario.data.worker.FormularioAutoSaveWorker
 import ucb.edu.bo.remoteconfig.data.worker.RemoteConfigSyncWorker
 import ucb.edu.bo.todoApp.focus_mode.notification.FocusNotificationHelper
+import ucb.edu.bo.todoApp.task.data.service.SyncNotificationHelper
 // NUEVO: Importamos el worker de sincronización de tareas
 import ucb.edu.bo.todoApp.task.data.service.TaskSyncWorker
 import ucb.edu.bo.workmanager.LogScheduler
@@ -51,6 +52,7 @@ class AndroidApp : Application() {
         WorkManager.getInstance(this).enqueue(formularioAutoSave)
 
         // ── NUEVO: WORKER DE SINCRONIZACIÓN DE TAREAS ────────────────────────
+        SyncNotificationHelper.createChannel(this)
 
         // 1. Restricción: Solo sincronizar tareas a Firebase si hay internet
         val taskSyncConstraints = Constraints.Builder()
@@ -72,5 +74,9 @@ class AndroidApp : Application() {
             ExistingPeriodicWorkPolicy.KEEP,
             taskSyncWork
         )
+
+        // Temporalmente en AndroidApp.kt para dispararlo de inmediato
+        val testSync = OneTimeWorkRequest.Builder(TaskSyncWorker::class.java).build()
+        WorkManager.getInstance(this).enqueue(testSync)
     }
 }

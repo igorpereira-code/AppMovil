@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "1518e3dba75bbee16082c4fda647180b",
+    "identityHash": "774df1f3280800b27959d778dc30dd8b",
     "entities": [
       {
         "tableName": "dollars",
@@ -40,7 +40,7 @@
       },
       {
         "tableName": "tasks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `isCompleted` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `dateMillis` INTEGER, `timeMillisOfDay` INTEGER, `priority` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `isCompleted` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `dateMillis` INTEGER, `timeMillisOfDay` INTEGER, `priority` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `categoryId` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -93,6 +93,11 @@
             "columnName": "isSynced",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -191,11 +196,47 @@
             "key"
           ]
         }
+      },
+      {
+        "tableName": "categories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `iconResName` TEXT NOT NULL, `colorHex` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconResName",
+            "columnName": "iconResName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "colorHex",
+            "columnName": "colorHex",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1518e3dba75bbee16082c4fda647180b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '774df1f3280800b27959d778dc30dd8b')"
     ]
   }
 }
