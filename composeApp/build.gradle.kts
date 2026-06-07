@@ -75,6 +75,7 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(project(":designsystem"))
             implementation(libs.datastore.preferences.core)
+            implementation(compose.materialIconsExtended)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

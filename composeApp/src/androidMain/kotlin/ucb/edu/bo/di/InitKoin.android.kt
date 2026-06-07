@@ -46,7 +46,7 @@ actual val platformModule = module {
 
     // DAOs provided via AppDatabase
     single { get<AppDatabase>().getDao() }
-    single { get<AppDatabase>().getRemoteConfigDao() }
-    single { get<AppDatabase>().getFormularioDao() }
-    single<IFormularioPreferences> { FormularioPreferences(androidContext()) }
+    single { get<AppDatabase>().getConfigDao() }
+    single { get<AppDatabase>().getEventDao() }
+
 }

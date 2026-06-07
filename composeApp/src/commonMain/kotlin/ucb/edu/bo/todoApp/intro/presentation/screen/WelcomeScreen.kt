@@ -11,6 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun WelcomeScreen(
@@ -33,7 +35,7 @@ fun WelcomeScreen(
             Box(
                 modifier = Modifier
                     .size(120.dp)
-                    .background(Color(0xFF8687E7), shape = MaterialTheme.shapes.large),
+                    .background(MaterialTheme.colorScheme.primary, shape = MaterialTheme.shapes.large),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -47,7 +49,7 @@ fun WelcomeScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "Bienvenido a UpTodo",
+                text = stringResource(Res.string.welcome_title),
                 color = Color.White,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -57,7 +59,7 @@ fun WelcomeScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Por favor inicia sesión en tu cuenta o crea una nueva para continuar",
+                text = stringResource(Res.string.welcome_description),
                 color = Color.Gray,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
@@ -71,11 +73,11 @@ fun WelcomeScreen(
                     .fillMaxWidth()
                     .height(52.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF8687E7)
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Text(
-                    text = "Iniciar sesión",
+                    text = stringResource(Res.string.welcome_button_login),
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -90,11 +92,11 @@ fun WelcomeScreen(
                     .fillMaxWidth()
                     .height(52.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = Color(0xFF8687E7)
+                    contentColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Text(
-                    text = "Crear cuenta",
+                    text = stringResource(Res.string.welcome_button_register),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )

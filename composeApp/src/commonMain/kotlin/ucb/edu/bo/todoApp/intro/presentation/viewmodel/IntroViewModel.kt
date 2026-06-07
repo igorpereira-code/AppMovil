@@ -23,11 +23,4 @@ class IntroViewModel : ViewModel() {
             currentPage = _state.value.pages.size - 1
         )
     }
-
-    fun previousPage() {
-        val current = _state.value.currentPage
-        if (current > 0) {
-            _state.value = _state.value.copy(currentPage = current - 1)
-        }
-    }
 }

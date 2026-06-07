@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,10 +23,13 @@ import ucb.edu.bo.todoApp.login.presentation.screen.LoginScreen
 import ucb.edu.bo.todoApp.login.presentation.screen.RegisterScreen
 import ucb.edu.bo.todoApp.settings.presentation.screen.SettingsScreen
 import ucb.edu.bo.todoApp.task.presentation.screen.TaskScreen
+import ucb.edu.bo.todoApp.profile.presentation.screen.ProfileScreen // Tu pantalla de perfil
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 import androidx.navigation.NavHostController
+import androidx.navigation.navArgument
+import ucb.edu.bo.todoApp.task.presentation.screen.EditTaskScreen
 
 sealed class Screen(val route: String) {
     object Intro : Screen("intro")
@@ -38,6 +42,11 @@ sealed class Screen(val route: String) {
     object Calendar : Screen("calendar")
 
     object Settings : Screen("settings")
+
+    object EditTask : Screen("edit_task/{taskId}") {
+        fun createRoute(taskId: Int) = "edit_task/$taskId"
+    }
+    object Profile : Screen("profile")
 }
 
 @Composable
@@ -92,7 +101,8 @@ fun AppNavigation(startDestination: String, navController: NavHostController) {
         composable(Screen.Focus.route) {
             FocusScreen(
                 onLogout = {
-                    FirebaseAuth.getInstance().signOut()
+                    // Usamos SessionManager en lugar de Firebase
+                    ucb.edu.bo.SessionManager.logout()
                     navController.navigate(Screen.Welcome.route) {
                         popUpTo(0) { inclusive = true }
                     }
@@ -124,6 +134,37 @@ fun AppNavigation(startDestination: String, navController: NavHostController) {
                     fontWeight = FontWeight.Bold
                 )
             }
+        }
+
+        composable(
+            route = Screen.EditTask.route,
+            arguments = listOf(navArgument("taskId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val taskId = backStackEntry.arguments?.getInt("taskId") ?: return@composable
+            EditTaskScreen(
+                taskId = taskId,
+                navController = navController
+            )
+        }
+
+        // UN SOLO BLOQUE DE PROFILE SCREEN
+        composable(Screen.Profile.route) {
+            // Instanciamos el TaskViewModel aquí
+            val taskViewModel: ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel = org.koin.compose.viewmodel.koinViewModel()
+
+            ProfileScreen(
+                navController = navController,
+                taskViewModel = taskViewModel, // PASAMOS EL VIEWMODEL
+                onNavigateToSettings = {
+                    navController.navigate(Screen.Settings.route)
+                },
+                onLogoutSuccess = {
+                    ucb.edu.bo.SessionManager.logout()
+                    navController.navigate(Screen.Welcome.route) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            )
         }
 
         composable(Screen.Settings.route) {

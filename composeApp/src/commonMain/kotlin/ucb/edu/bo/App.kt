@@ -28,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 fun App() {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val startDestination = if (currentUser != null) {
-        Screen.Focus.route
+        Screen.Task.route
     } else {
         Screen.Intro.route
     }
