@@ -14,6 +14,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.todoApp.login.presentation.state.RegisterState
 import ucb.edu.bo.todoApp.login.presentation.viewmodel.RegisterViewModel
@@ -58,7 +60,7 @@ fun RegisterScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Crear cuenta",
+                text = stringResource(Res.string.register_title),
                 color = Color.White,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -74,15 +76,15 @@ fun RegisterScreen(
                     username = it
                     errorMessage = ""
                 },
-                label = { Text("Nombre de usuario", color = Color.Gray) },
+                label = { Text(stringResource(Res.string.register_label_username), color = Color.Gray) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF8687E7),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFF444444),
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF8687E7)
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             )
@@ -96,15 +98,15 @@ fun RegisterScreen(
                     email = it
                     errorMessage = ""
                 },
-                label = { Text("Correo electrónico", color = Color.Gray) },
+                label = { Text(stringResource(Res.string.register_label_email), color = Color.Gray) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF8687E7),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFF444444),
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF8687E7)
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             )
@@ -118,16 +120,16 @@ fun RegisterScreen(
                     password = it
                     errorMessage = ""
                 },
-                label = { Text("Contraseña", color = Color.Gray) },
+                label = { Text(stringResource(Res.string.register_label_password), color = Color.Gray) },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF8687E7),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFF444444),
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF8687E7)
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             )
@@ -141,16 +143,16 @@ fun RegisterScreen(
                     confirmPassword = it
                     errorMessage = ""
                 },
-                label = { Text("Confirmar contraseña", color = Color.Gray) },
+                label = { Text(stringResource(Res.string.register_label_confirm_password), color = Color.Gray) },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF8687E7),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = Color(0xFF444444),
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF8687E7)
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             )
@@ -184,7 +186,7 @@ fun RegisterScreen(
                     .fillMaxWidth()
                     .height(52.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF8687E7)
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(8.dp)
             ) {
@@ -196,7 +198,7 @@ fun RegisterScreen(
                     )
                 } else {
                     Text(
-                        text = "Crear cuenta",
+                        text = stringResource(Res.string.register_title),
                         color = Color.White,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
@@ -213,7 +215,7 @@ fun RegisterScreen(
             ) {
                 HorizontalDivider(modifier = Modifier.weight(1f), color = Color(0xFF444444))
                 Text(
-                    text = "  o  ",
+                    text = stringResource(Res.string.login_text_or),
                     color = Color.Gray,
                     fontSize = 14.sp
                 )
@@ -234,7 +236,7 @@ fun RegisterScreen(
                 )
             ) {
                 Text(
-                    text = "Registrarse con Google",
+                    text = stringResource(Res.string.register_button_google),
                     fontSize = 15.sp
                 )
             }
@@ -244,13 +246,13 @@ fun RegisterScreen(
             // Link a Login
             Row {
                 Text(
-                    text = "¿Ya tienes cuenta? ",
+                    text = stringResource(Res.string.register_text_already_have_account),
                     color = Color.Gray,
                     fontSize = 14.sp
                 )
                 Text(
-                    text = "Inicia sesión",
-                    color = Color(0xFF8687E7),
+                    text = stringResource(Res.string.register_link_login),
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable { onGoToLogin() }
