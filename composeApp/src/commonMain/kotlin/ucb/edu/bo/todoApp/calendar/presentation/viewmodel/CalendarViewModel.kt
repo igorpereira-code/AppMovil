@@ -149,4 +149,21 @@ class CalendarViewModel(
             )
         }
     }
+    // Mostrar el modal
+    fun showDatePicker() {
+        _state.value = _state.value.copy(isDatePickerVisible = true)
+    }
+
+    // Ocultar el modal
+    fun hideDatePicker() {
+        _state.value = _state.value.copy(isDatePickerVisible = false)
+    }
+
+    // Cuando el usuario elige la fecha en el Modal
+    fun onDatePickedFromModal(newDate: LocalDate) {
+        // 1. Ocultamos el modal
+        _state.value = _state.value.copy(isDatePickerVisible = false)
+
+        onDateSelected(newDate)
+    }
 }

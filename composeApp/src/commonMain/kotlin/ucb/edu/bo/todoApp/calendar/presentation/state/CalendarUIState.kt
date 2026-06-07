@@ -9,5 +9,6 @@ data class CalendarUIState(
     val monthYearText: String = "",
     val selectedTab: String = "Today", // "Today" o "Completed"
     val filteredTasks: List<TaskModel> = emptyList(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isDatePickerVisible: Boolean = false
 )

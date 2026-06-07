@@ -29,7 +29,8 @@ fun CalendarCarousel(
     selectedDate: LocalDate?,
     onDateSelected: (LocalDate) -> Unit,
     onPreviousWeek: () -> Unit,
-    onNextWeek: () -> Unit
+    onNextWeek: () -> Unit,
+    onMonthClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -53,7 +54,10 @@ fun CalendarCarousel(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
-                lineHeight = 20.sp
+                lineHeight = 20.sp,
+                modifier = Modifier
+                    .clickable { onMonthClick() } // <-- 2. AHORA EL MES ES CLICABLE
+                    .padding(8.dp) // Un poco de espacio extra para que sea fácil de tocar
             )
 
             IconButton(onClick = onNextWeek) {

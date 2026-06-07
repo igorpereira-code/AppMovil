@@ -25,6 +25,7 @@ import ucb.edu.bo.todoApp.task.presentation.screen.TaskScreen
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.navigation.NavHostController
 
 sealed class Screen(val route: String) {
     object Intro : Screen("intro")
@@ -40,8 +41,7 @@ sealed class Screen(val route: String) {
 }
 
 @Composable
-fun AppNavigation(startDestination: String) {
-    val navController = rememberNavController()
+fun AppNavigation(startDestination: String, navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = startDestination

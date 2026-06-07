@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import org.koin.compose.koinInject
 import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
 import ucb.edu.bo.utils.setAppLanguage
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun App() {
@@ -31,6 +32,8 @@ fun App() {
     } else {
         Screen.Intro.route
     }
+
+    val rootNavController = rememberNavController()
     // 1. Inyectamos las preferencias directamente en la raíz
     val settingsPreferences = koinInject<ISettingsPreferences>()
 
@@ -49,7 +52,8 @@ fun App() {
         dynamicTypography = currentTypography,
         isDarkMode = isDarkMode) {
         key(currentLanguage) {
-            AppNavigation(startDestination = startDestination)
+            AppNavigation(startDestination = startDestination,
+                navController = rootNavController)
         }
     }
 }

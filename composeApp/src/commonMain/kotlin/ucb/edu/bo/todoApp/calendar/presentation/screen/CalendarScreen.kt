@@ -22,6 +22,7 @@ import ucb.edu.bo.todoApp.calendar.presentation.composable.CalendarCarousel
 import ucb.edu.bo.todoApp.task.presentation.composable.*
 import ucb.edu.bo.todoApp.calendar.presentation.viewmodel.CalendarViewModel
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
+import ucb.edu.bo.todoApp.task.presentation.composable.DatePickerModal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +64,8 @@ fun CalendarScreen(
                 selectedDate = state.selectedDate,
                 onDateSelected = { viewModel.onDateSelected(it) },
                 onPreviousWeek = { viewModel.onPreviousWeek() },
-                onNextWeek = { viewModel.onNextWeek() }
+                onNextWeek = { viewModel.onNextWeek() },
+                onMonthClick = { viewModel.showDatePicker() }
             )
 
             // ── Filtros (Today / Completed) ──────────────────────────────────────────
@@ -158,6 +160,17 @@ fun CalendarScreen(
             onAddClick = { taskViewModel.showAddTaskSheet()},
             modifier = Modifier.align(Alignment.BottomCenter)
         )
+        // ── EL MODAL DE FECHAS (FLOTANTE) ────────────────────────────────────────
+        // Se coloca al final para que flote sobre todo lo demás
+        if (state.isDatePickerVisible) {
+            DatePickerModal(
+                initialDate = state.selectedDate,
+                onDateSelected = { newDate ->
+                    viewModel.onDatePickedFromModal(newDate)
+                },
+                onDismiss = { viewModel.hideDatePicker() }
+            )
+        }
     }
     AddTaskModalsGlobal(taskViewModel = taskViewModel)
 }
