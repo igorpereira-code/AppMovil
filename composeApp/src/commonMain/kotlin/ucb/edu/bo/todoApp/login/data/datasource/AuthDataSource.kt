@@ -9,5 +9,6 @@ expect class AuthDataSource() {
     // NUEVAS FUNCIONES:
     suspend fun changePassword(newPassword: String): Result<Unit>
     suspend fun updateName(newName: String): Result<Unit>
+    suspend fun logout(): Result<Unit>
     fun getCurrentUserName(): String
 }

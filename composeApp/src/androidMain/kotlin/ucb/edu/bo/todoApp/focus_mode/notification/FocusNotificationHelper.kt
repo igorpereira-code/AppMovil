@@ -6,6 +6,9 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import appmovil.composeapp.generated.resources.*
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.compose.resources.getString
 
 object FocusNotificationHelper {
 
@@ -28,10 +31,14 @@ object FocusNotificationHelper {
     }
 
     fun sendFocusCompletedNotification(context: Context, minutes: Int) {
+        // En Android Nativo (androidMain) usamos runBlocking para obtener el string de Compose Resources
+        val title = runBlocking { getString(Res.string.notification_focus_title) }
+        val body = runBlocking { getString(Res.string.notification_focus_body_minutes, minutes) }
+
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle("¡Sesión completada! 🎉")
-            .setContentText("Completaste $minutes minutos de enfoque. ¡Excelente trabajo!")
+            .setContentTitle(title)
+            .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .build()

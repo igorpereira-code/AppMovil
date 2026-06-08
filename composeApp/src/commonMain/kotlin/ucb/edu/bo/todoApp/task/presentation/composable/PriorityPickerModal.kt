@@ -29,12 +29,12 @@ fun PriorityPickerModal(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        containerColor = SurfaceDark, // Usando tu color base
+        containerColor = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(16.dp),
         title = {
             Text(
                 text = stringResource(Res.string.priority_picker_title),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth(),
@@ -56,7 +56,10 @@ fun PriorityPickerModal(
                         modifier = Modifier
                             .aspectRatio(1f)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFF272727))
+                            .background(
+                                if (isSelected) MaterialTheme.colorScheme.primary 
+                                else MaterialTheme.colorScheme.surfaceVariant
+                            )
                             .clickable { selectedPriority = priorityValue },
                         contentAlignment = Alignment.Center
                     ) {
@@ -67,13 +70,13 @@ fun PriorityPickerModal(
                             Icon(
                                 painter = painterResource(Res.drawable.flag),
                                 contentDescription = stringResource(Res.string.priority_cd_value, priorityValue),
-                                tint = Color.White,
+                                tint = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.size(20.dp)
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
                                 text = priorityValue.toString(),
-                                color = Color.White,
+                                color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
                                 fontSize = 14.sp
                             )
                         }
@@ -84,10 +87,13 @@ fun PriorityPickerModal(
         confirmButton = {
             Button(
                 onClick = { onPrioritySelected(selectedPriority) },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
                 modifier = Modifier.fillMaxWidth(0.45f)
             ) {
-                Text(stringResource(Res.string.common_save), color = Color.White)
+                Text(stringResource(Res.string.common_save))
             }
         },
         dismissButton = {

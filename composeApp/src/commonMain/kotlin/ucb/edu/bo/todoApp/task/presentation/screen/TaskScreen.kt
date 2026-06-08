@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
@@ -37,7 +35,7 @@ fun TaskScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         // ── Top Bar ──────────────────────────────────────────────────────────────
         Row(
@@ -50,7 +48,7 @@ fun TaskScreen(
             Icon(
                 painter = painterResource(Res.drawable.sort_image),
                 contentDescription = stringResource(Res.string.task_desc_menu),
-                tint = Color.White,
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(24.dp)
             )
 
@@ -58,7 +56,7 @@ fun TaskScreen(
 
             Text(
                 text = stringResource(Res.string.task_title_index),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium
             )
@@ -69,13 +67,13 @@ fun TaskScreen(
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFF444444)),
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.user),
                     contentDescription = stringResource(Res.string.task_desc_profile),
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -103,6 +101,7 @@ fun TaskScreen(
             ) {
                 items(state.tasks) { task ->
                     val timeString = viewModel.formatTaskTimeText(task.date, task.time)
+                        ?: stringResource(Res.string.no_calendar_program)
                     val category = state.categories.find { it.id == task.categoryId }
 
                     TaskItem(
@@ -114,7 +113,7 @@ fun TaskScreen(
                         categoryColor = category?.colorHex?.let { Color(it) } ?: MaterialTheme.colorScheme.primary,
                         isCompleted = task.isCompleted,
                         onToggle = { viewModel.toggleTask(task.id, !task.isCompleted) },
-                        onClick = { navController.navigate(Screen.EditTask.createRoute(task.id))/* Lógica para abrir la pantalla de detalles */ }
+                        onClick = { navController.navigate(Screen.EditTask.createRoute(task.id)) }
                     )
                 }
             }
@@ -137,7 +136,6 @@ fun TaskScreen(
                 }
             },
             onProfileClick = {
-                // CORREGIDO: Navega a Profile
                 navController.navigate(Screen.Profile.route) {
                     popUpTo(Screen.Task.route)
                     launchSingleTop = true

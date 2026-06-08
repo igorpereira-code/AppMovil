@@ -14,6 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Dialog para editar el título de la tarea.
@@ -40,7 +42,7 @@ fun EditTitleDialog(
         shape = RoundedCornerShape(16.dp),
         title = {
             Text(
-                text = "Edit Task title",
+                text = stringResource(Res.string.edit_task_cd_edit_title),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
@@ -90,12 +92,12 @@ fun EditTitleDialog(
                 ),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Edit", color = Color.White, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(Res.string.common_edit), color = Color.White, fontWeight = FontWeight.SemiBold)
             }
         },
         dismissButton = {
             TextButton(onClick = onCancel) {
-                Text("Cancel", color = Color(0xFF888888))
+                Text(stringResource(Res.string.common_cancel), color = Color(0xFF888888))
             }
         }
     )

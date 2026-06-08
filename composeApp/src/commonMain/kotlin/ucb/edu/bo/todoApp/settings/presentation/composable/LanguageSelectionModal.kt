@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appmovil.composeapp.generated.resources.Res
-import appmovil.composeapp.generated.resources.select_language // Llave de Localise.biz
+import appmovil.composeapp.generated.resources.select_language
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +32,7 @@ fun LanguageSelectionModal(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = Color(0xFF363636),
+        containerColor = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
     ) {
         Column(
@@ -41,14 +41,14 @@ fun LanguageSelectionModal(
                 .padding(bottom = 32.dp, top = 8.dp)
         ) {
             Text(
-                text = stringResource(Res.string.select_language), // Texto desde XML
-                color = Color.White,
+                text = stringResource(Res.string.select_language),
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)
             )
 
-            HorizontalDivider(color = Color(0xFF444444))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
             supportedLanguages.forEach { (code, name) ->
                 val isSelected = code == currentLanguageCode
@@ -61,8 +61,8 @@ fun LanguageSelectionModal(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = name, // Mantenemos el nombre nativo del idioma
-                        color = if (isSelected) MaterialTheme.colorScheme.primary else Color.White,
+                        text = name,
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                         fontSize = 16.sp,
                         fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
                     )
@@ -70,7 +70,7 @@ fun LanguageSelectionModal(
                         Text("✓", color = MaterialTheme.colorScheme.primary, fontSize = 20.sp)
                     }
                 }
-                HorizontalDivider(color = Color(0xFF444444))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             }
         }
     }

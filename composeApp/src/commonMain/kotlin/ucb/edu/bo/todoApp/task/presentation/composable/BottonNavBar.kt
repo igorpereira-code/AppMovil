@@ -34,7 +34,7 @@ fun BottomNavBar(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color(0xFF1D1D1D))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(vertical = 8.dp)
     ) {
         Row(
@@ -56,7 +56,7 @@ fun BottomNavBar(
             NavItem(
                 iconRes = Res.drawable.calendar,
                 label = stringResource(Res.string.nav_calendar),
-                isSelected = currentRoute == "Calendar" || currentRoute == "Calendario", // Corregido
+                isSelected = currentRoute == "Calendar" || currentRoute == "Calendario",
                 onClick = onCalendarClick
             )
 
@@ -64,13 +64,13 @@ fun BottomNavBar(
             FloatingActionButton(
                 onClick = onAddClick,
                 containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = CircleShape,
                 modifier = Modifier.size(56.dp)
             ) {
                 Icon(
                     painter = painterResource(Res.drawable.add_image),
                     contentDescription = stringResource(Res.string.nav_cd_add_task),
-                    tint = Color.White,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -87,7 +87,7 @@ fun BottomNavBar(
             NavItem(
                 iconRes = Res.drawable.user,
                 label = stringResource(Res.string.nav_profile),
-                isSelected = currentRoute == "Profile" || currentRoute == "Perfil", // Corregido para que se pinte morado
+                isSelected = currentRoute == "Profile" || currentRoute == "Perfil",
                 onClick = onProfileClick
             )
         }
@@ -105,20 +105,20 @@ private fun NavItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp)) // Hace que el efecto de onda al tocar sea redondeado
+            .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
-            .padding(4.dp) // Aumenta sutilmente el área táctil
+            .padding(4.dp)
     ) {
         Icon(
             painter = painterResource(iconRes),
             contentDescription = label,
-            tint = if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFF888888),
+            tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
             modifier = Modifier.size(22.dp)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = label,
-            color = if (isSelected) MaterialTheme.colorScheme.primary else Color(0xFF888888),
+            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
             fontSize = 10.sp
         )
     }

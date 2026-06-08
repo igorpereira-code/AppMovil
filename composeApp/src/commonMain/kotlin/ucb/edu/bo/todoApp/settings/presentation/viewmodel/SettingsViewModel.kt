@@ -57,8 +57,14 @@ class SettingsViewModel(
             }
         }
         viewModelScope.launch {
-            val quote = quoteRepository.getRandomMotivationalQuote()
-            _state.value = _state.value.copy(dailyQuote = quote)
+            settingsPreferences.getLanguage().collect { lang ->
+                // Actualizamos el estado del idioma
+                _state.value = _state.value.copy(currentLanguage = lang)
+
+                // Pedimos una nueva frase usando el idioma actual
+                val quote = quoteRepository.getRandomMotivationalQuote(lang)
+                _state.value = _state.value.copy(dailyQuote = quote)
+            }
         }
     }
 

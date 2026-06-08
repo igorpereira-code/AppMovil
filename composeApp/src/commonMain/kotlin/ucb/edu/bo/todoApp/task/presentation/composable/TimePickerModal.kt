@@ -26,65 +26,71 @@ fun TimePickerModal(
     val state = rememberTimePickerState(
         initialHour = initialTime?.hour ?: 12,
         initialMinute = initialTime?.minute ?: 0,
-        is24Hour = false // Fuerza el formato AM/PM como en tu diseño
+        is24Hour = false
     )
 
     Dialog(onDismissRequest = onDismiss) {
-        Column(
-            modifier = Modifier
-                .background(color = SurfaceDark, shape = RoundedCornerShape(16.dp))
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Card(
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
-            Text(
-                text = stringResource(Res.string.time_picker_title),
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                modifier = Modifier.padding(bottom = 24.dp)
-            )
-
-            TimePicker(
-                state = state,
-                colors = TimePickerDefaults.colors(
-                    clockDialColor = Color(0xFF272727),
-                    clockDialSelectedContentColor = Color.White,
-                    clockDialUnselectedContentColor = Color.LightGray,
-                    selectorColor = MaterialTheme.colorScheme.primary,
-                    containerColor = SurfaceDark,
-                    periodSelectorBorderColor = MaterialTheme.colorScheme.primary,
-                    periodSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary,
-                    periodSelectorSelectedContentColor = Color.White,
-                    periodSelectorUnselectedContentColor = Color.LightGray,
-                    timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary,
-                    timeSelectorSelectedContentColor = Color.White,
-                    timeSelectorUnselectedContainerColor = Color(0xFF272727),
-                    timeSelectorUnselectedContentColor = Color.LightGray
-                )
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextButton(
-                    onClick = onDismiss,
-                    modifier = Modifier.weight(1f)
+                Text(
+                    text = stringResource(Res.string.time_picker_title),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(bottom = 24.dp)
+                )
+
+                TimePicker(
+                    state = state,
+                    colors = TimePickerDefaults.colors(
+                        clockDialColor = MaterialTheme.colorScheme.surfaceVariant,
+                        clockDialSelectedContentColor = MaterialTheme.colorScheme.onPrimary,
+                        clockDialUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        selectorColor = MaterialTheme.colorScheme.primary,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        periodSelectorBorderColor = MaterialTheme.colorScheme.outline,
+                        periodSelectorSelectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        periodSelectorSelectedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        timeSelectorSelectedContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary)
-                }
-                Spacer(modifier = Modifier.width(16.dp))
-                Button(
-                    onClick = {
-                        val selectedTime = LocalTime(state.hour, state.minute)
-                        onTimeSelected(selectedTime)
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(stringResource(Res.string.common_save), color = Color.White)
+                    TextButton(
+                        onClick = onDismiss,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary)
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Button(
+                        onClick = {
+                            val selectedTime = LocalTime(state.hour, state.minute)
+                            onTimeSelected(selectedTime)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text(stringResource(Res.string.common_save))
+                    }
                 }
             }
         }

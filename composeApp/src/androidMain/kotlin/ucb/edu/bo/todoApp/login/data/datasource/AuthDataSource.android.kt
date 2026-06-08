@@ -103,4 +103,14 @@ actual class AuthDataSource actual constructor() {
             ?: user?.email?.substringBefore("@")
             ?: "Usuario"
     }
+
+    // ¡AQUÍ ESTÁ LA FUNCIÓN QUE FALTABA PARA QUITAR EL ERROR!
+    actual suspend fun logout(): Result<Unit> {
+        return try {
+            auth.signOut()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(Exception(e.message ?: "Error al cerrar sesión"))
+        }
+    }
 }

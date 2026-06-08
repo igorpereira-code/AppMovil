@@ -4,7 +4,7 @@
  Project: todoApp
  Locale: es-BO, Español (Bolivia)
  Exported by: María Jesús Lozada
- Exported at: Sat, 30 May 2026 01:04:03 -0400
+ Exported at: Sun, 07 Jun 2026 02:54:03 -0400
 -->
 <resources>
     <string name="settings_title">Configuración</string>
@@ -119,4 +119,65 @@
     <string name="notification_focus_title">¡Sesión completada! 🎉</string>
     <string name="notification_focus_body">Completaste %d minutos de enfoque. ¡Excelente trabajo!</string>
     <string name="app_name">todoApp</string>
+    <string name="profile_title">Perfil</string>
+    <string name="profile_stats_pending">Tareas pendientes</string>
+    <string name="profile_stats_completed">Tareas terminadas</string>
+    <string name="profile_section_settings">Configuración</string>
+    <string name="profile_section_account">Cuenta</string>
+    <string name="profile_section_uptodo">Uptodo</string>
+    <string name="profile_item_app_settings">Configuración de la app</string>
+    <string name="profile_item_change_name">Cambiar nombre de cuenta</string>
+    <string name="profile_item_change_password">Cambiar contraseña</string>
+    <string name="profile_item_change_image">Cambiar imagen de perfil</string>
+    <string name="profile_item_about">Sobre nosotros</string>
+    <string name="profile_item_faq">Preguntas frecuentes</string>
+    <string name="profile_item_help">Ayuda y comentarios</string>
+    <string name="profile_item_support">Apóyanos</string>
+    <string name="profile_button_logout">Cerrar sesión</string>
+    <string name="profile_image_take_photo">Tomar foto</string>
+    <string name="profile_image_import_gallery">Importar de la galería</string>
+    <string name="profile_image_import_drive">Importar de Google Drive</string>
+    <string name="profile_label_current_password">Contraseña actual</string>
+    <string name="profile_label_new_password">Nueva contraseña</string>
+    <string name="profile_text_about_desc">Uptodo está diseñada para ayudarte a organizar tu vida de manera eficiente y sin complicaciones.</string>
+    <string name="profile_text_faq_desc">¿Cómo borro una tarea? Desliza o haz clic en el ícono de eliminar en los detalles de la tarea.</string>
+    <string name="profile_text_help_desc">Si encontraste un error o tienes alguna sugerencia, no dudes en contactarnos para mejorar tu experiencia.</string>
+    <string name="profile_text_support_desc">Si te gusta Uptodo, no olvides dejarnos 5 estrellas en la tienda de aplicaciones. ¡Nos ayuda muchísimo!</string>
+    <string name="category_title_add">Añadir Categoría</string>
+    <string name="category_label_name">Nombre de la categoría :</string>
+    <string name="category_label_icon">Icono de la categoría :</string>
+    <string name="category_label_color">Color de la categoría :</string>
+    <string name="category_title_select_icon">Seleccionar Ícono</string>
+    <string name="edit_task_cd_delete">Eliminar tarea</string>
+    <string name="edit_task_cd_repeat">Repetir</string>
+    <string name="edit_task_cd_close">Cerrar</string>
+    <string name="edit_task_cd_edit_title">Editar título</string>
+    <string name="edit_task_cd_priority">Prioridad</string>
+    <string name="edit_task_placeholder_title">Título de la tarea</string>
+    <string name="edit_task_placeholder_desc">Descripción de la tarea</string>
+    <string name="settings_title_select_theme">Seleccionar tema</string>
+    <string name="settings_item_display_mode">Modo de Pantalla</string>
+    <string name="settings_theme_light">Modo Claro</string>
+    <string name="settings_theme_dark">Modo Oscuro</string>
+    <string name="test_firebase_title">Prueba Firebase</string>
+    <string name="test_firebase_placeholder">Escribe algo para guardar</string>
+    <string name="test_firebase_button_save">Guardar en Firebase</string>
+    <string name="test_sync_title">Sincronización Inicial</string>
+    <string name="test_sync_status">Sincronizando con Firebase...</string>
+    <string name="test_sync_local_value">Valor guardado localmente:</string>
+    <string name="test_remote_config_title">Remote Config + Room</string>
+    <string name="test_push_title">Push Notifications</string>
+    <string name="notification_focus_body_minutes">Completaste %d minutos de enfoque. ¡Excelente trabajo!</string>
+    <string name="notification_sync_checking">Verificando cambios pendientes</string>
+    <string name="common_edit">Editar</string>
+    <string name="common_delete">Eliminar</string>
+    <string name="common_understood">Entendido</string>
+    <string name="calendar_cd_previous">Semana anterior</string>
+    <string name="calendar_cd_next">Siguiente semana</string>
+    <string name="add_new_category">Crear nueva</string>
+    <string name="category_choose">Elegir categoría</string>
+    <string name="no_calendar_program">Sin programar</string>
+    <string name="edit_task_delete_confirm">Are you sure you want to delete?</string>
+    <string name="edit_task_error_empty_title">The title cannot be empty</string>
+    <string name="edit_task_error_not_found">Task not found</string>
 </resources>

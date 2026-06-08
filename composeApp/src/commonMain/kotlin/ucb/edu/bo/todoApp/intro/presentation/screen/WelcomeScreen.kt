@@ -22,7 +22,7 @@ fun WelcomeScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121212))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -40,7 +40,7 @@ fun WelcomeScreen(
             ) {
                 Text(
                     text = "✓",
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 48.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -50,7 +50,7 @@ fun WelcomeScreen(
 
             Text(
                 text = stringResource(Res.string.welcome_title),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -60,7 +60,7 @@ fun WelcomeScreen(
 
             Text(
                 text = stringResource(Res.string.welcome_description),
-                color = Color.Gray,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
@@ -73,12 +73,12 @@ fun WelcomeScreen(
                     .fillMaxWidth()
                     .height(52.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
                 Text(
                     text = stringResource(Res.string.welcome_button_login),
-                    color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -93,7 +93,8 @@ fun WelcomeScreen(
                     .height(52.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = MaterialTheme.colorScheme.primary
-                )
+                ),
+                border = ButtonDefaults.outlinedButtonBorder(enabled = true)
             ) {
                 Text(
                     text = stringResource(Res.string.welcome_button_register),

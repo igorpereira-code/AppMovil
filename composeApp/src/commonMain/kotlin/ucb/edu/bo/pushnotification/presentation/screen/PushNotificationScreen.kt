@@ -16,6 +16,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.pushnotification.presentation.viewmodel.PushNotificationViewModel
 
@@ -32,7 +34,7 @@ fun PushNotificationScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Push Notifications", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(Res.string.test_push_title), style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(32.dp))
 

@@ -24,15 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import appmovil.composeapp.generated.resources.Res
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.Screen
 import ucb.edu.bo.todoApp.profile.presentation.viewmodel.ProfileViewModel
 import ucb.edu.bo.todoApp.task.presentation.composable.BottomNavBar
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
-
-val BackgroundDark = Color(0xFF121212)
-val SurfaceDark = Color(0xFF363636)
-val PrimaryPurple = Color(0xFF8687E7)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +53,7 @@ fun ProfileScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -62,8 +61,8 @@ fun ProfileScreen(
                 .padding(bottom = 80.dp)
         ) {
             Text(
-                text = "Perfil",
-                color = Color.White,
+                text = stringResource(Res.string.profile_title),
+                color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
@@ -83,7 +82,7 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = state.userName,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -91,34 +90,40 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // ESTADÍSTICAS REALES
+            // ESTADÍSTICAS REALES - CORREGIDO
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                StatCard(modifier = Modifier.weight(1f), text = "$tasksLeft Tareas pendientes")
-                StatCard(modifier = Modifier.weight(1f), text = "$tasksDone Tareas terminadas")
+                StatCard(
+                    modifier = Modifier.weight(1f),
+                    text = "$tasksLeft ${stringResource(Res.string.profile_stats_pending)}"
+                )
+                StatCard(
+                    modifier = Modifier.weight(1f),
+                    text = "$tasksDone ${stringResource(Res.string.profile_stats_completed)}"
+                )
             }
 
             Spacer(modifier = Modifier.height(32.dp))
 
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                item { MenuSectionTitle("Configuración") }
-                item { ProfileMenuItem(icon = Icons.Outlined.Settings, text = "Configuración de la app", onClick = onNavigateToSettings) }
+                item { MenuSectionTitle(stringResource(Res.string.profile_section_settings)) }
+                item { ProfileMenuItem(icon = Icons.Outlined.Settings, text = stringResource(Res.string.profile_item_app_settings), onClick = onNavigateToSettings) }
 
-                item { MenuSectionTitle("Cuenta") }
-                item { ProfileMenuItem(icon = Icons.Outlined.PersonOutline, text = "Cambiar nombre de cuenta", onClick = { viewModel.toggleNameDialog(true) }) }
-                item { ProfileMenuItem(icon = Icons.Outlined.Lock, text = "Cambiar contraseña", onClick = { viewModel.togglePasswordDialog(true) }) }
-                item { ProfileMenuItem(icon = Icons.Outlined.CameraAlt, text = "Cambiar imagen de perfil", onClick = { viewModel.toggleAvatarDialog(true) }) }
+                item { MenuSectionTitle(stringResource(Res.string.profile_section_account)) }
+                item { ProfileMenuItem(icon = Icons.Outlined.PersonOutline, text = stringResource(Res.string.profile_item_change_name), onClick = { viewModel.toggleNameDialog(true) }) }
+                item { ProfileMenuItem(icon = Icons.Outlined.Lock, text = stringResource(Res.string.profile_item_change_password), onClick = { viewModel.togglePasswordDialog(true) }) }
+                item { ProfileMenuItem(icon = Icons.Outlined.CameraAlt, text = stringResource(Res.string.profile_item_change_image), onClick = { viewModel.toggleAvatarDialog(true) }) }
 
-                item { MenuSectionTitle("Uptodo") }
-                item { ProfileMenuItem(icon = Icons.Outlined.Info, text = "Sobre nosotros", onClick = { viewModel.toggleAboutDialog(true) }) }
-                item { ProfileMenuItem(icon = Icons.Outlined.LiveHelp, text = "Preguntas frecuentes", onClick = { viewModel.toggleFaqDialog(true) }) }
-                item { ProfileMenuItem(icon = Icons.AutoMirrored.Outlined.HelpOutline, text = "Ayuda y comentarios", onClick = { viewModel.toggleHelpDialog(true) }) }
-                item { ProfileMenuItem(icon = Icons.Outlined.ThumbUp, text = "Apóyanos", onClick = { viewModel.toggleSupportDialog(true) }) }
+                item { MenuSectionTitle(stringResource(Res.string.profile_section_uptodo)) }
+                item { ProfileMenuItem(icon = Icons.Outlined.Info, text = stringResource(Res.string.profile_item_about), onClick = { viewModel.toggleAboutDialog(true) }) }
+                item { ProfileMenuItem(icon = Icons.Outlined.LiveHelp, text = stringResource(Res.string.profile_item_faq), onClick = { viewModel.toggleFaqDialog(true) }) }
+                item { ProfileMenuItem(icon = Icons.AutoMirrored.Outlined.HelpOutline, text = stringResource(Res.string.profile_item_help), onClick = { viewModel.toggleHelpDialog(true) }) }
+                item { ProfileMenuItem(icon = Icons.Outlined.ThumbUp, text = stringResource(Res.string.profile_item_support), onClick = { viewModel.toggleSupportDialog(true) }) }
 
                 item {
-                    ProfileMenuItem(icon = Icons.AutoMirrored.Outlined.Logout, text = "Cerrar sesión", isDestructive = true, onClick = onLogoutSuccess)
+                    ProfileMenuItem(icon = Icons.AutoMirrored.Outlined.Logout, text = stringResource(Res.string.profile_button_logout), isDestructive = true, onClick = onLogoutSuccess)
                 }
             }
         }
@@ -156,23 +161,23 @@ fun ProfileScreen(
         ModalBottomSheet(
             onDismissRequest = { viewModel.toggleAvatarDialog(false) },
             sheetState = sheetState,
-            containerColor = SurfaceDark,
-            dragHandle = null // Quita la barrita de arriba para que se vea como en tu diseño
+            containerColor = MaterialTheme.colorScheme.surface,
+            dragHandle = null
         ) {
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
                 Text(
-                    text = "Cambiar imagen de perfil",
-                    color = Color.White,
+                    text = stringResource(Res.string.profile_item_change_image),
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp), color = Color.Gray)
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp), color = MaterialTheme.colorScheme.outline)
 
-                BottomSheetMenuItem("Tomar foto") { viewModel.toggleAvatarDialog(false) }
-                BottomSheetMenuItem("Importar de la galería") { viewModel.toggleAvatarDialog(false) }
-                BottomSheetMenuItem("Importar de Google Drive") { viewModel.toggleAvatarDialog(false) }
+                BottomSheetMenuItem(stringResource(Res.string.profile_image_take_photo)) { viewModel.toggleAvatarDialog(false) }
+                BottomSheetMenuItem(stringResource(Res.string.profile_image_import_gallery)) { viewModel.toggleAvatarDialog(false) }
+                BottomSheetMenuItem(stringResource(Res.string.profile_image_import_drive)) { viewModel.toggleAvatarDialog(false) }
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
@@ -180,16 +185,16 @@ fun ProfileScreen(
 
     // Modales de Info
     if (state.showAboutDialog) {
-        InfoDialog("Sobre Nosotros", "Uptodo está diseñada para ayudarte a organizar tu vida de manera eficiente y moderna. ¡Gracias por usar nuestra app!", { viewModel.toggleAboutDialog(false) })
+        InfoDialog(stringResource(Res.string.profile_item_about), stringResource(Res.string.profile_text_about_desc), { viewModel.toggleAboutDialog(false) })
     }
     if (state.showFaqDialog) {
-        InfoDialog("Preguntas Frecuentes", "¿Cómo borro una tarea? \nDesliza o haz clic en ella.\n\n¿El modo Focus funciona en segundo plano? \nPor el momento debes mantener la app abierta.", { viewModel.toggleFaqDialog(false) })
+        InfoDialog(stringResource(Res.string.profile_item_faq), stringResource(Res.string.profile_text_faq_desc), { viewModel.toggleFaqDialog(false) })
     }
     if (state.showHelpDialog) {
-        InfoDialog("Ayuda y Comentarios", "Si encontraste un error o tienes alguna sugerencia, por favor escríbenos a soporte@uptodo.bo. ¡Valoramos tu feedback!", { viewModel.toggleHelpDialog(false) })
+        InfoDialog(stringResource(Res.string.profile_item_help), stringResource(Res.string.profile_text_help_desc), { viewModel.toggleHelpDialog(false) })
     }
     if (state.showSupportDialog) {
-        InfoDialog("Apóyanos", "Si te gusta Uptodo, no olvides dejarnos 5 estrellas en la tienda. ¡Cada pequeño apoyo nos ayuda a seguir mejorando!", { viewModel.toggleSupportDialog(false) })
+        InfoDialog(stringResource(Res.string.profile_item_support), stringResource(Res.string.profile_text_support_desc), { viewModel.toggleSupportDialog(false) })
     }
 }
 
@@ -198,21 +203,27 @@ fun ProfileScreen(
 @Composable
 fun StatCard(modifier: Modifier = Modifier, text: String) {
     Box(
-        modifier = modifier.background(Color(0xFF363636), RoundedCornerShape(8.dp)).padding(vertical = 16.dp),
+        modifier = modifier
+            .background(Color(0xFF363636), RoundedCornerShape(8.dp)) // CORREGIDO: Fondo gris fijo
+            .padding(vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, color = Color.White, fontSize = 14.sp)
+        Text(
+            text = text,
+            color = Color.White, // CORREGIDO: Forzamos el texto a blanco
+            fontSize = 14.sp
+        )
     }
 }
 
 @Composable
 fun MenuSectionTitle(title: String) {
-    Text(text = title, color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp))
+    Text(text = title, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f), fontSize = 14.sp, modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp))
 }
 
 @Composable
 fun ProfileMenuItem(icon: ImageVector, text: String, isDestructive: Boolean = false, onClick: () -> Unit) {
-    val color = if (isDestructive) Color.Red else Color.White
+    val color = if (isDestructive) Color.Red else MaterialTheme.colorScheme.onBackground
     Row(
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 24.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -220,14 +231,14 @@ fun ProfileMenuItem(icon: ImageVector, text: String, isDestructive: Boolean = fa
         Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(24.dp))
         Spacer(modifier = Modifier.width(16.dp))
         Text(text = text, color = color, fontSize = 16.sp, modifier = Modifier.weight(1f))
-        if (!isDestructive) { Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = Color.White) }
+        if (!isDestructive) { Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.onBackground) }
     }
 }
 
 @Composable
 fun BottomSheetMenuItem(text: String, onClick: () -> Unit) {
     Text(
-        text = text, color = Color.White, fontSize = 16.sp,
+        text = text, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp,
         modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(horizontal = 24.dp, vertical = 16.dp)
     )
 }
@@ -240,12 +251,12 @@ fun ChangeNameDialog(currentName: String, onDismiss: () -> Unit, onSave: (String
     Dialog(onDismissRequest = onDismiss) {
         Card(
             shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("Cambiar nombre de cuenta", color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color.Gray)
+                Text(stringResource(Res.string.profile_item_change_name), color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outline)
 
                 OutlinedTextField(
                     value = name,
@@ -253,25 +264,25 @@ fun ChangeNameDialog(currentName: String, onDismiss: () -> Unit, onSave: (String
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedBorderColor = Color.Gray,
-                        unfocusedBorderColor = Color.Gray
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline
                     )
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = onDismiss, modifier = Modifier.weight(1f)) {
-                        Text("Cancelar", color = PrimaryPurple, fontSize = 16.sp)
+                        Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary, fontSize = 16.sp)
                     }
                     Button(
                         onClick = { onSave(name) },
                         modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(4.dp)
                     ) {
-                        Text("Editar", color = Color.White)
+                        Text(stringResource(Res.string.common_edit), color = MaterialTheme.colorScheme.onPrimary)
                     }
                 }
             }
@@ -287,14 +298,14 @@ fun ChangePasswordDialog(onDismiss: () -> Unit, onSave: (String, String) -> Unit
     Dialog(onDismissRequest = onDismiss) {
         Card(
             shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text("Cambiar contraseña", color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
-                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color.Gray)
+                Text(stringResource(Res.string.profile_item_change_password), color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outline)
 
-                Text("Contraseña actual", color = Color.LightGray, fontSize = 12.sp)
+                Text(stringResource(Res.string.profile_label_current_password), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = oldPass,
@@ -302,12 +313,12 @@ fun ChangePasswordDialog(onDismiss: () -> Unit, onSave: (String, String) -> Unit
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White, unfocusedTextColor = Color.White, focusedBorderColor = Color.Gray, unfocusedBorderColor = Color.Gray)
+                    colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, focusedBorderColor = MaterialTheme.colorScheme.primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text("Nueva contraseña", color = Color.LightGray, fontSize = 12.sp)
+                Text(stringResource(Res.string.profile_label_new_password), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f), fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = newPass,
@@ -315,21 +326,21 @@ fun ChangePasswordDialog(onDismiss: () -> Unit, onSave: (String, String) -> Unit
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Color.White, unfocusedTextColor = Color.White, focusedBorderColor = Color.Gray, unfocusedBorderColor = Color.Gray)
+                    colors = OutlinedTextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface, focusedBorderColor = MaterialTheme.colorScheme.primary, unfocusedBorderColor = MaterialTheme.colorScheme.outline)
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = onDismiss, modifier = Modifier.weight(1f)) {
-                        Text("Cancelar", color = PrimaryPurple, fontSize = 16.sp)
+                        Text(stringResource(Res.string.common_cancel), color = MaterialTheme.colorScheme.primary, fontSize = 16.sp)
                     }
                     Button(
                         onClick = { onSave(oldPass, newPass) },
                         modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(4.dp)
                     ) {
-                        Text("Editar", color = Color.White)
+                        Text(stringResource(Res.string.common_edit), color = MaterialTheme.colorScheme.onPrimary)
                     }
                 }
             }
@@ -342,16 +353,16 @@ fun InfoDialog(title: String, content: String, onDismiss: () -> Unit) {
     Dialog(onDismissRequest = onDismiss) {
         Card(
             shape = RoundedCornerShape(8.dp),
-            colors = CardDefaults.cardColors(containerColor = SurfaceDark),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(24.dp)) {
-                Text(text = title, color = PrimaryPurple, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(text = title, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = content, color = Color.White, fontSize = 14.sp)
+                Text(text = content, color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(24.dp))
-                Button(onClick = onDismiss, modifier = Modifier.align(Alignment.End), colors = ButtonDefaults.buttonColors(containerColor = PrimaryPurple), shape = RoundedCornerShape(4.dp)) {
-                    Text("Entendido")
+                Button(onClick = onDismiss, modifier = Modifier.align(Alignment.End), colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary), shape = RoundedCornerShape(4.dp)) {
+                    Text(stringResource(Res.string.common_understood), color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
         }

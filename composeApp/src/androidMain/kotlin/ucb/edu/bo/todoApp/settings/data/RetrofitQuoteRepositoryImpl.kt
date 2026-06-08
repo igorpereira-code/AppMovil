@@ -6,11 +6,11 @@ import retrofit2.http.GET
 import ucb.edu.bo.todoApp.settings.domain.repository.QuoteRepository
 
 // 1. El DTO para Gson
-data class QuoteDto(val quote: String)
+data class QuoteDto(val es: String, val en: String)
 
 // 2. La Interfaz de Retrofit
 interface QuoteApi {
-    @GET("mjlozada2003/06cabe78e08ad2ebeda44e6560e94ed3/raw/087b72878169c643a1d12089800287b9c50b45c9/quotes.json")
+    @GET("mjlozada2003/06cabe78e08ad2ebeda44e6560e94ed3/raw/8b0e0ab970c0ebbefd4329f7029604b641afc885/quotes.json")
     suspend fun getQuotes(): List<QuoteDto>
 }
 
@@ -24,12 +24,24 @@ class RetrofitQuoteRepositoryImpl : QuoteRepository {
         .build()
         .create(QuoteApi::class.java)
 
-    override suspend fun getRandomMotivationalQuote(): String {
+    override suspend fun getRandomMotivationalQuote(languageCode: String): String {
         return try {
             val quotesList = api.getQuotes()
-            quotesList.random().quote // ¡Toma una frase al azar de tu propio JSON!
+            val randomQuote = quotesList.random()
+
+            // Elegimos el idioma dinámicamente
+            if (languageCode == "es") {
+                randomQuote.es
+            } else {
+                randomQuote.en
+            }
         } catch (e: Exception) {
-            "Sigue adelante, enfócate en tu siguiente tarea." // Fallback
+            // Textos de fallback en ambos idiomas por si no hay internet
+            if (languageCode == "es") {
+                "Sigue adelante, enfócate en tu siguiente tarea."
+            } else {
+                "Keep going, focus on your next task."
+            }
         }
     }
 }

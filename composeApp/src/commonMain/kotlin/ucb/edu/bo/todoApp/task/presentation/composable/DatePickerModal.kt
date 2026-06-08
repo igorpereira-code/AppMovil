@@ -25,7 +25,7 @@ fun DatePickerModal(
     DatePickerDialog(
         onDismissRequest = onDismiss,
         colors = DatePickerDefaults.colors(
-            containerColor = SurfaceDark,
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
         confirmButton = {
             Button(
@@ -38,9 +38,12 @@ fun DatePickerModal(
                         onDateSelected(selectedDate)
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
             ) {
-                Text(stringResource(Res.string.date_picker_button_choose), color = Color.White)
+                Text(stringResource(Res.string.date_picker_button_choose))
             }
         },
         dismissButton = {
@@ -53,12 +56,12 @@ fun DatePickerModal(
             state = datePickerState,
             colors = DatePickerDefaults.colors(
                 containerColor = Color.Transparent,
-                titleContentColor = MaterialTheme.colorScheme.primary,
-                headlineContentColor = Color.White,
-                weekdayContentColor = Color.LightGray,
-                dayContentColor = Color.White,
+                titleContentColor = MaterialTheme.colorScheme.onSurface,
+                headlineContentColor = MaterialTheme.colorScheme.onSurface,
+                weekdayContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                dayContentColor = MaterialTheme.colorScheme.onSurface,
                 selectedDayContainerColor = MaterialTheme.colorScheme.primary,
-                selectedDayContentColor = Color.White,
+                selectedDayContentColor = MaterialTheme.colorScheme.onPrimary,
                 todayContentColor = MaterialTheme.colorScheme.primary,
                 todayDateBorderColor = MaterialTheme.colorScheme.primary
             )

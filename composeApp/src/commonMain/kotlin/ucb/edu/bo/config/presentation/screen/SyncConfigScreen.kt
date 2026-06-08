@@ -6,6 +6,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.config.presentation.viewmodel.SyncConfigViewModel
 
@@ -22,17 +24,17 @@ fun SyncConfigScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Sincronización Inicial", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(Res.string.test_sync_title), style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(32.dp))
 
         if (state.isLoading) {
             CircularProgressIndicator()
             Spacer(modifier = Modifier.height(16.dp))
-            Text("Sincronizando con Firebase...")
+            Text(stringResource(Res.string.test_sync_status))
         } else {
             if (state.configValue.isNotEmpty()) {
-                Text("Valor guardado localmente:", style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(Res.string.test_sync_local_value), style = MaterialTheme.typography.labelLarge)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = state.configValue,
