@@ -4,7 +4,7 @@
  Project: todoApp
  Locale: en-US, English (USA)
  Exported by: María Jesús Lozada
- Exported at: Sun, 07 Jun 2026 02:54:04 -0400
+ Exported at: Mon, 08 Jun 2026 14:14:37 -0400
 -->
 <resources>
     <string name="settings_title">Settings</string>
@@ -64,7 +64,7 @@
     <string name="intro_button_skip">Skip</string>
     <string name="intro_button_back">Back</string>
     <string name="intro_button_next">Next</string>
-    <string name="intro_button_start">Get Started</string>
+    <string name="intro_button_start">Start</string>
     <string name="dollar_records_count">Number of Records %d</string>
     <string name="calendar_button_choose_date">Choose Date</string>
     <string name="empty_task_title">What do you want to do today?</string>
@@ -100,7 +100,7 @@
     <string name="error_invalid_value">Enter a valid value</string>
     <string name="error_max_minutes">Maximum 180 minutes</string>
     <string name="status_saving_session">Saving session...</string>
-    <string name="home_welcome_message">Welcome! 🎉</string>
+    <string name="home_welcome_message">Welcome!</string>
     <string name="task_item_cd_delete">Delete</string>
     <string name="intro_title_page1">Manage your tasks</string>
     <string name="intro_desc_page1">You can easily manage all of your daily tasks for free</string>
@@ -180,4 +180,7 @@
     <string name="edit_task_delete_confirm">¿Estás seguro de que deseas eliminar?</string>
     <string name="edit_task_error_empty_title">El título no puede estar vacío</string>
     <string name="edit_task_error_not_found">Tarea no encontrada</string>
+    <string name="maintenance_cd_icon">Maintenance icon</string>
+    <string name="maintenance_title">App under Maintenance</string>
+    <string name="maintenance_description">We are making improvements to Uptodo. \nIt won\'t take long, please come back soon.</string>
 </resources>

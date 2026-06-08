@@ -6,17 +6,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import ucb.edu.bo.remoteconfig.domain.repository.IRemoteConfigRepository
+import ucb.edu.bo.remoteconfig.domain.repository.RemoteConfigRepository
 import ucb.edu.bo.remoteconfig.domain.usecase.GetCachedConfigUseCase
 import ucb.edu.bo.remoteconfig.domain.usecase.SyncRemoteConfigUseCase
 import ucb.edu.bo.remoteconfig.presentation.state.RemoteConfigState
 
 class RemoteConfigViewModel(
     private val syncRemoteConfigUseCase: SyncRemoteConfigUseCase,
-    private val getCachedConfigUseCase: GetCachedConfigUseCase
+    private val getCachedConfigUseCase: GetCachedConfigUseCase,
+    private val remoteConfigRepository: IRemoteConfigRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(RemoteConfigState())
     val state: StateFlow<RemoteConfigState> = _state.asStateFlow()
+    val isMaintenanceMode = remoteConfigRepository.getMaintenanceMode()
 
     init {
         loadConfig()

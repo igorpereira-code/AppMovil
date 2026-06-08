@@ -38,6 +38,7 @@ import ucb.edu.bo.todoApp.settings.data.repository.CalendarAuthRepositoryImpl
 import ucb.edu.bo.todoApp.settings.domain.preferences.ISettingsPreferences
 import ucb.edu.bo.todoApp.settings.domain.repository.CalendarAuthRepository
 import io.ktor.client.HttpClient
+import ucb.edu.bo.remoteconfig.domain.repository.IRemoteConfigRepository
 import ucb.edu.bo.todoApp.category.data.datasource.CategoryLocalDataSource
 import ucb.edu.bo.todoApp.category.data.datasource.CategoryLocalDataSourceImpl
 import ucb.edu.bo.todoApp.category.data.repository.CategoryRepositoryImpl
