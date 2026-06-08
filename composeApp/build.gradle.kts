@@ -39,7 +39,6 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.work.runtime.ktx)
 
-            implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.config)
             implementation(libs.firebase.database)
             implementation(libs.firebase.messaging)

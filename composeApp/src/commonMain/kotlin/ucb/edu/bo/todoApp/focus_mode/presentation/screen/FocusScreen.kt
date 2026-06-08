@@ -23,6 +23,7 @@ import ucb.edu.bo.todoApp.task.presentation.composable.*
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

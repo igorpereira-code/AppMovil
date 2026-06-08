@@ -14,6 +14,8 @@ import ucb.edu.bo.formulario.data.preferences.FormularioPreferences
 import ucb.edu.bo.formulario.data.preferences.IFormularioPreferences
 import ucb.edu.bo.events.domain.usecase.BackgroundEventTrigger
 import ucb.edu.bo.kmp_room.core.data.db.AppDatabase
+import ucb.edu.bo.remoteconfig.data.repository.FirebaseRemoteConfigRepositoryImpl
+import ucb.edu.bo.remoteconfig.domain.repository.IRemoteConfigRepository
 import ucb.edu.bo.todoApp.settings.data.RetrofitQuoteRepositoryImpl
 import ucb.edu.bo.todoApp.settings.domain.repository.QuoteRepository
 import ucb.edu.bo.workmanager.AndroidBackgroundEventTrigger
@@ -43,6 +45,7 @@ actual val platformModule = module {
     single<IFormularioPreferences> { FormularioPreferences(androidContext()) }
     single<BackgroundEventTrigger> { AndroidBackgroundEventTrigger(androidContext()) }
     single<QuoteRepository> { RetrofitQuoteRepositoryImpl() }
+    single<IRemoteConfigRepository> { FirebaseRemoteConfigRepositoryImpl() }
 
     // DAOs provided via AppDatabase
     single { get<AppDatabase>().getDao() }

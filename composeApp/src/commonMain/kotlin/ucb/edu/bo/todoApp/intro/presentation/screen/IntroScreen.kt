@@ -1,5 +1,6 @@
 package ucb.edu.bo.todoApp.intro.presentation.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -9,11 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.todoApp.intro.presentation.viewmodel.IntroViewModel
@@ -27,12 +30,19 @@ fun IntroScreen(
     val currentPage = state.pages[state.currentPage]
     val isLastPage = state.currentPage == state.pages.size - 1
 
+    val imageRes = when (state.currentPage) {
+        0 -> Res.drawable.intro_img1
+        1 -> Res.drawable.intro_img2
+        else -> Res.drawable.intro_img3
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
+            // UNIFICADO: Usamos el fondo del tema para soportar modo Claro/Oscuro
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Botón Skip arriba a la derecha
+        // Botón Omitir arriba a la derecha
         if (!isLastPage) {
             TextButton(
                 onClick = { viewModel.skipToLast() },
@@ -55,25 +65,22 @@ fun IntroScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Imagen placeholder
-            Box(
+            // UNIFICADO: Restauramos la imagen real en lugar del Box de texto gris
+            Image(
+                painter = painterResource(imageRes),
+                contentDescription = stringResource(currentPage.title),
                 modifier = Modifier
                     .size(250.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant, shape = MaterialTheme.shapes.large),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = currentPage.imageRes,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                    fontSize = 14.sp
-                )
-            }
+                    .clip(MaterialTheme.shapes.large),
+                contentScale = ContentScale.Fit
+            )
 
             Spacer(modifier = Modifier.height(48.dp))
 
             // Título
             Text(
                 text = stringResource(currentPage.title),
+                // Adaptativo al tema (Blanco en oscuro, Negro en claro)
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
@@ -85,7 +92,8 @@ fun IntroScreen(
             // Descripción
             Text(
                 text = stringResource(currentPage.description),
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                // Adaptativo usando onBackground con transparencia para efecto gris
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
@@ -103,7 +111,7 @@ fun IntroScreen(
                             .clip(CircleShape)
                             .background(
                                 if (index == state.currentPage) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
+                                else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
                             )
                     )
                 }
@@ -118,9 +126,8 @@ fun IntroScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (state.currentPage > 0) {
-                    TextButton(onClick = {
-                        // No hay función back en el viewmodel, podemos ignorar o agregar
-                    }) {
+                    // UNIFICADO: Mantenemos el texto traducido y restauramos la función de retroceder
+                    TextButton(onClick = { viewModel.previousPage() }) {
                         Text(
                             text = stringResource(Res.string.intro_button_back),
                             color = MaterialTheme.colorScheme.primary,
@@ -137,12 +144,13 @@ fun IntroScreen(
                         else viewModel.nextPage()
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = MaterialTheme.colorScheme.primary
                     )
                 ) {
                     Text(
                         text = if (isLastPage) stringResource(Res.string.intro_button_start) else stringResource(Res.string.intro_button_next),
+                        // Adaptativo: Asegura que el texto contraste con el color primario dinámico
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontSize = 16.sp
                     )
                 }
