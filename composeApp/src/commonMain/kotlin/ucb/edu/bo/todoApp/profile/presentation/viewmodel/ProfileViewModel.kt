@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository // IMPORTAMOS EL REPOSITORIO REAL
+import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
 
 data class ProfileUIState(
     val userName: String = "",
@@ -22,7 +22,7 @@ data class ProfileUIState(
 )
 
 class ProfileViewModel(
-    private val authRepository: AuthRepository // INYECTAMOS EL REPOSITORIO DE TU COMPAÑERO
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfileUIState())
@@ -47,7 +47,6 @@ class ProfileViewModel(
             authRepository.updateName(newName).onSuccess {
                 _state.value = _state.value.copy(userName = newName, showNameDialog = false)
             }.onFailure {
-                // Podrías manejar un error visual aquí si lo deseas
                 _state.value = _state.value.copy(showNameDialog = false)
             }
         }
@@ -67,11 +66,18 @@ class ProfileViewModel(
         }
     }
 
-    // Funciones visuales
     fun toggleAvatarDialog(show: Boolean) { _state.value = _state.value.copy(showAvatarDialog = show) }
     fun selectAvatar(avatar: String) { _state.value = _state.value.copy(selectedAvatar = avatar, showAvatarDialog = false) }
     fun toggleAboutDialog(show: Boolean) { _state.value = _state.value.copy(showAboutDialog = show) }
     fun toggleFaqDialog(show: Boolean) { _state.value = _state.value.copy(showFaqDialog = show) }
     fun toggleHelpDialog(show: Boolean) { _state.value = _state.value.copy(showHelpDialog = show) }
     fun toggleSupportDialog(show: Boolean) { _state.value = _state.value.copy(showSupportDialog = show) }
+
+    // NUEVO: Cerramos sesión directamente desde Firebase
+    fun logout(onLogoutSuccess: () -> Unit) {
+        viewModelScope.launch {
+            authRepository.logout()
+            onLogoutSuccess()
+        }
+    }
 }

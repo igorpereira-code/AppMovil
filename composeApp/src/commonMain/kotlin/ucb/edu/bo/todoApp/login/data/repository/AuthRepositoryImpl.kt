@@ -16,13 +16,17 @@ class AuthRepositoryImpl(
         return authDataSource.register(username, email, password)
     }
 
-    // NUEVAS FUNCIONES:
     override suspend fun changePassword(newPassword: String): Result<Unit> {
         return authDataSource.changePassword(newPassword)
     }
 
     override suspend fun updateName(newName: String): Result<Unit> {
         return authDataSource.updateName(newName)
+    }
+
+    // NUEVO: Implementamos la función de cerrar sesión conectada a Firebase
+    override suspend fun logout(): Result<Unit> {
+        return authDataSource.logout()
     }
 
     override fun getCurrentUserName(): String {
