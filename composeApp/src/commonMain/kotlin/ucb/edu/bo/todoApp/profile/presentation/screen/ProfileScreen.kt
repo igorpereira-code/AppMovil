@@ -90,13 +90,19 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // ESTADÍSTICAS REALES
+            // ESTADÍSTICAS REALES - CORREGIDO
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                StatCard(modifier = Modifier.weight(1f), text = stringResource(Res.string.profile_stats_pending, tasksLeft))
-                StatCard(modifier = Modifier.weight(1f), text = stringResource(Res.string.profile_stats_completed, tasksDone))
+                StatCard(
+                    modifier = Modifier.weight(1f),
+                    text = "$tasksLeft ${stringResource(Res.string.profile_stats_pending)}"
+                )
+                StatCard(
+                    modifier = Modifier.weight(1f),
+                    text = "$tasksDone ${stringResource(Res.string.profile_stats_completed)}"
+                )
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -197,10 +203,16 @@ fun ProfileScreen(
 @Composable
 fun StatCard(modifier: Modifier = Modifier, text: String) {
     Box(
-        modifier = modifier.background(MaterialTheme.colorScheme.surface, RoundedCornerShape(8.dp)).padding(vertical = 16.dp),
+        modifier = modifier
+            .background(Color(0xFF363636), RoundedCornerShape(8.dp)) // CORREGIDO: Fondo gris fijo
+            .padding(vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp)
+        Text(
+            text = text,
+            color = Color.White, // CORREGIDO: Forzamos el texto a blanco
+            fontSize = 14.sp
+        )
     }
 }
 
