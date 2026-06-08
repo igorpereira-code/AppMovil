@@ -4,7 +4,7 @@
  Project: todoApp
  Locale: es-BO, Español (Bolivia)
  Exported by: María Jesús Lozada
- Exported at: Mon, 08 Jun 2026 14:14:36 -0400
+ Exported at: Mon, 08 Jun 2026 15:13:19 -0400
 -->
 <resources>
     <string name="settings_title">Configuración</string>
@@ -116,7 +116,7 @@
     <string name="focus_day_fri">VIE</string>
     <string name="focus_day_sat">SÁB</string>
     <string name="focus_day_sun">DOM</string>
-    <string name="notification_focus_title">¡Sesión completada! 🎉</string>
+    <string name="notification_focus_title">¡Sesión completada!</string>
     <string name="notification_focus_body">Completaste %d minutos de enfoque. ¡Excelente trabajo!</string>
     <string name="app_name">todoApp</string>
     <string name="profile_title">Perfil</string>
@@ -167,7 +167,7 @@
     <string name="test_sync_local_value">Valor guardado localmente:</string>
     <string name="test_remote_config_title">Remote Config + Room</string>
     <string name="test_push_title">Push Notifications</string>
-    <string name="notification_focus_body_minutes">Completaste %d minutos de enfoque. ¡Excelente trabajo!</string>
+    <string name="notification_focus_body_minutes">Te has enfocado durante %d minutos. ¡Excelente trabajo!</string>
     <string name="notification_sync_checking">Verificando cambios pendientes</string>
     <string name="common_edit">Editar</string>
     <string name="common_delete">Eliminar</string>
@@ -183,4 +183,6 @@
     <string name="maintenance_cd_icon">Icono de mantenimiento</string>
     <string name="maintenance_title">App en Mantenimiento</string>
     <string name="maintenance_description">Estamos realizando mejoras en Uptodo. \nNo tardaremos mucho, por favor vuelve pronto.</string>
+    <string name="focus_timer_notification_title">Modo Enfoque</string>
+    <string name="focus_timer_notification_body">Tiempo restante: %s</string>
 </resources>

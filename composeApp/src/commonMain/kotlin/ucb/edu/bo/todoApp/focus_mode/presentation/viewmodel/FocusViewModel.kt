@@ -16,7 +16,7 @@ import ucb.edu.bo.todoApp.focus_mode.presentation.state.FocusState
 
 class FocusViewModel(
     private val saveSessionUseCase: SaveFocusSessionUseCase,
-    private val getWeekSessionsUseCase: GetWeekSessionsUseCase
+    private val getWeekSessionsUseCase: GetWeekSessionsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(FocusState())
@@ -32,13 +32,19 @@ class FocusViewModel(
     fun startFocus() {
         if (_state.value.isRunning) return
         _state.value = _state.value.copy(isRunning = true)
+        val targetSeconds = _state.value.selectedMinutes * 60
+        val remainingInit = targetSeconds - _state.value.elapsedSeconds
+        notifier.startTimerNotification(formatTime(remainingInit))
+
         timerJob = viewModelScope.launch {
             while (_state.value.isRunning) {
                 delay(1000L)
                 val newElapsed = _state.value.elapsedSeconds + 1
                 _state.value = _state.value.copy(elapsedSeconds = newElapsed)
+                val remaining = targetSeconds - newElapsed
+                // Llamada al notificador
+                notifier.updateTimerNotification(formatTime(remaining))
 
-                val targetSeconds = _state.value.selectedMinutes * 60
                 if (newElapsed >= targetSeconds) {
                     stopAndSave()
                     break
@@ -54,6 +60,7 @@ class FocusViewModel(
 
     fun resetFocus() {
         timerJob?.cancel()
+        notifier.stopTimerNotification()
         _state.value = _state.value.copy(
             isRunning = false,
             elapsedSeconds = 0
@@ -68,6 +75,7 @@ class FocusViewModel(
 
     private fun stopAndSave() {
         timerJob?.cancel()
+        notifier.stopTimerNotification()
         val elapsed = _state.value.elapsedSeconds
         val selectedMinutes = _state.value.selectedMinutes
         _state.value = _state.value.copy(isRunning = false)
@@ -81,6 +89,12 @@ class FocusViewModel(
         } else {
             _state.value = _state.value.copy(elapsedSeconds = 0)
         }
+    }
+
+    private fun formatTime(totalSeconds: Int): String {
+        val m = totalSeconds / 60
+        val s = totalSeconds % 60
+        return "${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}"
     }
 
     private fun saveSession(minutes: Int) {
