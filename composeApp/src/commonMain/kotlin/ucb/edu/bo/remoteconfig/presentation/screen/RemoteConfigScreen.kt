@@ -6,6 +6,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.remoteconfig.presentation.viewmodel.RemoteConfigViewModel
 
@@ -22,17 +24,20 @@ fun RemoteConfigScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Remote Config", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(Res.string.test_remote_config_title), style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(32.dp))
 
         if (state.isLoading) {
             CircularProgressIndicator()
         } else {
-            Text("Mensaje desde Firebase:", style = MaterialTheme.typography.labelLarge)
+            Text(
+                text = if (state.isFromCache) "📦 Desde caché local:" else "☁️ Desde Firebase:",
+                style = MaterialTheme.typography.labelLarge
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = state.welcomeMessage.ifEmpty { "Sin mensaje" },
+                text = state.value.ifEmpty { "Sin valor" },
                 style = MaterialTheme.typography.bodyLarge
             )
         }

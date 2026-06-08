@@ -6,6 +6,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import appmovil.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import ucb.edu.bo.realtimedatabasecmp.presentation.viewmodel.FirebaseTestViewModel
 
@@ -22,14 +24,14 @@ fun FirebaseTestScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Prueba Firebase", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(Res.string.test_firebase_title), style = MaterialTheme.typography.headlineMedium)
 
         Spacer(modifier = Modifier.height(32.dp))
 
         OutlinedTextField(
             value = state.inputText,
             onValueChange = { viewModel.onInputChange(it) },
-            label = { Text("Escribe algo para guardar") },
+            label = { Text(stringResource(Res.string.test_firebase_placeholder)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
@@ -44,7 +46,7 @@ fun FirebaseTestScreen(
             if (state.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
             } else {
-                Text("Guardar en Firebase")
+                Text(stringResource(Res.string.test_firebase_button_save))
             }
         }
 

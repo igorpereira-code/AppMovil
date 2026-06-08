@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.app_name
-import appmovil.composeapp.generated.resources.button_cancel
-import appmovil.composeapp.generated.resources.button_save
-import appmovil.composeapp.generated.resources.welcome_message
+import appmovil.composeapp.generated.resources.common_cancel
+import appmovil.composeapp.generated.resources.common_save
+import appmovil.composeapp.generated.resources.welcome_title
 
 import com.example.designsystem.components.button.PrimaryButton
 import org.jetbrains.compose.resources.stringResource
@@ -40,18 +40,18 @@ fun LocalizationScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = stringResource(Res.string.welcome_message),
+            text = stringResource(Res.string.welcome_title),
             style = MaterialTheme.typography.bodyLarge
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        PrimaryButton(text = stringResource(Res.string.button_save), onClick = {})
+        PrimaryButton(text = stringResource(Res.string.common_save), onClick = {})
 
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedButton(onClick = {}) {
-            Text(stringResource(Res.string.button_cancel))
+            Text(stringResource(Res.string.common_cancel))
         }
     }
 }
