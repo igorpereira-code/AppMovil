@@ -35,10 +35,10 @@ class TaskScreenTest {
     @Test
     fun listaDeTareasMuestraTareaEspecifica() = runComposeUiTest {
         // 1. Preparar datos
-        val tituloTarea = "Revisar código de Isabel"
+        val tituloTarea = "Revisar código"
         val tareaPrueba = TaskModel(id = 101, title = tituloTarea, isCompleted = false)
         val testViewModel = buildTestViewModel(initialTasks = listOf(tareaPrueba))
-        
+
         // 2. Configurar el contenido de la prueba
         setContent {
             // Usamos el NavController real de Compose, lo cual es más simple que usar MockK
