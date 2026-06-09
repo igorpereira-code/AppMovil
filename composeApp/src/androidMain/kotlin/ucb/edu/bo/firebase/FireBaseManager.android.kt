@@ -8,17 +8,14 @@ import kotlinx.datetime.atStartOfDayIn
 import ucb.edu.bo.todoApp.task.domain.model.TaskModel
 
 /**
- * MODIFICADO: Se agregan uploadTask, fetchRemoteHashes y fetchRemoteTasks
- * para soportar la sincronización delta del Ejercicio #4.
- *
- * Reemplaza tu FirebaseManager.android.kt existente con este contenido.
+ * MODIFICADO: Se agregan uploadTask, fetchRemoteHashes, fetchRemoteTasks y deleteTask
+ * para soportar la sincronización delta y el borrado remoto.
  */
 actual class FirebaseManager actual constructor() {
 
     private val database = FirebaseDatabase.getInstance().reference
     private val auth = FirebaseAuth.getInstance()
 
-    // ── Existente ─────────────────────────────────────────────────────────
     actual suspend fun saveData(path: String, value: String) {
         try {
             database.child(path).setValue(value).await()
@@ -27,17 +24,9 @@ actual class FirebaseManager actual constructor() {
         }
     }
 
-    // ── NUEVO: obtener el userId actual de forma segura ───────────────────
     private fun userId(): String =
         auth.currentUser?.uid ?: "anonymous"
 
-    // ── NUEVO: subir una tarea + su hash a Realtime Database ─────────────
-    /**
-     * Sube la tarea al nodo:
-     *   tasks/{userId}/{taskId}
-     * y guarda el hash en:
-     *   task_hashes/{userId}/{taskId}
-     */
     actual suspend fun uploadTask(task: TaskModel, hash: String) {
         val uid = userId()
         val taskMap = mapOf(
@@ -53,18 +42,12 @@ actual class FirebaseManager actual constructor() {
             "categoryId"  to (task.categoryId ?: -1),
             "updatedAt"   to System.currentTimeMillis()
         )
-        // Subir datos y hash en paralelo (dentro del mismo nodo para atomicidad)
         database.child("tasks").child(uid).child(task.id.toString())
             .setValue(taskMap).await()
         database.child("task_hashes").child(uid).child(task.id.toString())
             .setValue(hash).await()
     }
 
-    // ── NUEVO: obtener los hashes remotos para comparación diferencial ────
-    /**
-     * Devuelve un mapa { taskId -> hash } con todos los hashes almacenados
-     * en Firebase para este usuario.
-     */
     actual suspend fun fetchRemoteHashes(): Map<Int, String> {
         return try {
             val uid = userId()
@@ -81,11 +64,6 @@ actual class FirebaseManager actual constructor() {
         }
     }
 
-    // ── NUEVO: descargar tareas remotas para sincronización bidireccional ─
-    /**
-     * Descarga todas las tareas del usuario desde Firebase.
-     * Usado para detectar tareas creadas en otro dispositivo.
-     */
     actual suspend fun fetchRemoteTasks(): List<TaskModel> {
         return try {
             val uid = userId()
@@ -109,6 +87,16 @@ actual class FirebaseManager actual constructor() {
             tasks
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    actual suspend fun deleteTask(taskId: Int) {
+        try {
+            val uid = userId()
+            database.child("tasks").child(uid).child(taskId.toString()).removeValue().await()
+            database.child("task_hashes").child(uid).child(taskId.toString()).removeValue().await()
+        } catch (e: Exception) {
+            println("Firebase Android: Error al eliminar - ${e.message}")
         }
     }
 }
