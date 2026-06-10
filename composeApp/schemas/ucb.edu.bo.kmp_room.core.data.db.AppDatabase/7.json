@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "774df1f3280800b27959d778dc30dd8b",
+    "identityHash": "99e5ddad219e57111e8b4fb9344ff2e3",
     "entities": [
       {
         "tableName": "dollars",
@@ -40,12 +40,18 @@
       },
       {
         "tableName": "tasks",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `isCompleted` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `dateMillis` INTEGER, `timeMillisOfDay` INTEGER, `priority` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `categoryId` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userId` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `isCompleted` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `dateMillis` INTEGER, `timeMillisOfDay` INTEGER, `priority` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `categoryId` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -236,7 +242,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '774df1f3280800b27959d778dc30dd8b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '99e5ddad219e57111e8b4fb9344ff2e3')"
     ]
   }
 }

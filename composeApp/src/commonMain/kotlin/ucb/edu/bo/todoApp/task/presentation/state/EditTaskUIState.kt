@@ -11,6 +11,7 @@ data class EditTaskUIState(
 
     // Campos editables
     val taskId: Int = 0,
+    val userId: String = "", // NUEVO: Para no perder el dueño al editar
     val title: String = "",
     val description: String = "",
     val selectedDate: LocalDate? = null,
@@ -27,7 +28,7 @@ data class EditTaskUIState(
     val isPriorityPickerVisible: Boolean = false,
     val isCategoryPickerVisible: Boolean = false,
 
-    // Dialog para editar el título (como en la imagen)
+    // Dialog para editar el título
     val isTitleDialogVisible: Boolean = false,
     val titleDialogDraft: String = "",
 

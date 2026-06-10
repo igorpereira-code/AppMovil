@@ -13,6 +13,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.resources.getString
 import ucb.edu.bo.todoApp.category.domain.usecase.GetAllCategoriesUseCase
+import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
 import ucb.edu.bo.todoApp.task.domain.usecase.DeleteTaskUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.GetTaskByIdUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.UpdateTaskUseCase
@@ -22,15 +23,12 @@ class EditTaskViewModel(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
-    private val getAllCategoriesUseCase: GetAllCategoriesUseCase
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
+    private val authRepository: AuthRepository // Añadido para mantener la integridad del usuario
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(EditTaskUIState())
     val state: StateFlow<EditTaskUIState> = _state.asStateFlow()
-
-    // ─────────────────────────────────────────────────
-    // Carga inicial
-    // ─────────────────────────────────────────────────
 
     fun loadTask(taskId: Int) {
         viewModelScope.launch {
@@ -42,6 +40,7 @@ class EditTaskViewModel(
                     _state.value = _state.value.copy(
                         isLoading = false,
                         taskId = task.id,
+                        userId = task.userId, // Recuperamos el userId original
                         title = task.title,
                         description = task.description,
                         selectedDate = task.date,
@@ -65,10 +64,6 @@ class EditTaskViewModel(
         }
     }
 
-    // ─────────────────────────────────────────────────
-    // Dialog de edición de título (como en la imagen)
-    // ─────────────────────────────────────────────────
-
     fun showTitleDialog() {
         _state.value = _state.value.copy(
             isTitleDialogVisible = true,
@@ -91,17 +86,9 @@ class EditTaskViewModel(
         )
     }
 
-    // ─────────────────────────────────────────────────
-    // Cambio de campos directos
-    // ─────────────────────────────────────────────────
-
     fun onDescriptionChange(desc: String) {
         _state.value = _state.value.copy(description = desc)
     }
-
-    // ─────────────────────────────────────────────────
-    // Date picker
-    // ─────────────────────────────────────────────────
 
     fun showDatePicker() {
         _state.value = _state.value.copy(isDatePickerVisible = true)
@@ -115,13 +102,9 @@ class EditTaskViewModel(
         _state.value = _state.value.copy(
             selectedDate = date,
             isDatePickerVisible = false,
-            isTimePickerVisible = true   // Abre el time picker automáticamente
+            isTimePickerVisible = true
         )
     }
-
-    // ─────────────────────────────────────────────────
-    // Time picker
-    // ─────────────────────────────────────────────────
 
     fun showTimePicker() {
         _state.value = _state.value.copy(isTimePickerVisible = true)
@@ -138,10 +121,6 @@ class EditTaskViewModel(
         )
     }
 
-    // ─────────────────────────────────────────────────
-    // Priority picker
-    // ─────────────────────────────────────────────────
-
     fun showPriorityPicker() {
         _state.value = _state.value.copy(isPriorityPickerVisible = true)
     }
@@ -156,10 +135,6 @@ class EditTaskViewModel(
             isPriorityPickerVisible = false
         )
     }
-
-    // ─────────────────────────────────────────────────
-    // Category picker
-    // ─────────────────────────────────────────────────
 
     fun showCategoryPicker() {
         _state.value = _state.value.copy(isCategoryPickerVisible = true)
@@ -176,10 +151,6 @@ class EditTaskViewModel(
         )
     }
 
-    // ─────────────────────────────────────────────────
-    // Guardar cambios
-    // ─────────────────────────────────────────────────
-
     fun saveTask() {
         viewModelScope.launch {
             val s = _state.value
@@ -187,13 +158,14 @@ class EditTaskViewModel(
                 _state.value = s.copy(
                     saveError = getString(Res.string.edit_task_error_empty_title)
                 )
-                return@launch // Detiene la ejecución aquí
+                return@launch
             }
 
             _state.value = _state.value.copy(isSaving = true, saveError = null)
 
             val updatedTask = ucb.edu.bo.todoApp.task.domain.model.TaskModel(
                 id = s.taskId,
+                userId = s.userId, // Mantenemos el mismo userId
                 title = s.title,
                 description = s.description,
                 date = s.selectedDate,
@@ -218,10 +190,6 @@ class EditTaskViewModel(
         }
     }
 
-    // ─────────────────────────────────────────────────
-    // Eliminar tarea
-    // ─────────────────────────────────────────────────
-
     fun showDeleteConfirmDialog() {
         _state.value = _state.value.copy(showDeleteConfirmDialog = true)
     }
@@ -236,7 +204,7 @@ class EditTaskViewModel(
             deleteTaskUseCase(_state.value.taskId)
             _state.value = _state.value.copy(
                 isDeleting = false,
-                isSavedSuccessfully = true  // Reutilizamos este flag para navegar de regreso
+                isSavedSuccessfully = true
             )
         }
     }

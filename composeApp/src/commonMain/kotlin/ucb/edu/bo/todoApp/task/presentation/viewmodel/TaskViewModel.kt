@@ -20,6 +20,7 @@ import ucb.edu.bo.todoApp.task.domain.usecase.GetAllTasksUseCase
 import ucb.edu.bo.todoApp.task.domain.usecase.ToggleTaskUseCase
 import ucb.edu.bo.todoApp.task.presentation.state.TaskUIState
 import ucb.edu.bo.todoApp.category.domain.usecase.GetAllCategoriesUseCase
+import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
 
 import ucb.edu.bo.todoApp.task.notification.TaskNotificationScheduler
 import ucb.edu.bo.todoApp.task.notification.convertDateTimeToMillis
@@ -29,7 +30,8 @@ class TaskViewModel(
     private val createTaskUseCase: CreateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val toggleTaskUseCase: ToggleTaskUseCase,
-    private val getAllCategoriesUseCase: GetAllCategoriesUseCase
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
+    private val authRepository: AuthRepository // Añadido para filtrar por usuario
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TaskUIState())
@@ -44,7 +46,8 @@ class TaskViewModel(
     fun loadTasks() {
         _state.value = _state.value.copy(isLoading = true)
         viewModelScope.launch {
-            val tasks = getAllTasksUseCase()
+            val userId = authRepository.getCurrentUserId()
+            val tasks = getAllTasksUseCase(userId) // Filtrado por usuario
             val categories = getAllCategoriesUseCase()
             _state.value = _state.value.copy(
                 tasks = tasks,
@@ -53,27 +56,23 @@ class TaskViewModel(
                 errorMessage = null
             )
 
-            // ¡NUEVO! Sincronizamos las alarmas usando los IDs reales de la base de datos
             syncAlarms(tasks)
         }
     }
 
-    // Función mágica que revisa todas tus tareas y programa las alarmas
     private fun syncAlarms(tasks: List<TaskModel>) {
         val currentTimeInMillis = Clock.System.now().toEpochMilliseconds()
 
         tasks.forEach { task ->
-            // Solo programamos si la tarea NO está completada y tiene fecha/hora
             if (!task.isCompleted && task.date != null && task.time != null) {
                 val dateString = task.date.toString()
                 val timeString = "${task.time.hour.toString().padStart(2, '0')}:${task.time.minute.toString().padStart(2, '0')}"
 
                 val timeInMillis = convertDateTimeToMillis(dateString, timeString)
 
-                // Si la fecha es en el futuro, programamos la alarma con su ID EXACTO
                 if (timeInMillis > currentTimeInMillis) {
                     notificationScheduler.scheduleNotification(
-                        taskId = task.id, // ID real de Room
+                        taskId = task.id,
                         title = task.title,
                         timeInMillis = timeInMillis
                     )
@@ -110,10 +109,12 @@ class TaskViewModel(
         val time = _state.value.selectedTime
         val priority = _state.value.selectedPriority ?: 1
         val categoryId = _state.value.selectedCategoryId
+        val userId = authRepository.getCurrentUserId() // Obtener el usuario actual
 
         _state.value = _state.value.copy(isSaving = true)
         viewModelScope.launch {
             val newTask = TaskModel(
+                userId = userId, // Vincular la tarea al usuario
                 title = title,
                 description = description,
                 date = date,
@@ -134,8 +135,6 @@ class TaskViewModel(
                         selectedPriority = null,
                         selectedCategoryId = null
                     )
-                    // Al cargar las tareas de nuevo, la nueva tarea ya tendrá su ID real
-                    // y syncAlarms() la programará automáticamente.
                     loadTasks()
                 }
                 .onFailure {
@@ -229,7 +228,6 @@ class TaskViewModel(
         viewModelScope.launch {
             toggleTaskUseCase(taskId, isCompleted)
 
-            // Si el usuario completa la tarea antes de tiempo, cancelamos la alarma
             if (isCompleted) {
                 notificationScheduler.cancelNotification(taskId)
             }
@@ -241,10 +239,7 @@ class TaskViewModel(
     fun deleteTask(taskId: Int) {
         viewModelScope.launch {
             deleteTaskUseCase(taskId)
-
-            // ¡Ahora sí funciona! Porque el ID coincide exactamente con el de la alarma programada
             notificationScheduler.cancelNotification(taskId)
-
             loadTasks()
         }
     }

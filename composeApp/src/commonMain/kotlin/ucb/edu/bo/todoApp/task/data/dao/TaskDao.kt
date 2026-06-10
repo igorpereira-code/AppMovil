@@ -9,17 +9,15 @@ import ucb.edu.bo.todoApp.task.data.entity.TaskEntity
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM tasks ORDER BY createdAt DESC")
-    suspend fun getAll(): List<TaskEntity>
+    @Query("SELECT * FROM tasks WHERE userId = :userId ORDER BY createdAt DESC")
+    suspend fun getAllByUser(userId: String): List<TaskEntity>
 
     @Query("SELECT * FROM tasks WHERE id = :taskId LIMIT 1")
     suspend fun getById(taskId: Int): TaskEntity?
 
-    // Obtener tareas que no se han subido a la nube
-    @Query("SELECT * FROM tasks WHERE isSynced = 0")
-    suspend fun getUnsyncedTasks(): List<TaskEntity>
+    @Query("SELECT * FROM tasks WHERE isSynced = 0 AND userId = :userId")
+    suspend fun getUnsyncedTasks(userId: String): List<TaskEntity>
 
-    // Actualizar el estado de sincronización tras el éxito en Firebase
     @Query("UPDATE tasks SET isSynced = :isSynced WHERE id = :taskId")
     suspend fun updateSyncStatus(taskId: Int, isSynced: Boolean)
 
@@ -35,7 +33,9 @@ interface TaskDao {
     @Query("UPDATE tasks SET isCompleted = :isCompleted WHERE id = :taskId")
     suspend fun toggleComplete(taskId: Int, isCompleted: Boolean)
 
-    // alias claro para el Worker de sincronización delta
     @Query("UPDATE tasks SET isSynced = 1 WHERE id = :taskId")
     suspend fun markAsSynced(taskId: Int)
+    
+    @Query("DELETE FROM tasks WHERE userId = :userId")
+    suspend fun clearAllByUser(userId: String)
 }

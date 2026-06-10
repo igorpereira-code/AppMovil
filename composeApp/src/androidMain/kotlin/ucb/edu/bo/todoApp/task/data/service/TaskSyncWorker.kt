@@ -7,6 +7,7 @@ import androidx.work.WorkerParameters
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import ucb.edu.bo.firebase.FirebaseManager
+import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
 import ucb.edu.bo.todoApp.task.data.util.TaskHashUtil
 import ucb.edu.bo.todoApp.task.domain.repository.TaskRepository
 
@@ -32,6 +33,7 @@ class TaskSyncWorker(
 
     private val taskRepository: TaskRepository by inject()
     private val firebaseManager: FirebaseManager by inject()
+    private val authRepository: AuthRepository by inject()
 
     override suspend fun doWork(): Result {
         // ── 1. Mostrar notificación de progreso ───────────────────────────
@@ -40,13 +42,17 @@ class TaskSyncWorker(
         SyncNotificationHelper.showProgress(applicationContext)
 
         return try {
+            // ── 0. Obtener el userId actual para filtrar las tareas locales ──
+            val userId = authRepository.getCurrentUserId()
+
             // ── 2. Obtener todos los hashes remotos en una sola lectura ───
             android.util.Log.d("SyncDelta", "Obteniendo hashes remotos...")
             val remoteHashes: Map<Int, String> = firebaseManager.fetchRemoteHashes()
             android.util.Log.d("SyncDelta", "Hashes remotos obtenidos: ${remoteHashes.size}")
 
             // ── 3. Procesar tareas locales con compresión diferencial ──────
-            val localTasks = taskRepository.getAll()
+            // FIX: Se pasa el userId requerido por el repositorio
+            val localTasks = taskRepository.getAll(userId)
             android.util.Log.d("SyncDelta", "Tareas locales: ${localTasks.size}")
 
 
@@ -80,7 +86,8 @@ class TaskSyncWorker(
             var downloaded = 0
             for (remoteTask in remoteTasks) {
                 if (remoteTask.id !in localIds) {
-                    taskRepository.save(remoteTask)
+                    // Asegurar que la tarea remota tenga el userId actual al guardarla localmente
+                    taskRepository.save(remoteTask.copy(userId = userId))
                     downloaded++
                 }
             }

@@ -11,6 +11,7 @@ import ucb.edu.bo.todoApp.task.domain.model.TaskModel
 
 fun TaskEntity.toModel() = TaskModel(
     id = id,
+    userId = userId, // Mapeo del nuevo campo
     title = title,
     description = description,
     isCompleted = isCompleted,
@@ -24,11 +25,12 @@ fun TaskEntity.toModel() = TaskModel(
         LocalTime.fromMillisecondOfDay(it)
     },
     priority = priority,
-            categoryId = categoryId
+    categoryId = categoryId
 )
 
 fun TaskModel.toEntity() = TaskEntity(
     id = id,
+    userId = userId, // Mapeo del nuevo campo
     title = title,
     description = description,
     isCompleted = isCompleted,
@@ -38,5 +40,5 @@ fun TaskModel.toEntity() = TaskEntity(
     dateMillis = date?.atStartOfDayIn(TimeZone.UTC)?.toEpochMilliseconds(),
     timeMillisOfDay = time?.toMillisecondOfDay(),
     priority = priority,
-            categoryId = categoryId
+    categoryId = categoryId
 )

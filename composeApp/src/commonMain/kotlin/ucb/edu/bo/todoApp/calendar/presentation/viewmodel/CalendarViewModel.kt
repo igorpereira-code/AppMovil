@@ -18,9 +18,11 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import ucb.edu.bo.todoApp.task.domain.usecase.GetAllTasksUseCase
 import ucb.edu.bo.todoApp.calendar.presentation.state.CalendarUIState
+import ucb.edu.bo.todoApp.login.domain.repository.AuthRepository
 
 class CalendarViewModel(
-    private val getAllTasksUseCase: GetAllTasksUseCase
+    private val getAllTasksUseCase: GetAllTasksUseCase,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CalendarUIState())
@@ -119,7 +121,7 @@ class CalendarViewModel(
     }
 
     fun onNextWeek() {
-        // Avanzamos 7 días
+        // Avanzances 7 días
         currentWeekStart = currentWeekStart.plus(7, DateTimeUnit.DAY)
         onDateSelected(currentWeekStart)
     }
@@ -134,7 +136,8 @@ class CalendarViewModel(
     fun loadTasksForSelectedDate() {
         _state.value = _state.value.copy(isLoading = true)
         viewModelScope.launch {
-            val allTasks = getAllTasksUseCase()
+            val userId = authRepository.getCurrentUserId()
+            val allTasks = getAllTasksUseCase(userId)
             val currentDate = _state.value.selectedDate
             val currentTab = _state.value.selectedTab
 
