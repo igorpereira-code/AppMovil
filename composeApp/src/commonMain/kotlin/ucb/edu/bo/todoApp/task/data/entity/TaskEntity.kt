@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val userId: String = "", // NUEVO: Para separar tareas por usuario
     val title: String,
     val description: String = "",
     val isCompleted: Boolean = false,
     val createdAt: Long = kotlinx.datetime.Clock.System.now().toEpochMilliseconds(),
 
-    // NUEVOS CAMPOS: Convertidos a primitivos para Room y Firebase
     val dateMillis: Long? = null,
     val timeMillisOfDay: Int? = null,
     val priority: Int = 1,

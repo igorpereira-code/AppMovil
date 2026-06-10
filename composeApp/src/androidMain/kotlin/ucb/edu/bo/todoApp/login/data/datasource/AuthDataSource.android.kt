@@ -104,6 +104,10 @@ actual class AuthDataSource actual constructor() {
             ?: "Usuario"
     }
 
+    actual fun getCurrentUserId(): String {
+        return auth.currentUser?.uid ?: ""
+    }
+
     // ¡AQUÍ ESTÁ LA FUNCIÓN QUE FALTABA PARA QUITAR EL ERROR!
     actual suspend fun logout(): Result<Unit> {
         return try {

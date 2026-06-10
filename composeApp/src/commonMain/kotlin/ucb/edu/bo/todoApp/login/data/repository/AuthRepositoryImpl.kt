@@ -24,12 +24,15 @@ class AuthRepositoryImpl(
         return authDataSource.updateName(newName)
     }
 
-    // NUEVO: Implementamos la función de cerrar sesión conectada a Firebase
     override suspend fun logout(): Result<Unit> {
         return authDataSource.logout()
     }
 
     override fun getCurrentUserName(): String {
         return authDataSource.getCurrentUserName()
+    }
+
+    override fun getCurrentUserId(): String {
+        return authDataSource.getCurrentUserId()
     }
 }

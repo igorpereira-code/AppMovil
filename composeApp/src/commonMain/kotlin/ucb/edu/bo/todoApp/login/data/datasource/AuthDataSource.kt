@@ -11,4 +11,5 @@ expect class AuthDataSource() {
     suspend fun updateName(newName: String): Result<Unit>
     suspend fun logout(): Result<Unit>
     fun getCurrentUserName(): String
+    fun getCurrentUserId(): String // NUEVO: Para vincular tareas
 }

@@ -10,8 +10,8 @@ class TaskRepositoryImpl (
     private val localDataSource: TaskLocalDataSource
 ) : TaskRepository {
 
-    override suspend fun getAll(): List<TaskModel> {
-        return localDataSource.getAll().map { it.toModel() }
+    override suspend fun getAll(userId: String): List<TaskModel> {
+        return localDataSource.getAll(userId).map { it.toModel() }
     }
 
     override suspend fun getById(taskId: Int): TaskModel? {
@@ -36,4 +36,8 @@ class TaskRepositoryImpl (
 
     override suspend fun markAsSynced(taskId: Int) =
         localDataSource.markAsSynced(taskId)
+
+    override suspend fun clearLocalData(userId: String) {
+        localDataSource.clearAllByUser(userId)
+    }
 }

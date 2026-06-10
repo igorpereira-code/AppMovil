@@ -6,6 +6,7 @@ import kotlinx.datetime.LocalTime
 
 data class TaskModel(
     val id: Int = 0,
+    val userId: String = "", // NUEVO: Para identificar al dueño en el dominio
     val title: String,
     val description: String = "",
     val isCompleted: Boolean = false,

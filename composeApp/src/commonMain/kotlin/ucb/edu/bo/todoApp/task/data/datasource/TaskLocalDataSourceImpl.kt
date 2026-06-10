@@ -7,7 +7,7 @@ class TaskLocalDataSourceImpl (
     private val taskDao: TaskDao
 ) : TaskLocalDataSource {
 
-    override suspend fun getAll(): List<TaskEntity> = taskDao.getAll()
+    override suspend fun getAll(userId: String): List<TaskEntity> = taskDao.getAllByUser(userId)
 
     override suspend fun getById(taskId: Int): TaskEntity? = taskDao.getById(taskId)
 
@@ -21,4 +21,6 @@ class TaskLocalDataSourceImpl (
         taskDao.toggleComplete(taskId, isCompleted)
 
     override suspend fun markAsSynced(taskId: Int) = taskDao.markAsSynced(taskId)
+
+    override suspend fun clearAllByUser(userId: String) = taskDao.clearAllByUser(userId)
 }

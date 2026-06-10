@@ -6,7 +6,7 @@ import ucb.edu.bo.todoApp.task.domain.repository.TaskRepository
 class GetAllTasksUseCase (
     private val repository: TaskRepository
 ) {
-    suspend operator fun invoke(): List<TaskModel> {
-        return repository.getAll()
+    suspend operator fun invoke(userId: String): List<TaskModel> {
+        return repository.getAll(userId)
     }
 }

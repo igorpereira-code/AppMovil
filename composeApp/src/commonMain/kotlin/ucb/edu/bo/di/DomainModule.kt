@@ -62,5 +62,5 @@ val domainModule = module {
     factory { GetProfileUseCase(get()) }
     factory { UpdateNameUseCase(get()) }
     factory { UpdatePasswordUseCase(get()) }
-    factory { LogoutUseCase(get()) }
+    factory { LogoutUseCase(get(), get(), get()) } // Actualizado para incluir dependencias de limpieza
 }
