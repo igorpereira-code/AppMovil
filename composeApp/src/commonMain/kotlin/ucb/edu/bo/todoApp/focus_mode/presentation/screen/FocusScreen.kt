@@ -31,7 +31,7 @@ import org.koin.compose.koinInject
 @Composable
 fun FocusScreen(
     onLogout: () -> Unit,
-    viewModel: FocusViewModel = koinViewModel(),
+    viewModel: FocusViewModel = koinInject(),
     taskViewModel: TaskViewModel = koinViewModel(),
     navController: NavHostController
 ) {

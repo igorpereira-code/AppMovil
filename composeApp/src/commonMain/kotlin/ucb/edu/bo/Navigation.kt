@@ -62,7 +62,7 @@ fun AppNavigation(
     // Escuchamos la variable de Firebase en tiempo real
     val isMaintenance by remoteConfigViewModel.isMaintenanceMode.collectAsState()
     // 1. EL BLINDAJE: Instanciamos el cronómetro a nivel global de la app
-    val globalFocusViewModel: FocusViewModel = koinViewModel()
+    val globalFocusViewModel: FocusViewModel = koinInject()
 
     // LA MAGIA DEL BLOQUEO: Si es true, dibujamos la pantalla de mantenimiento
     if (isMaintenance) {
@@ -128,7 +128,8 @@ fun AppNavigation(
                             }
                         }
                     },
-                    navController = navController
+                    navController = navController,
+                    viewModel = globalFocusViewModel
                 )
             }
 
