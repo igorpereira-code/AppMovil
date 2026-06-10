@@ -54,7 +54,7 @@ val dataModule = module {
     factory<FirebaseTestRepository> { FirebaseTestRepositoryImpl(get()) }
     single { RemoteConfigManager() }
     
-    // Registro de FirebaseManager para que TaskSyncWorker pueda inyectarlo
+    // Registro de FirebaseManager para que TaskSyncWorker y TaskRepository puedan inyectarlo
     single { FirebaseManager() }
 
     single<RemoteConfigRepository> { RemoteConfigRepositoryImpl(get(), get()) }
@@ -69,7 +69,8 @@ val dataModule = module {
     single { get<AppDatabase>().taskDao() }
     single { get<AppDatabase>().remoteConfigDao() }
     single<TaskLocalDataSource> { TaskLocalDataSourceImpl(get()) }
-    single<TaskRepository> { TaskRepositoryImpl(get()) }
+    // Actualizado para inyectar localDataSource y firebaseManager
+    single<TaskRepository> { TaskRepositoryImpl(get(), get()) }
     single<ISettingsPreferences> { SettingsPreferencesImpl(dataStore = get()) }
 
     single { get<AppDatabase>().categoryDao() }

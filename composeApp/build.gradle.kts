@@ -78,9 +78,22 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.turbine)
+
+            implementation(libs.mockk)
+            implementation(libs.compose.uiTest)
+            implementation(kotlin("test"))
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+        }
+        androidUnitTest.dependencies {
+            implementation(kotlin("test"))
+
+            implementation("junit:junit:4.13.2")
+
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+
+            implementation("io.mockk:mockk:1.13.10")
         }
         androidInstrumentedTest.dependencies {
             implementation(libs.ui.test.junit4)

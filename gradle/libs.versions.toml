@@ -35,11 +35,12 @@ core = "1.5.0"
 
 coroutines = "1.8.1"
 turbine = "1.1.0"
-composeTest = "1.10.3"
+composeTest = "1.7.0"
 mockative="3.0.1"
 kotlinx-datetime = "0.6.1"
 
 datastore = "1.1.1"
+mockk = "1.13.10"
 
 [libraries]
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
@@ -104,6 +105,10 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 # Librería Core de DataStore compatible con Kotlin Multiplatform
 datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+compose-uiTest = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "composeMultiplatform" }
 
 [plugins]
 #BASE DE DATOS ROOM

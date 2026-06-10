@@ -122,7 +122,6 @@ fun AppNavigation(
                     org.koin.compose.viewmodel.koinViewModel()
                 FocusScreen(
                     onLogout = {
-                        // Cierra sesión real a través de Firebase usando el ViewModel
                         profileViewModel.logout {
                             navController.navigate(Screen.Welcome.route) {
                                 popUpTo(0) { inclusive = true }
@@ -194,7 +193,18 @@ fun AppNavigation(
             }
 
             composable(Screen.Settings.route) {
-                SettingsScreen(navController = navController)
+                val profileViewModel: ucb.edu.bo.todoApp.profile.presentation.viewmodel.ProfileViewModel =
+                    org.koin.compose.viewmodel.koinViewModel()
+                SettingsScreen(
+                    navController = navController,
+                    onLogout = {
+                        profileViewModel.logout {
+                            navController.navigate(Screen.Welcome.route) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
+                    }
+                )
             }
         }
     }

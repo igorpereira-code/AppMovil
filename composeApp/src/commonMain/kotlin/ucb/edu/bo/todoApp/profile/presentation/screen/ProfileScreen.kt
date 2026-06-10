@@ -1,5 +1,6 @@
 package ucb.edu.bo.todoApp.profile.presentation.screen
 
+import androidx.compose.foundation.Image // NUEVO IMPORT
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale // NUEVO IMPORT
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,10 @@ import ucb.edu.bo.todoApp.profile.presentation.viewmodel.ProfileViewModel
 import ucb.edu.bo.todoApp.task.presentation.composable.BottomNavBar
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 
+// NUEVOS IMPORTS PARA LA FOTO
+import ucb.edu.bo.todoApp.profile.presentation.composable.rememberImagePicker
+import ucb.edu.bo.todoApp.profile.presentation.composable.toImageBitmap
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
@@ -45,6 +51,11 @@ fun ProfileScreen(
     val state by viewModel.state.collectAsState()
     val taskState by taskViewModel.state.collectAsState()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+    // NUEVO: Instanciamos el lanzador de cámara/galería
+    val imagePicker = rememberImagePicker { imageBytes ->
+        viewModel.updateProfileImage(imageBytes)
+    }
 
     // CÁLCULO DE TAREAS REALES
     val tasksDone = taskState.tasks.count { it.isCompleted }
@@ -73,11 +84,26 @@ fun ProfileScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // MODIFICADO: Dibuja la foto si existe, si no, dibuja el ícono por defecto
                 Box(
                     modifier = Modifier.size(85.dp).clip(CircleShape).background(Color.Gray),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(Icons.Outlined.Person, contentDescription = null, tint = Color.White, modifier = Modifier.size(40.dp))
+                    if (state.profileImageBytes != null) {
+                        val bitmap = state.profileImageBytes!!.toImageBitmap()
+                        if (bitmap != null) {
+                            Image(
+                                bitmap = bitmap,
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Icon(Icons.Outlined.Person, contentDescription = null, tint = Color.White, modifier = Modifier.size(40.dp))
+                        }
+                    } else {
+                        Icon(Icons.Outlined.Person, contentDescription = null, tint = Color.White, modifier = Modifier.size(40.dp))
+                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
@@ -175,9 +201,15 @@ fun ProfileScreen(
                 )
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp), color = MaterialTheme.colorScheme.outline)
 
-                BottomSheetMenuItem(stringResource(Res.string.profile_image_take_photo)) { viewModel.toggleAvatarDialog(false) }
-                BottomSheetMenuItem(stringResource(Res.string.profile_image_import_gallery)) { viewModel.toggleAvatarDialog(false) }
-                BottomSheetMenuItem(stringResource(Res.string.profile_image_import_drive)) { viewModel.toggleAvatarDialog(false) }
+                // MODIFICADO: Funciones reales y eliminación de Google Drive
+                BottomSheetMenuItem(stringResource(Res.string.profile_image_take_photo)) {
+                    imagePicker.takePhoto()
+                    viewModel.toggleAvatarDialog(false)
+                }
+                BottomSheetMenuItem(stringResource(Res.string.profile_image_import_gallery)) {
+                    imagePicker.pickFromGallery()
+                    viewModel.toggleAvatarDialog(false)
+                }
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
@@ -204,13 +236,13 @@ fun ProfileScreen(
 fun StatCard(modifier: Modifier = Modifier, text: String) {
     Box(
         modifier = modifier
-            .background(Color(0xFF363636), RoundedCornerShape(8.dp)) // CORREGIDO: Fondo gris fijo
+            .background(Color(0xFF363636), RoundedCornerShape(8.dp))
             .padding(vertical = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
-            color = Color.White, // CORREGIDO: Forzamos el texto a blanco
+            color = Color.White,
             fontSize = 14.sp
         )
     }

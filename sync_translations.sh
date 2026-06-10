@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ─── CONFIGURACIÓN ────────────────────────────────────────────────────────────
-API_KEY="y4x5mbP8qwj9iBID3x0TmZW15a7Eg4iy"
+API_KEY="c6FVl2j-rgyvSTPS93MG1GodOyRTvt_0"
 BASE_URL="https://localise.biz/api/export/locale"
 
 # Ruta adaptada a tu estructura KMP (módulo composeApp)

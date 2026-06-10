@@ -31,7 +31,9 @@ val presentationModule = module {
     viewModelOf(::IntroViewModel)
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)
-    viewModel { FocusViewModel(get(), get()) }
+
+    single { FocusViewModel(get(), get()) }
+
     viewModelOf(::TaskViewModel)
     viewModelOf(::CalendarViewModel)
     viewModelOf(::CategoryViewModel)

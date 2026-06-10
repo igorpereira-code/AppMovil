@@ -15,18 +15,22 @@ import org.koin.compose.viewmodel.koinViewModel
 import appmovil.composeapp.generated.resources.Res
 import appmovil.composeapp.generated.resources.* 
 import org.jetbrains.compose.resources.stringResource
+import ucb.edu.bo.todoApp.focus_mode.presentation.viewmodel.FocusViewModel
 import ucb.edu.bo.todoApp.settings.presentation.composable.ColorSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.LanguageSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.SettingItem
 import ucb.edu.bo.todoApp.settings.presentation.composable.ThemeModeSelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.composable.TypographySelectionModal
 import ucb.edu.bo.todoApp.settings.presentation.viewmodel.SettingsViewModel
+import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 
 @Composable
 fun SettingsScreen(
     navController: NavHostController,
-    viewModel: SettingsViewModel = koinViewModel()
-) {
+    viewModel: SettingsViewModel = koinViewModel(),
+    onLogout: () -> Unit
+)
+{
     val state by viewModel.state.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
@@ -86,6 +90,8 @@ fun SettingsScreen(
                 title = stringResource(Res.string.settings_item_display_mode),
                 onClick = { viewModel.showThemeModeModal() }
             )
+
+            Spacer(modifier = Modifier.weight(1f))
 
             Spacer(modifier = Modifier.weight(1f))
 

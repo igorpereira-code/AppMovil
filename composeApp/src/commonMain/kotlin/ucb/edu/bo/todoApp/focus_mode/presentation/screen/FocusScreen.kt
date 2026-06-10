@@ -23,13 +23,15 @@ import ucb.edu.bo.todoApp.task.presentation.composable.*
 import ucb.edu.bo.todoApp.task.presentation.viewmodel.TaskViewModel
 import appmovil.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FocusScreen(
     onLogout: () -> Unit,
-    viewModel: FocusViewModel = koinViewModel(),
+    viewModel: FocusViewModel = koinInject(),
     taskViewModel: TaskViewModel = koinViewModel(),
     navController: NavHostController
 ) {
@@ -44,6 +46,7 @@ fun FocusScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp, vertical = 16.dp)
                 .padding(bottom = 72.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -59,13 +62,6 @@ fun FocusScreen(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold
                 )
-                TextButton(onClick = onLogout) {
-                    Text(
-                        text = stringResource(Res.string.focus_button_logout),
-                        color = Color(0xFFE74C3C),
-                        fontSize = 14.sp
-                    )
-                }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -273,7 +269,7 @@ fun TimerSection(state: FocusState) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             @Suppress("DefaultLocale")
             Text(
-                text = "%02d:%02d".format(minutes, seconds),
+                text = "${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}",
                 color = MaterialTheme.colorScheme.onBackground,
                 fontSize = 48.sp,
                 fontWeight = FontWeight.Bold
