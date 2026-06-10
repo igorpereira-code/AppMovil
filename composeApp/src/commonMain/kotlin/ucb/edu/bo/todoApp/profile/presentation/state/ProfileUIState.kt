@@ -8,5 +8,6 @@ data class ProfileUIState(
     val errorMessage: String? = null,
     val showNameDialog: Boolean = false,
     val showPasswordDialog: Boolean = false,
-    val showImageBottomSheet: Boolean = false
+    val showImageBottomSheet: Boolean = false,
+    val profileImageBytes: ByteArray? = null
 )

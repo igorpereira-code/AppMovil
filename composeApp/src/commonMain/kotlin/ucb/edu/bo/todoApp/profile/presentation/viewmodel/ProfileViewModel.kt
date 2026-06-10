@@ -18,7 +18,8 @@ data class ProfileUIState(
     val showFaqDialog: Boolean = false,
     val showHelpDialog: Boolean = false,
     val showSupportDialog: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val profileImageBytes: ByteArray? = null
 )
 
 class ProfileViewModel(
@@ -73,6 +74,9 @@ class ProfileViewModel(
     fun toggleHelpDialog(show: Boolean) { _state.value = _state.value.copy(showHelpDialog = show) }
     fun toggleSupportDialog(show: Boolean) { _state.value = _state.value.copy(showSupportDialog = show) }
 
+    fun updateProfileImage(bytes: ByteArray?) {
+        _state.value = _state.value.copy(profileImageBytes = bytes)
+    }
     // NUEVO: Cerramos sesión directamente desde Firebase
     fun logout(onLogoutSuccess: () -> Unit) {
         viewModelScope.launch {
