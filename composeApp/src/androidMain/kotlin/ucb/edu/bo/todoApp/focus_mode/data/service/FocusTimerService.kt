@@ -46,20 +46,20 @@ class FocusTimerService : Service() {
         return START_STICKY
     }
     private fun buildNotification(timeText: String): Notification {
-        // Obtenemos los textos usando runBlocking ya que estamos en una clase clásica de Android
         val title = kotlinx.coroutines.runBlocking {
-            org.jetbrains.compose.resources.getString(appmovil.composeapp.generated.resources.Res.string.focus_timer_notification_title)
-        }
-        val body = kotlinx.coroutines.runBlocking {
-            org.jetbrains.compose.resources.getString(appmovil.composeapp.generated.resources.Res.string.focus_timer_notification_body, ":$timeText")
+            org.jetbrains.compose.resources.getString(
+                appmovil.composeapp.generated.resources.Res.string.focus_timer_notification_title
+            )
         }
 
-        return NotificationCompat.Builder(this, "focus_mode_channel")
+        return NotificationCompat.Builder(this, FocusNotificationHelper.getTimerChannelId())
             .setContentTitle(title)
-            .setContentText("$timeText")
+            .setContentText(timeText)
             .setSmallIcon(applicationInfo.icon)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setOngoing(true)
+            .setSound(null)
+            .setVibrate(null)
             .build()
     }
 

@@ -62,7 +62,7 @@ fun AppNavigation(
     // Escuchamos la variable de Firebase en tiempo real
     val isMaintenance by remoteConfigViewModel.isMaintenanceMode.collectAsState()
     // 1. EL BLINDAJE: Instanciamos el cronómetro a nivel global de la app
-    val globalFocusViewModel: FocusViewModel = koinInject()
+    val globalFocusViewModel: FocusViewModel = koinViewModel()
 
     // LA MAGIA DEL BLOQUEO: Si es true, dibujamos la pantalla de mantenimiento
     if (isMaintenance) {
@@ -122,15 +122,13 @@ fun AppNavigation(
                     org.koin.compose.viewmodel.koinViewModel()
                 FocusScreen(
                     onLogout = {
-                        // Cierra sesión real a través de Firebase usando el ViewModel
                         profileViewModel.logout {
                             navController.navigate(Screen.Welcome.route) {
                                 popUpTo(0) { inclusive = true }
                             }
                         }
                     },
-                    navController = navController,
-                    viewModel = globalFocusViewModel
+                    navController = navController
                 )
             }
 
@@ -194,7 +192,18 @@ fun AppNavigation(
             }
 
             composable(Screen.Settings.route) {
-                SettingsScreen(navController = navController)
+                val profileViewModel: ucb.edu.bo.todoApp.profile.presentation.viewmodel.ProfileViewModel =
+                    org.koin.compose.viewmodel.koinViewModel()
+                SettingsScreen(
+                    navController = navController,
+                    onLogout = {
+                        profileViewModel.logout {
+                            navController.navigate(Screen.Welcome.route) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
+                    }
+                )
             }
         }
     }

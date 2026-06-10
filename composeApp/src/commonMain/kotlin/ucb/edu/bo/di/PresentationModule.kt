@@ -35,9 +35,8 @@ val presentationModule = module {
     viewModelOf(::TaskViewModel)
     viewModelOf(::CalendarViewModel)
     viewModelOf(::CategoryViewModel)
-    viewModelOf(::ProfileViewModel)
     viewModel { ProfileViewModel(get()) }
-    viewModel { SettingsViewModel(settingsPreferences = get(),importGoogleCalendarUseCase = get(), quoteRepository = get() )}
+    viewModel { SettingsViewModel(settingsPreferences = get(), importGoogleCalendarUseCase = get(), quoteRepository = get()) }
     viewModel {
         EditTaskViewModel(
             getTaskByIdUseCase = get(),

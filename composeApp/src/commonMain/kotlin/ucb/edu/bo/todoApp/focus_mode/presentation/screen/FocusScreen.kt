@@ -59,13 +59,6 @@ fun FocusScreen(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold
                 )
-                TextButton(onClick = onLogout) {
-                    Text(
-                        text = stringResource(Res.string.focus_button_logout),
-                        color = Color(0xFFE74C3C),
-                        fontSize = 14.sp
-                    )
-                }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
