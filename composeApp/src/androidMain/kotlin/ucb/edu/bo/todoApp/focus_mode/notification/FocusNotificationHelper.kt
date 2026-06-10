@@ -52,7 +52,11 @@ object FocusNotificationHelper {
 
     fun sendFocusCompletedNotification(context: Context, minutes: Int) {
         val title = runBlocking { getString(Res.string.notification_focus_title) }
-        val body = runBlocking { getString(Res.string.notification_focus_body_minutes, minutes) }
+        val baseText = runBlocking {
+            getString(Res.string.notification_focus_body_minutes)
+        }
+
+        val body = "$baseText $minutes min."
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID_COMPLETED)
             .setSmallIcon(android.R.drawable.ic_dialog_info)

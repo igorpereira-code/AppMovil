@@ -117,7 +117,7 @@
     <string name="focus_day_sat">SÁB</string>
     <string name="focus_day_sun">DOM</string>
     <string name="notification_focus_title">¡Sesión completada!</string>
-    <string name="notification_focus_body">Completaste %d minutos de enfoque. ¡Excelente trabajo!</string>
+    <string name="notification_focus_body_minutes">Exelente trabajo! Te has enfocado durante </string>
     <string name="app_name">todoApp</string>
     <string name="profile_title">Perfil</string>
     <string name="profile_stats_pending">Tareas pendientes</string>
@@ -167,7 +167,6 @@
     <string name="test_sync_local_value">Valor guardado localmente:</string>
     <string name="test_remote_config_title">Remote Config + Room</string>
     <string name="test_push_title">Push Notifications</string>
-    <string name="notification_focus_body_minutes">Te has enfocado durante %d minutos. ¡Excelente trabajo!</string>
     <string name="notification_sync_checking">Verificando cambios pendientes</string>
     <string name="common_edit">Editar</string>
     <string name="common_delete">Eliminar</string>
